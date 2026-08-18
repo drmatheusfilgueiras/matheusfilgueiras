@@ -69,5 +69,5 @@ if (languageList && languagePreview) {
 function updateLanguagePreview(button) {
   languageList.querySelectorAll("button").forEach((item) => item.classList.remove("is-active"));
   button.classList.add("is-active");
-  languagePreview.innerHTML = `<strong>${button.dataset.title}</strong><p>${button.dataset.copy}</p>`;
+  languagePreview.innerHTML = `<img src="${button.dataset.image}" alt=""><strong>${button.dataset.title}</strong><p>${button.dataset.copy}</p>`;
 }

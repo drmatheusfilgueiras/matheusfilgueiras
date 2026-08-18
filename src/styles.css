@@ -50,8 +50,9 @@ strong {
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   align-items: center;
+  justify-items: center;
   width: 100%;
   min-height: 76px;
   padding-inline: max(48px, calc((100vw - 1440px) / 2));
@@ -129,6 +130,28 @@ strong {
   text-transform: uppercase;
 }
 
+.section-label {
+  font-size: 1rem;
+}
+
+.kicker {
+  font-size: 0.94rem;
+}
+
+.professional-id {
+  margin: 4px 0 0;
+  color: var(--blue);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.coordinates {
+  font-size: 0.82rem;
+}
+
 .hero {
   min-height: calc(92vh - 76px);
   align-items: center;
@@ -141,8 +164,8 @@ strong {
 }
 
 .coordinates {
-  margin-top: 8px;
-  margin-bottom: 40px;
+  margin-top: 3px;
+  margin-bottom: 36px;
   color: var(--muted);
 }
 
@@ -189,6 +212,7 @@ strong {
   min-width: 152px;
   min-height: 34px;
   align-items: center;
+  gap: 10px;
   margin: 0 0 24px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--line);
@@ -200,11 +224,17 @@ strong {
   text-transform: uppercase;
 }
 
-.identity-rotator span {
+.identity-rotator .rotator-prefix {
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.identity-rotator [data-rotating-word] {
   transition: opacity 220ms var(--ease), transform 220ms var(--ease);
 }
 
-.identity-rotator span.is-changing {
+.identity-rotator [data-rotating-word].is-changing {
   opacity: 0;
   transform: translateY(8px);
 }
@@ -241,9 +271,22 @@ strong {
   background: var(--blue-pale);
 }
 
+.image-slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-slot:has(img)::before {
+  display: none;
+}
+
 .image-slot::before {
   position: absolute;
   inset: 0;
+  display: none;
   content: "";
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0)),
@@ -328,15 +371,15 @@ strong {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   width: var(--container);
-  margin: 72px auto 0;
+  margin: 56px auto 0;
   column-gap: var(--grid-gap);
-  row-gap: 24px;
+  row-gap: 8px;
 }
 
 .manifesto-lines p {
   grid-column: 4 / span 8;
   margin: 0;
-  padding-block: 24px;
+  padding-block: 18px;
   border-top: 1px solid var(--line);
   font-size: clamp(32px, 4vw, 56px);
   font-weight: 300;
@@ -514,19 +557,30 @@ strong {
   grid-column: 7 / span 6;
   position: sticky;
   top: 104px;
-  display: block;
-  aspect-ratio: 3 / 2;
+  display: grid;
   min-height: 0;
   align-self: start;
-  padding: 32px;
+  padding: 0;
+  background: transparent;
+}
+
+.language-preview img {
+  position: relative;
+  inset: auto;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
 }
 
 .language-preview strong {
-  position: absolute;
-  right: 0;
-  bottom: -56px;
-  left: 0;
+  position: relative;
+  right: auto;
+  bottom: auto;
+  left: auto;
   display: block;
+  margin-top: 24px;
   color: var(--blue-dark);
   font-size: clamp(24px, 2vw, 32px);
   font-weight: 300;
@@ -537,11 +591,12 @@ strong {
 }
 
 .language-preview p {
-  position: absolute;
-  right: 0;
-  bottom: -128px;
-  left: 0;
+  position: relative;
+  right: auto;
+  bottom: auto;
+  left: auto;
   max-width: 520px;
+  margin-top: 8px;
   color: var(--muted);
   font-size: 17px;
   font-weight: 400;
@@ -636,7 +691,7 @@ strong {
 }
 
 .project-media {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   min-height: 0;
   transition: transform 540ms var(--ease);
 }
@@ -1049,7 +1104,9 @@ strong {
   }
 
   .menu-toggle {
-    position: relative;
+    position: absolute;
+    top: 14px;
+    right: 24px;
     z-index: 22;
     display: grid;
     width: 40px;
@@ -1198,19 +1255,8 @@ strong {
   .language-preview {
     position: relative;
     top: auto;
-    aspect-ratio: 4 / 3;
     margin-top: 32px;
-    padding: 24px;
-  }
-
-  .language-preview strong,
-  .language-preview p {
-    position: static;
-    margin-top: 24px;
-  }
-
-  .language-preview p {
-    margin-top: 8px;
+    padding: 0;
   }
 
   .smile-section {
@@ -1328,6 +1374,10 @@ strong {
 
   .site-header {
     padding-inline: 20px;
+  }
+
+  .menu-toggle {
+    right: 20px;
   }
 
   .intro,
