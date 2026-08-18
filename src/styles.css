@@ -181,7 +181,7 @@ strong {
 .hero h1 {
   max-width: 760px;
   font-size: clamp(64px, 7vw, 104px);
-  line-height: 0.98;
+  line-height: 0.88;
 }
 
 .display-title {
@@ -197,6 +197,10 @@ strong {
   color: var(--blue-dark);
   font-family: var(--font-script);
   font-weight: 500;
+}
+
+.hero h1 span {
+  margin-top: -0.04em;
 }
 
 .hero-lead {
@@ -1002,6 +1006,7 @@ strong {
 
   .hero h1 {
     font-size: clamp(56px, 7vw, 78px);
+    line-height: 0.92;
   }
 
   .display-title {
@@ -1196,7 +1201,7 @@ strong {
 
   .hero h1 {
     font-size: clamp(48px, 14vw, 60px);
-    line-height: 1.02;
+    line-height: 0.94;
   }
 
   .display-title {

@@ -8,7 +8,7 @@ const languageList = document.querySelector("[data-language-list]");
 const languagePreview = document.querySelector("[data-language-preview]");
 const progressLine = document.querySelector("[data-progress-line]");
 
-const words = ["dentista", "pesquisador", "autor", "desenhista", "criador", "design", "tecnologia", "Matheus."];
+const words = ["Matheus", "Dentista", "Designer", "Autor", "Desenhista"];
 let wordIndex = 0;
 
 window.addEventListener("scroll", () => {
