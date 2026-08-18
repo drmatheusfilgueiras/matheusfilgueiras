@@ -50,7 +50,7 @@ strong {
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   justify-items: center;
   width: 100%;
@@ -72,12 +72,35 @@ strong {
 }
 
 .site-nav {
+  grid-column: 2;
   display: flex;
   gap: 32px;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.13em;
   text-transform: uppercase;
+}
+
+.header-cta {
+  grid-column: 3;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition: background 240ms var(--ease), transform 240ms var(--ease);
+}
+
+.header-cta:hover {
+  background: var(--blue-dark);
+  transform: translateY(-1px);
 }
 
 .site-nav a {
@@ -155,7 +178,7 @@ strong {
 .hero {
   min-height: calc(92vh - 76px);
   align-items: center;
-  padding-block: 48px 64px;
+  padding-block: 40px 56px;
 }
 
 .hero-copy {
@@ -259,11 +282,23 @@ strong {
 }
 
 .hero-media {
+  position: relative;
   grid-column: 8 / span 5;
   aspect-ratio: 4 / 5;
   min-height: 0;
   max-height: 680px;
   align-self: center;
+}
+
+.hero-media::after {
+  position: absolute;
+  top: -24px;
+  left: -24px;
+  width: 112px;
+  height: 112px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  content: "";
 }
 
 .image-slot {
@@ -312,6 +347,31 @@ strong {
   line-height: 1.5;
   text-align: center;
   text-transform: uppercase;
+}
+
+.discipline-rail {
+  display: flex;
+  width: 100%;
+  min-height: 64px;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 5vw, 76px);
+  overflow: hidden;
+  border-block: 1px solid rgba(49, 95, 140, 0.14);
+  background: var(--soft-white);
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.discipline-rail span:not(:last-child)::after {
+  display: inline-block;
+  margin-left: clamp(28px, 5vw, 76px);
+  color: var(--blue);
+  content: "•";
 }
 
 .intro {
@@ -426,11 +486,13 @@ strong {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 64px;
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-left: 1px solid var(--line);
 }
 
 .principle {
   min-height: 288px;
-  padding: 32px 32px 24px 0;
+  padding: 32px;
   border-right: 1px solid var(--line);
 }
 
@@ -788,7 +850,7 @@ strong {
 
 .process-line {
   height: 1px;
-  margin: 56px 0 32px;
+  margin: 48px 0 0;
   background: var(--line);
 }
 
@@ -802,9 +864,7 @@ strong {
 }
 
 .process-steps {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 24px;
+  display: block;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -812,8 +872,10 @@ strong {
 
 .process-steps li {
   display: grid;
-  min-height: 128px;
-  align-content: space-between;
+  grid-template-columns: 96px 1fr;
+  min-height: 96px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
 }
 
 .process-steps span {
@@ -831,7 +893,7 @@ strong {
 
 .process-note {
   max-width: 720px;
-  margin: 64px 0 0 auto;
+  margin: 48px 0 0 auto;
   color: var(--muted);
   font-size: clamp(18px, 1.45vw, 21px);
   line-height: 1.58;
@@ -893,11 +955,21 @@ strong {
 .contact {
   width: 100%;
   padding-inline: max(48px, calc((100vw - 1440px) / 2));
-  background: var(--blue-pale);
+  background: var(--blue-dark);
+  color: var(--white);
 }
 
 .contact h2 {
   grid-column: 1 / span 7;
+  color: var(--white);
+}
+
+.contact .section-label {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.contact h2 span {
+  color: var(--white);
 }
 
 .contact-copy {
@@ -909,18 +981,22 @@ strong {
 
 .contact-copy p {
   margin: 0 0 18px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .contact-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 28px;
+  display: grid;
+  gap: 0;
   margin-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .contact-links a {
-  color: var(--blue-dark);
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--white);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.13em;
@@ -929,6 +1005,11 @@ strong {
 
 .contact-button {
   margin-top: 40px;
+  min-height: 56px;
+  padding: 0 32px;
+  align-items: center;
+  background: var(--white);
+  color: var(--blue-dark);
 }
 
 .footer {
@@ -986,6 +1067,11 @@ strong {
 
   .site-header {
     padding-inline: 40px;
+  }
+
+  .header-cta {
+    min-height: 44px;
+    padding-inline: 20px;
   }
 
   .section-grid,
@@ -1131,6 +1217,10 @@ strong {
   .site-header {
     min-height: 68px;
     padding-inline: 24px;
+  }
+
+  .header-cta {
+    display: none;
   }
 
   .menu-toggle {
