@@ -25,12 +25,14 @@ window.addEventListener("scroll", () => {
 menuToggle.addEventListener("click", () => {
   const isOpen = nav.classList.toggle("is-open");
   menuToggle.setAttribute("aria-expanded", String(isOpen));
+  document.body.classList.toggle("menu-is-open", isOpen);
 });
 
 nav.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => {
     nav.classList.remove("is-open");
     menuToggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("menu-is-open");
   });
 });
 
