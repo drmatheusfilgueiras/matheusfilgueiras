@@ -606,7 +606,7 @@ function HomePage() {
 
             {/* 08 — HISTÓRIAS CLÍNICAS */}
             <section id="historias" className="border-y border-border bg-secondary/40">
-                <div className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
+                <div className="mx-auto w-full max-w-[90rem] px-6 py-16 lg:px-12 lg:py-24">
                     <Reveal>
                         <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Histórias clínicas</p>
                         <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">

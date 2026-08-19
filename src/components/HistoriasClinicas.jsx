@@ -59,7 +59,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
     const current = casos[index];
 
     return (
-        <div className="mt-14 border-t border-border pt-10">
+        <div className="mt-10">
             {/* Janela da galeria */}
             <div
                 ref={trackRef}
@@ -84,12 +84,12 @@ const HistoriasClinicas = ({ casos = [] }) => {
                         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                     >
                         {/* Identificação do caso */}
-                        <div className="flex flex-wrap items-baseline justify-between gap-4">
+                        <div className="grid gap-5 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
                             <div>
                                 <span className="text-[0.7rem] tracking-[0.3em] text-primary/60">
                                     {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
                                 </span>
-                                <h3 className="mt-2 text-2xl font-light tracking-tight text-foreground sm:text-[1.9rem]">
+                                <h3 className="mt-1 text-2xl font-light tracking-tight text-foreground sm:text-[1.9rem]">
                                     {current.titulo}
                                 </h3>
                                 {current.procedimento && (
@@ -99,46 +99,64 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                 )}
                             </div>
                             {current.nota && (
-                                <p className="max-w-[26rem] text-[0.95rem] font-light leading-relaxed text-muted-foreground">
+                                <p className="max-w-[42rem] text-[0.95rem] font-light leading-relaxed text-muted-foreground lg:pt-6">
                                     {current.nota}
                                 </p>
                             )}
                         </div>
 
                         {/* ANTES / DEPOIS — lado a lado no desktop, empilhado no mobile */}
-                        <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
-                            <figure className="relative overflow-hidden border border-border bg-secondary">
-                                <span className="absolute left-3 top-3 z-10 bg-background/90 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary">
-                                    Antes
-                                </span>
-                                <img
-                                    src={current.antes}
-                                    alt={`${current.titulo}, antes`}
-                                    loading="lazy"
-                                    draggable={false}
-                                    className="aspect-[4/3] w-full object-cover"
-                                />
-                            </figure>
-                            <figure className="relative overflow-hidden border border-border bg-secondary">
-                                <span className="absolute left-3 top-3 z-10 bg-background/90 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary">
-                                    Depois
-                                </span>
-                                <img
-                                    src={current.depois}
-                                    alt={`${current.titulo}, depois`}
-                                    loading="lazy"
-                                    draggable={false}
-                                    className="aspect-[4/3] w-full object-cover"
-                                />
-                            </figure>
+                        <div className="mt-6 grid grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-center gap-3 lg:grid-cols-[3rem_minmax(0,68rem)_3rem] lg:justify-center lg:gap-5">
+                            <button
+                                type="button"
+                                onClick={() => paginate(-1)}
+                                aria-label="Caso anterior"
+                                className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-primary hover:text-primary active:scale-[0.96]"
+                            >
+                                <ArrowLeft className="h-4 w-4" strokeWidth={1.6} />
+                            </button>
+                            <div className="grid min-w-0 gap-4 sm:grid-cols-2 sm:gap-5">
+                                <figure className="relative overflow-hidden border border-border bg-secondary">
+                                    <span className="absolute left-3 top-3 z-10 bg-background/90 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary">
+                                        Antes
+                                    </span>
+                                    <img
+                                        src={current.antes}
+                                        alt={`${current.titulo}, antes`}
+                                        loading="lazy"
+                                        draggable={false}
+                                        className="aspect-[4/3] w-full object-cover"
+                                    />
+                                </figure>
+                                <figure className="relative overflow-hidden border border-border bg-secondary">
+                                    <span className="absolute left-3 top-3 z-10 bg-background/90 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary">
+                                        Depois
+                                    </span>
+                                    <img
+                                        src={current.depois}
+                                        alt={`${current.titulo}, depois`}
+                                        loading="lazy"
+                                        draggable={false}
+                                        className="aspect-[4/3] w-full object-cover"
+                                    />
+                                </figure>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => paginate(1)}
+                                aria-label="Próximo caso"
+                                className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-primary hover:text-primary active:scale-[0.96]"
+                            >
+                                <ArrowRight className="h-4 w-4" strokeWidth={1.6} />
+                            </button>
                         </div>
                     </motion.div>
                 </AnimatePresence>
             </div>
 
             {/* Controles */}
-            <div className="mt-8 flex items-center justify-between">
-                <div className="flex items-center gap-2" aria-hidden="true">
+            <div className="mt-5 flex items-center justify-center">
+                <div className="flex items-center gap-2">
                     {casos.map((c, i) => (
                         <button
                             key={c.titulo}
@@ -151,24 +169,6 @@ const HistoriasClinicas = ({ casos = [] }) => {
                             className={`h-1.5 transition-all duration-300 ${i === index ? 'w-8 bg-primary' : 'w-3 bg-primary/25 hover:bg-primary/50'}`}
                         />
                     ))}
-                </div>
-                <div className="flex items-center gap-3">
-                    <button
-                        type="button"
-                        onClick={() => paginate(-1)}
-                        aria-label="Caso anterior"
-                        className="inline-flex h-11 w-11 items-center justify-center border border-border text-foreground transition-colors hover:border-primary hover:text-primary active:scale-[0.96]"
-                    >
-                        <ArrowLeft className="h-4 w-4" strokeWidth={1.6} />
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => paginate(1)}
-                        aria-label="Próximo caso"
-                        className="inline-flex h-11 w-11 items-center justify-center border border-border text-foreground transition-colors hover:border-primary hover:text-primary active:scale-[0.96]"
-                    >
-                        <ArrowRight className="h-4 w-4" strokeWidth={1.6} />
-                    </button>
                 </div>
             </div>
         </div>
