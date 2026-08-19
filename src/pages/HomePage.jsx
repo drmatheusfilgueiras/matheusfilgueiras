@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowDown, ArrowUpRight, Instagram, Linkedin, Mail, FileText } from 'lucide-react';
 import Reveal from '@/components/Reveal';
 import DiferentesFaces from '@/components/DiferentesFaces';
 import HistoriasClinicas from '@/components/HistoriasClinicas';
-import { useIsMobile } from '@/hooks/use-mobile';
 const IMG_PORTRAIT = '/assets/photos/retrato-editorial-hero.jpg';
 const IMG_PROJECTS = {
   bravura: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/unidos-pela-bravura-bm0pT.png',
@@ -146,63 +145,53 @@ const processo = [{
   texto: 'Rever, testar, cortar, reorganizar e tentar novamente.'
 }];
 
-const sobrePares = [
-  ['CLÍNICA', 'DESIGN'],
-  ['PESQUISA', 'ILUSTRAÇÃO'],
-  ['CIÊNCIA', 'HISTÓRIAS'],
-  ['IDEIAS', 'TECNOLOGIA'],
+const sobrePalavras = [
+  'Dentista.',
+  'Pesquisador.',
+  'Autor.',
+  'Desenhista.',
+  'Criador.',
+  'Comunicador.',
+  'Curioso.',
+  'Matheus.',
 ];
 
-const sobreLinhas = [
-  <>A Odontologia me ensinou a <strong className="font-medium text-foreground">observar</strong>.</>,
-  <>A ciência, a <strong className="font-medium text-foreground">questionar</strong>.</>,
-  <>O desenho, a <strong className="font-medium text-foreground">imaginar</strong>.</>,
-  <>O design, a <strong className="font-medium text-foreground">dar forma</strong>.</>,
-];
+function SobreRotator() {
+  const [index, setIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const palavra = sobrePalavras[index];
+  const isMatheus = palavra === 'Matheus.';
 
-function SobrePar({ par, index, progress, reduceMotion, distance }) {
-  const start = index * 0.08;
-  const leftX = useTransform(progress, [start, start + 0.34], [reduceMotion ? 0 : -distance, 0]);
-  const rightX = useTransform(progress, [start, start + 0.34], [reduceMotion ? 0 : distance, 0]);
-  const opacity = useTransform(progress, [start, start + 0.16, start + 0.42], [0.42, 1, 0.88]);
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setIndex((current) => (current + 1) % sobrePalavras.length);
+    }, 1750);
 
-  return (
-    <motion.div style={{ opacity }} className="flex items-center justify-between border-b border-border py-5 text-[0.78rem] uppercase tracking-[0.28em] text-primary sm:text-[0.82rem]">
-      <motion.span style={{ x: leftX }} className="min-w-0">
-        {par[0]}
-      </motion.span>
-      <span className="mx-4 h-px flex-1 bg-border" />
-      <motion.span style={{ x: rightX }} className="min-w-0 text-right">
-        {par[1]}
-      </motion.span>
-    </motion.div>
-  );
-}
-
-function SobreLinha({ children, index, progress, reduceMotion }) {
-  const start = 0.36 + index * 0.08;
-  const opacity = useTransform(progress, [start, start + 0.16], [0.35, 1]);
-  const y = useTransform(progress, [start, start + 0.16], [reduceMotion ? 0 : 14, 0]);
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
-    <motion.p style={{ opacity, y }}>
-      {children}
-    </motion.p>
+    <div className="space-y-4">
+      <p className="text-[0.72rem] uppercase tracking-[0.32em] text-primary">Eu sou...</p>
+      <div className="relative min-h-[4.5rem] overflow-hidden text-4xl font-light leading-tight tracking-tight text-foreground sm:text-[3rem]">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={palavra}
+            initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
+            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+            className={isMatheus ? 'font-script text-primary' : 'block'}
+          >
+            {palavra}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
 function HomePage() {
-  const sobreRef = useRef(null);
-  const reduceMotion = useReducedMotion();
-  const isMobile = useIsMobile();
-  const sobrePairDistance = isMobile ? 16 : 36;
-  const { scrollYProgress: sobreProgress } = useScroll({
-    target: sobreRef,
-    offset: ['start 78%', 'end 38%'],
-  });
-  const finalOpacity = useTransform(sobreProgress, [0.68, 0.9], [0.45, 1]);
-  const finalY = useTransform(sobreProgress, [0.68, 0.9], [reduceMotion ? 0 : 14, 0]);
-
   return <div className="min-h-screen bg-background text-foreground antialiased">
             <Helmet>
                 <title>Matheus Filgueiras | Dentista, pesquisador, autor e designer</title>
@@ -393,7 +382,7 @@ function HomePage() {
             </section>
 
             {/* 03 — SOBRE */}
-            <section id="sobre" ref={sobreRef} className="border-y border-border bg-secondary/40">
+            <section id="sobre" className="border-y border-border bg-secondary/40">
                 <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
                     <Reveal>
                         <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Sobre</p>
@@ -402,20 +391,18 @@ function HomePage() {
                         </h2>
                     </Reveal>
                     <div className="mt-10 grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-                        <Reveal delay={0.05} className="space-y-2">
-                            {sobrePares.map((par, index) => (
-                                <SobrePar key={par.join('-')} par={par} index={index} progress={sobreProgress} reduceMotion={reduceMotion} distance={sobrePairDistance} />
-                            ))}
+                        <Reveal delay={0.05} className="text-[1.05rem] leading-relaxed text-muted-foreground">
+                            <p>
+                                Minha formação começou na Odontologia, mas minha curiosidade sempre encontrou outros
+                                caminhos. Hoje, prefiro não escolher entre eles — gosto justamente do que acontece
+                                quando essas partes se encontram.
+                            </p>
                         </Reveal>
                         <Reveal delay={0.12} className="space-y-6 text-[1.05rem] leading-relaxed text-muted-foreground">
-                            {sobreLinhas.map((linha, index) => (
-                                <SobreLinha key={index} index={index} progress={sobreProgress} reduceMotion={reduceMotion}>
-                                    {linha}
-                                </SobreLinha>
-                            ))}
-                            <motion.p style={{ opacity: finalOpacity, y: finalY }} className="border-l-2 border-primary/60 pl-5 text-lg font-light leading-relaxed text-foreground">
-                                Talvez seja justamente na interseção entre essas coisas que eu mais goste de trabalhar.
-                            </motion.p>
+                            <SobreRotator />
+                            <p className="border-l-2 border-primary/60 pl-5 text-lg font-light leading-relaxed text-foreground">
+                                Talvez eu não precise ser uma coisa só.
+                            </p>
                         </Reveal>
                     </div>
                 </div>
