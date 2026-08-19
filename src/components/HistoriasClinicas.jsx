@@ -92,9 +92,11 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                 <h3 className="mt-2 text-2xl font-light tracking-tight text-foreground sm:text-[1.9rem]">
                                     {current.titulo}
                                 </h3>
-                                <p className="mt-2 text-[0.74rem] uppercase tracking-[0.22em] text-primary">
-                                    {current.procedimento}
-                                </p>
+                                {current.procedimento && (
+                                    <p className="mt-2 text-[0.74rem] uppercase tracking-[0.22em] text-primary">
+                                        {current.procedimento}
+                                    </p>
+                                )}
                             </div>
                             {current.nota && (
                                 <p className="max-w-[26rem] text-[0.95rem] font-light leading-relaxed text-muted-foreground">

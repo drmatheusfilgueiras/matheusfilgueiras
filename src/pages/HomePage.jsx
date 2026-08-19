@@ -134,11 +134,11 @@ const ondeAtendo = [{
   href: 'https://matheusfilgueiras.com/#naturale-dental-studio'
 }];
 const historiasClinicas = [{
-  titulo: 'Reabilitação anterior',
-  procedimento: 'Facetas em resina composta · 6 elementos',
-  nota: 'Desgaste e manchas nos dentes anteriores devolveram o equilíbrio do sorriso através de facetas adesivas planejadas digitalmente.',
-  antes: 'https://images.hostinger.com/db006d27-493a-4e37-83db-1bb9914c0bbb.png',
-  depois: 'https://images.hostinger.com/3df6214a-b503-46ac-b91a-26a93771c33b.png'
+  titulo: 'Clareamento de consultório',
+  procedimento: null,
+  nota: 'Um tratamento planejado para devolver luminosidade ao sorriso de forma gradual, respeitando as características naturais dos dentes e buscando um resultado harmônico, sem excessos.',
+  antes: '/assets/cases/clareamento-antes.jpg',
+  depois: '/assets/cases/clareamento-depois.jpg'
 }, {
   titulo: 'Harmonização da arcada inferior',
   procedimento: 'Ortodontia alinhadora · restaurações estéticas',
