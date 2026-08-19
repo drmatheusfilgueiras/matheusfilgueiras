@@ -111,7 +111,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                 </span>
                                 <img
                                     src={current.antes}
-                                    alt={`${current.titulo} — antes`}
+                                    alt={`${current.titulo}, antes`}
                                     loading="lazy"
                                     draggable={false}
                                     className="aspect-[4/3] w-full object-cover"
@@ -123,7 +123,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                 </span>
                                 <img
                                     src={current.depois}
-                                    alt={`${current.titulo} — depois`}
+                                    alt={`${current.titulo}, depois`}
                                     loading="lazy"
                                     draggable={false}
                                     className="aspect-[4/3] w-full object-cover"

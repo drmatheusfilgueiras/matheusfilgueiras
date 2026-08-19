@@ -23,7 +23,7 @@ const marqueeWords = ['Odontologia', 'Ciência', 'Arte', 'Design', 'Tecnologia']
 const oQueMeMove = [{
   num: '01',
   titulo: 'Curiosidade',
-  texto: 'Gosto de entender como as coisas funcionam — e principalmente imaginar como poderiam funcionar de outra maneira.',
+  texto: 'Gosto de entender como as coisas funcionam, e principalmente imaginar como poderiam funcionar de outra maneira.',
   resto: 'Foi essa curiosidade que me levou da clínica ao laboratório, do papel ao digital e da Odontologia a projetos que, muitas vezes, começam longe dela.'
 }, {
   num: '02',
@@ -39,7 +39,7 @@ const oQueMeMove = [{
 const caminho = [{
   titulo: 'Odontologia',
   lugar: 'Universidade Federal Fluminense',
-  texto: 'Foi onde minha trajetória profissional começou — e onde descobri uma área que mistura ciência, habilidade manual, planejamento, estética e cuidado.'
+  texto: 'Foi onde minha trajetória profissional começou, e onde descobri uma área que mistura ciência, habilidade manual, planejamento, estética e cuidado.'
 }, {
   titulo: 'Pesquisa',
   lugar: 'Mestrado em Odontologia · UFF',
@@ -60,7 +60,7 @@ const faces = [{
 }, {
   titulo: 'Desenho',
   img: 'https://images.hostinger.com/ebf733ce-ad35-47fe-850a-d9d3da61d898.png',
-  texto: 'Antes de algumas ideias virarem projetos, elas viram rabiscos. O desenho acabou encontrando espaço também dentro da minha trajetória científica e profissional — especialmente na criação de materiais educativos.'
+  texto: 'Antes de algumas ideias virarem projetos, elas viram rabiscos. O desenho acabou encontrando espaço também dentro da minha trajetória científica e profissional, especialmente na criação de materiais educativos.'
 }, {
   titulo: 'Escrita',
   img: 'https://images.hostinger.com/26c84a28-e864-479d-af6a-47b6dcf322ab.png',
@@ -212,7 +212,7 @@ function HomePage() {
   return <div className="min-h-screen bg-background text-foreground antialiased">
             <Helmet>
                 <title>Matheus Filgueiras | Dentista, pesquisador, autor e designer</title>
-                <meta name="description" content="Matheus Filgueiras — cirurgião-dentista, mestrando em Odontologia e criador. Odontologia, pesquisa, escrita, ilustração, design e tecnologia na interseção entre diferentes maneiras de criar." />
+                <meta name="description" content="Matheus Filgueiras, cirurgião-dentista, mestrando em Odontologia e criador. Odontologia, pesquisa, escrita, ilustração, design e tecnologia na interseção entre diferentes maneiras de criar." />
             </Helmet>
 
             {/* HEADER */}
@@ -414,7 +414,7 @@ function HomePage() {
                         <Reveal delay={0.05} className="text-[1.05rem] leading-relaxed text-muted-foreground">
                             <p>
                                 Minha formação começou na Odontologia, mas minha curiosidade sempre encontrou outros
-                                caminhos. Hoje, prefiro não escolher entre eles — gosto justamente do que acontece
+                                caminhos. Hoje, prefiro não escolher entre eles, gosto justamente do que acontece
                                 quando essas partes se encontram.
                             </p>
                         </Reveal>
@@ -676,7 +676,7 @@ function HomePage() {
                                 Podemos começar por uma <span className="font-script">ideia.</span>
                             </h2>
                             <p className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-primary-foreground/85">
-                                Projetos, pesquisa, Odontologia, livros, design, tecnologia — ou alguma coisa que
+                                Projetos, pesquisa, Odontologia, livros, design, tecnologia, ou alguma coisa que
                                 ainda não tenha nome. Se você encontrou algo por aqui que despertou uma conversa,
                                 será um prazer continuar.
                             </p>
