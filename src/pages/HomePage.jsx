@@ -6,7 +6,7 @@ import Reveal from '@/components/Reveal';
 import DiferentesFaces from '@/components/DiferentesFaces';
 import HistoriasClinicas from '@/components/HistoriasClinicas';
 const IMG_PORTRAIT = '/assets/photos/retrato-editorial-hero.jpg';
-const IMG_SEDACAO = '/assets/photos/odontologia.jpg';
+const IMG_SEDACAO = '/assets/photos/sedacao-consciente.jpg';
 const IMG_PROJECTS = {
   bravura: '/assets/projects/unidos-pela-bravura-wide.jpg',
   pesquisa: '/assets/projects/pesquisa-digital-wide.jpg',
@@ -657,8 +657,8 @@ function HomePage() {
             </section>
 
             {/* SEDAÇÃO CONSCIENTE */}
-            <section id="sedacao" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
-                <div className="grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+            <section id="sedacao" className="mx-auto w-full max-w-[90rem] px-6 py-16 lg:px-12 lg:py-24">
+                <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
                     <div>
                         <Reveal>
                             <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Sedação consciente</p>
@@ -667,15 +667,15 @@ function HomePage() {
                             </h2>
                         </Reveal>
                         <Reveal delay={0.05}>
-                            <p className="mt-7 max-w-[38rem] text-[1.05rem] leading-relaxed text-muted-foreground">
+                            <p className="mt-6 max-w-[38rem] text-[1.05rem] leading-relaxed text-muted-foreground">
                                 Para algumas pessoas, o desconforto começa antes mesmo do procedimento. A sedação
                                 consciente pode tornar essa experiência mais tranquila, confortável e acolhedora.
                             </p>
                         </Reveal>
-                        <div className="mt-10 divide-y divide-border border-y border-border">
+                        <div className="mt-8 divide-y divide-border border-y border-border">
                             {sedacaoPontos.map((ponto, i) => (
                                 <Reveal key={ponto.titulo} delay={i * 0.06}>
-                                    <div className="grid gap-3 py-6 sm:grid-cols-[13rem_1fr] sm:items-baseline">
+                                    <div className="grid gap-3 py-5 sm:grid-cols-[13rem_1fr] sm:items-baseline">
                                         <h3 className="text-xl font-light tracking-tight text-foreground">{ponto.titulo}</h3>
                                         <p className="text-[0.98rem] leading-relaxed text-muted-foreground">{ponto.texto}</p>
                                     </div>
@@ -683,14 +683,14 @@ function HomePage() {
                             ))}
                         </div>
                         <Reveal delay={0.12}>
-                            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
+                            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
                                 Saiba mais sobre sedação →
                             </a>
                         </Reveal>
                     </div>
                     <Reveal delay={0.1}>
                         <figure className="relative overflow-hidden">
-                            <img src={IMG_SEDACAO} alt="Matheus Filgueiras durante atendimento odontológico" className="aspect-[4/5] w-full object-cover object-center" loading="lazy" />
+                            <img src={IMG_SEDACAO} alt="Matheus Filgueiras preparando equipamento de sedação consciente" className="aspect-[5/6] w-full object-cover object-center" loading="lazy" />
                         </figure>
                     </Reveal>
                 </div>
