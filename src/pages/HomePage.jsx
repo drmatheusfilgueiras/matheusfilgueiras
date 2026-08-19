@@ -296,7 +296,7 @@ function HomePage() {
 
             {/* 01 — HOME / HERO */}
             <section id="inicio" className="relative overflow-hidden">
-                <div className="mx-auto grid w-full max-w-[90rem] items-center gap-12 px-6 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:px-12 lg:py-28">
+                <div className="mx-auto grid w-full max-w-[90rem] items-start gap-12 px-6 pb-16 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-12 lg:pb-24 lg:pt-20">
                     <div>
                         <motion.div initial={{
             opacity: 0,
@@ -368,7 +368,6 @@ function HomePage() {
                     </div>
 
                     <div className="relative">
-                        <div className="absolute -left-6 -top-6 hidden h-32 w-32 border-l border-t border-primary/40 lg:block" />
                         <motion.img initial={{
             opacity: 0,
             scale: 1.03
@@ -379,12 +378,6 @@ function HomePage() {
             duration: 0.9,
             ease: 'easeOut'
           }} src={IMG_PORTRAIT} alt="Matheus Filgueiras, cirurgião-dentista e criador" className="relative h-[26rem] w-full object-cover object-[center_18%] sm:h-[34rem] lg:h-[40rem]" loading="eager" />
-                        <div className="absolute -bottom-6 left-6 bg-background px-6 py-4 shadow-[0_18px_40px_-24px_hsl(214_72%_24%/0.45)]">
-                            <p className="font-script text-xl text-primary">Transformar ideias</p>
-                            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-muted-foreground">
-                                em algo real
-                            </p>
-                        </div>
                     </div>
                 </div>
             </section>
