@@ -5,7 +5,7 @@ import { ArrowDown, ArrowUpRight, Instagram, Linkedin, Mail, FileText } from 'lu
 import Reveal from '@/components/Reveal';
 import DiferentesFaces from '@/components/DiferentesFaces';
 import HistoriasClinicas from '@/components/HistoriasClinicas';
-const IMG_PORTRAIT = 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/retrato-editorial-Za8th.JPG';
+const IMG_PORTRAIT = '/assets/photos/retrato-editorial-hero.jpg';
 const IMG_PROJECTS = {
   bravura: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/unidos-pela-bravura-bm0pT.png',
   pesquisa: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/img_7544-VThWQ.jpg',
@@ -271,7 +271,7 @@ function HomePage() {
           }} transition={{
             duration: 0.9,
             ease: 'easeOut'
-          }} src={IMG_PORTRAIT} alt="Matheus Filgueiras, cirurgião-dentista e criador" className="relative h-[26rem] w-full object-cover object-center sm:h-[34rem] lg:h-[40rem]" loading="eager" />
+          }} src={IMG_PORTRAIT} alt="Matheus Filgueiras, cirurgião-dentista e criador" className="relative h-[26rem] w-full object-cover object-[center_18%] sm:h-[34rem] lg:h-[40rem]" loading="eager" />
                         <div className="absolute -bottom-6 left-6 bg-background px-6 py-4 shadow-[0_18px_40px_-24px_hsl(214_72%_24%/0.45)]">
                             <p className="font-script text-xl text-primary">Transformar ideias</p>
                             <p className="text-[0.7rem] uppercase tracking-[0.28em] text-muted-foreground">
