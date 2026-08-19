@@ -479,7 +479,28 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* 08 — PROJETOS SELECIONADOS */}
+            {/* 08 — HISTÓRIAS CLÍNICAS */}
+            <section id="historias" className="border-y border-border bg-secondary/40">
+                <div className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
+                    <Reveal>
+                        <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Histórias clínicas</p>
+                        <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
+                            Entre o planejamento
+                            <br />
+                            e o <span className="font-script text-primary">resultado.</span>
+                        </h2>
+                    </Reveal>
+                    <Reveal delay={0.05}>
+                        <p className="mt-6 max-w-[44rem] text-[1.05rem] leading-relaxed text-muted-foreground">
+                            Casos reais, diferentes caminhos e resultados construídos a partir de planejamento,
+                            cuidado e atenção aos detalhes.
+                        </p>
+                    </Reveal>
+                    <HistoriasClinicas casos={historiasClinicas} />
+                </div>
+            </section>
+
+            {/* 09 — PROJETOS SELECIONADOS */}
             <section id="projetos" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
                     <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Projetos selecionados</p>
@@ -520,27 +541,6 @@ function HomePage() {
                                 </div>
                             </article>
                         </Reveal>)}
-                </div>
-            </section>
-
-            {/* 09 — HISTÓRIAS CLÍNICAS */}
-            <section id="historias" className="border-y border-border bg-secondary/40">
-                <div className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
-                    <Reveal>
-                        <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Histórias clínicas</p>
-                        <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
-                            Entre o planejamento
-                            <br />
-                            e o <span className="font-script text-primary">resultado.</span>
-                        </h2>
-                    </Reveal>
-                    <Reveal delay={0.05}>
-                        <p className="mt-6 max-w-[44rem] text-[1.05rem] leading-relaxed text-muted-foreground">
-                            Casos reais, diferentes caminhos e resultados construídos a partir de planejamento,
-                            cuidado e atenção aos detalhes.
-                        </p>
-                    </Reveal>
-                    <HistoriasClinicas casos={historiasClinicas} />
                 </div>
             </section>
 
