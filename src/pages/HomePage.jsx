@@ -159,11 +159,11 @@ const historiasClinicas = [{
   antes: '/assets/cases/clareamento-antes.jpg',
   depois: '/assets/cases/clareamento-depois.jpg'
 }, {
-  titulo: 'Harmonização da arcada inferior',
-  procedimento: 'Ortodontia alinhadora · restaurações estéticas',
-  nota: 'Após o alinhamento, pequenas restaurações ajustaram forma e textura dos dentes inferiores para um resultado natural.',
-  antes: 'https://images.hostinger.com/919b05ed-eec5-4f57-9acb-fb29fada7d7f.png',
-  depois: 'https://images.hostinger.com/45ddbe88-8ae7-462c-818d-582fddaf323c.png'
+  titulo: 'Planejamento Reabilitador',
+  procedimento: null,
+  nota: 'Um planejamento pensado para melhorar função, estética e proporções do sorriso antes de qualquer intervenção, permitindo visualizar o resultado e conduzir cada etapa com mais previsibilidade.',
+  antes: '/assets/cases/planejamento-reabilitador-antes.jpg',
+  depois: '/assets/cases/planejamento-reabilitador-depois.jpg'
 }, {
   titulo: 'Fechamento de diastema',
   procedimento: 'Resina composta adesiva · 2 elementos',
