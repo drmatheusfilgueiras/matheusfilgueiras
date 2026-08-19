@@ -1,31 +1,24 @@
 # matheusfilgueiras.com
 
-Site pessoal de Matheus Carvalho Teles Filgueiras.
+Website pessoal de Matheus Carvalho Teles Filgueiras.
 
-## O que este projeto contém
+## Projeto
 
-- Landing page pessoal editorial e minimalista.
-- Conteúdo base a partir dos prompts anexados.
-- Estrutura pronta para GitHub.
-- Build estático pronto para hospedagem na Hostinger.
+Site editorial e minimalista criado em Vite, React e Tailwind CSS, preparado para publicacao pela Hostinger a partir do GitHub.
 
-## Como rodar no computador
+## Rodar localmente
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Como gerar a versão para publicar
+O site abre em `http://localhost:3000/`.
+
+## Gerar versao de producao
 
 ```bash
 npm run build
 ```
 
-Depois do build, a pasta `dist/` é a versão final do site para hospedagem.
-
-## Próximos ajustes importantes
-
-- Trocar os espaços de imagem por fotos reais.
-- Inserir links reais de Instagram, LinkedIn, Lattes e e-mail.
-- Decidir se o deploy na Hostinger será manual, por GitHub ou por FTP via GitHub Actions.
+A pasta `dist/` e a versao final que a Hostinger publica.

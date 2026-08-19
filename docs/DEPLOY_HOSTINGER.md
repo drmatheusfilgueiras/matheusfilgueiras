@@ -1,26 +1,14 @@
 # Deploy na Hostinger
 
-Este projeto gera um site estático. Isso é bom para a Hostinger porque a publicação é simples e rápida.
+Use a integracao da Hostinger com GitHub usando estas configuracoes:
 
-## Opção 1: Deploy manual
+- Repositorio: `drmatheusfilgueiras/matheusfilgueiras`
+- Branch: `main`
+- Configuracao predefinida: `Vite`
+- Versao do Node: `22.x`
+- Diretorio raiz: `./`
+- Comando de instalacao: `npm install`
+- Comando de build: `npm run build`
+- Diretorio de saida: `dist`
 
-1. Rodar `npm run build`.
-2. Enviar o conteúdo da pasta `dist/` para a pasta pública do domínio na Hostinger.
-3. Apontar o domínio `matheusfilgueiras.com` para a hospedagem.
-
-## Opção 2: Deploy pelo GitHub
-
-Depois que o repositório existir no GitHub, podemos configurar uma automação para:
-
-1. gerar o build automaticamente;
-2. enviar os arquivos para a Hostinger;
-3. atualizar o site a cada mudança aprovada.
-
-Para isso, vamos precisar dos dados de publicação da Hostinger, normalmente:
-
-- host FTP;
-- usuário FTP;
-- senha FTP;
-- pasta remota de publicação.
-
-Esses dados entram como `secrets` no GitHub, nunca diretamente no código.
+Depois de cada `push` para o branch `main`, a Hostinger pode gerar e publicar a nova versao automaticamente.

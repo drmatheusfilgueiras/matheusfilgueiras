@@ -1,30 +1,12 @@
 # Guia de imagens
 
-O site foi estruturado para valorizar fotografias reais, não imagens genéricas.
+A versao atual usa imagens publicadas no CDN da Hostinger e alguns arquivos locais em `public/assets/` preservados para ajustes futuros.
 
-## Fotos prioritárias
+Para trocar imagens no codigo, edite os arrays e constantes em `src/pages/HomePage.jsx`.
 
-- Retrato editorial de Matheus.
-- Bastidores de laboratório.
-- Clínica, mãos, materiais e detalhes de processo.
-- Impressão 3D, resinas, peças, microscopia ou bancada.
-- Livros e ilustrações do projeto Unidos pela Bravura.
-- Telas, wireframes ou identidade do SedaFlow.
-- Apresentações, fotografias, infográficos e materiais visuais.
+Boas praticas:
 
-## Pastas sugeridas
-
-- `public/assets/photos/` para retratos e fotos gerais.
-- `public/assets/projects/` para imagens dos projetos.
-
-## Formatos
-
-Use preferencialmente `.jpg` ou `.webp`.
-
-Nomes simples ajudam bastante:
-
-- `matheus-retrato.webp`
-- `laboratorio-01.webp`
-- `unidos-pela-bravura-01.webp`
-- `sedaflow-interface-01.webp`
-- `comunicacao-visual-01.webp`
+- Preferir arquivos `.jpg` ou `.webp`.
+- Usar nomes simples, sem espacos.
+- Manter imagens otimizadas para web.
+- Conferir a versao mobile depois de substituir qualquer foto.
