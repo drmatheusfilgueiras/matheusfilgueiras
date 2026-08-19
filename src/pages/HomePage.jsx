@@ -404,7 +404,7 @@ function HomePage() {
               ease: 'easeOut',
               delay: 0.05
             }} className="block">
-                                Dentista por formação.
+                                <span className="font-script italic text-primary">Dentista</span> por formação.
                             </motion.span>
                             <motion.span initial={{
               opacity: 0,
