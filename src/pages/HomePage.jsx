@@ -738,8 +738,8 @@ function HomePage() {
 
             {/* 11 — CONTATO */}
             <section id="contato" className="border-t border-border bg-primary text-primary-foreground">
-                <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
-                    <div className="grid gap-12 md:grid-cols-2">
+                <div className="mx-auto w-full max-w-[72rem] px-6 py-16 lg:px-8 lg:py-24">
+                    <div className="grid gap-10 md:grid-cols-2">
                         <div>
                             <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary-foreground/70">
                                 Contato
@@ -753,8 +753,14 @@ function HomePage() {
                                 será um prazer continuar.
                             </p>
                             <p className="mt-8 font-script text-2xl text-primary-foreground">Matheus Filgueiras</p>
+                            <Reveal delay={0.1}>
+                                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex min-h-[52px] items-center gap-2 bg-primary-foreground px-8 text-[0.8rem] uppercase tracking-[0.22em] text-primary transition-transform hover:-translate-y-px active:scale-[0.98]">
+                                    Vamos conversar
+                                    <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
+                                </a>
+                            </Reveal>
                         </div>
-                        <div className="space-y-7">
+                        <div className="space-y-6">
                             <ul className="space-y-5">
                                 {[{
               Icon: Instagram,
@@ -795,7 +801,7 @@ function HomePage() {
                                     </a>
                                 </li>)}
                             </ul>
-                            <div className="border-t border-primary-foreground/20 pt-7">
+                            <div>
                                 <p className="text-[0.7rem] uppercase tracking-[0.28em] text-primary-foreground/60">
                                     Onde atendo?
                                 </p>
@@ -809,12 +815,6 @@ function HomePage() {
                             </div>
                         </div>
                     </div>
-                    <Reveal delay={0.1}>
-                        <a href="https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras" target="_blank" rel="noreferrer noopener" className="mt-12 inline-flex min-h-[52px] items-center gap-2 bg-primary-foreground px-8 text-[0.8rem] uppercase tracking-[0.22em] text-primary transition-transform hover:-translate-y-px active:scale-[0.98]">
-                            Vamos conversar
-                            <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
-                        </a>
-                    </Reveal>
                 </div>
             </section>
 
