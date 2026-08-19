@@ -6,6 +6,7 @@ import Reveal from '@/components/Reveal';
 import DiferentesFaces from '@/components/DiferentesFaces';
 import HistoriasClinicas from '@/components/HistoriasClinicas';
 const IMG_PORTRAIT = '/assets/photos/retrato-editorial-hero.jpg';
+const IMG_PRESENTATION = '/assets/photos/apresentacao-naturale.jpg';
 const IMG_SEDACAO = '/assets/photos/sedacao-consciente.jpg';
 const IMG_PROJECTS = {
   bravura: '/assets/projects/unidos-pela-bravura-wide.jpg',
@@ -395,42 +396,54 @@ function HomePage() {
             </section>
 
             {/* 02 — APRESENTAÇÃO */}
-            <section id="apresentacao" className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
-                <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Apresentação</p>
-                    <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
-                        Olá, sou o <span className="font-script text-primary">Matheus.</span>
-                    </h2>
+            <section id="apresentacao" className="mx-auto grid w-full max-w-[90rem] px-6 lg:grid-cols-[0.82fr_1fr] lg:px-12">
+                <Reveal className="overflow-hidden">
+                    <img
+                        src={IMG_PRESENTATION}
+                        alt="Matheus Filgueiras na Naturale Dental Studio"
+                        className="h-full min-h-[28rem] w-full object-cover object-[center_42%] sm:min-h-[34rem] lg:min-h-[42rem]"
+                        loading="lazy"
+                    />
                 </Reveal>
-                <div className="mt-10 max-w-[44rem] space-y-6 text-[1.08rem] leading-relaxed text-muted-foreground">
-                    <Reveal delay={0.05}>
-                        <p>
-                            Sou cirurgião-dentista e mestrando em Odontologia. Essa provavelmente é a maneira mais
-                            simples de me apresentar.
-                        </p>
-                    </Reveal>
-                    <Reveal delay={0.1}>
-                        <p className="text-xl font-light leading-relaxed text-foreground">
-                            Só não é a mais completa.
-                        </p>
-                    </Reveal>
-                    <Reveal delay={0.15}>
-                        <p>
-                            Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design, comunicação,
-                            tecnologia e de entender como ideias se transformam em experiências.
-                        </p>
-                    </Reveal>
-                    <Reveal delay={0.2}>
-                        <p>
-                            Durante algum tempo, achei que interesses tão diferentes precisavam ocupar lugares
-                            separados. Hoje penso exatamente o contrário.
-                        </p>
-                    </Reveal>
-                    <Reveal delay={0.25}>
-                        <p className="text-foreground">
-                            Grande parte do que faço nasce justamente do encontro entre eles.
-                        </p>
-                    </Reveal>
+                <div className="flex items-center py-16 lg:py-24 lg:pl-14 xl:pl-20">
+                    <div>
+                        <Reveal>
+                            <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Apresentação</p>
+                            <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
+                                Olá, sou o <span className="font-script text-primary">Matheus.</span>
+                            </h2>
+                        </Reveal>
+                        <div className="mt-10 max-w-[44rem] space-y-6 text-[1.08rem] leading-relaxed text-muted-foreground">
+                            <Reveal delay={0.05}>
+                                <p>
+                                    Sou cirurgião-dentista e mestrando em Odontologia. Essa provavelmente é a maneira mais
+                                    simples de me apresentar.
+                                </p>
+                            </Reveal>
+                            <Reveal delay={0.1}>
+                                <p className="text-xl font-light leading-relaxed text-foreground">
+                                    Só não é a mais completa.
+                                </p>
+                            </Reveal>
+                            <Reveal delay={0.15}>
+                                <p>
+                                    Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design, comunicação,
+                                    tecnologia e de entender como ideias se transformam em experiências.
+                                </p>
+                            </Reveal>
+                            <Reveal delay={0.2}>
+                                <p>
+                                    Durante algum tempo, achei que interesses tão diferentes precisavam ocupar lugares
+                                    separados. Hoje penso exatamente o contrário.
+                                </p>
+                            </Reveal>
+                            <Reveal delay={0.25}>
+                                <p className="text-foreground">
+                                    Grande parte do que faço nasce justamente do encontro entre eles.
+                                </p>
+                            </Reveal>
+                        </div>
+                    </div>
                 </div>
             </section>
 
