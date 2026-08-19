@@ -17,6 +17,7 @@ const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%
 const SEDACAO_URL = 'https://www.instagram.com/p/DbT4X1lhsaw/';
 const navLinks = [
   { label: 'Sobre', href: '#sobre' },
+  { label: 'Atendimento', href: '#atendimento' },
   { label: 'Caminho', href: '#caminho' },
   { label: 'Projeto', href: '#projetos' },
   { label: 'Contato', href: '#contato' },
@@ -127,6 +128,16 @@ const sedacaoPontos = [{
   titulo: 'Sedação consciente',
   texto: 'Você permanece consciente e responsivo durante todo o atendimento.'
 }];
+const atendimentoResumo = [{
+  titulo: 'Onde atendo',
+  texto: 'Nova Friburgo/RJ, em Salud Odontologia e Naturale Dental Studio.'
+}, {
+  titulo: 'Como posso ajudar',
+  texto: 'Planejamento reabilitador, restaurações, clareamento, odontologia digital e sedação consciente.'
+}, {
+  titulo: 'Como agendar',
+  texto: 'O primeiro contato acontece pelo WhatsApp, com direcionamento para o local mais adequado.'
+}];
 const intersecaoItens = [{
   texto: 'Alguns no papel.',
   img: '/assets/intersecao/no-papel.jpg',
@@ -171,28 +182,6 @@ const historiasClinicas = [{
   antes: 'https://images.hostinger.com/1350fb0d-2215-4a35-bbf0-49cbc5bc7c90.png',
   depois: 'https://images.hostinger.com/5170f588-6a11-4cdb-9605-0c55317d195f.png'
 }];
-const processo = [{
-  num: '01',
-  titulo: 'Observar',
-  texto: 'Antes de criar, tento entender.'
-}, {
-  num: '02',
-  titulo: 'Perguntar',
-  texto: 'O que realmente precisa ser resolvido?'
-}, {
-  num: '03',
-  titulo: 'Explorar',
-  texto: 'Pesquisa, referências, rascunhos, hipóteses e possibilidades.'
-}, {
-  num: '04',
-  titulo: 'Criar',
-  texto: 'É quando algo deixa de existir apenas na cabeça.'
-}, {
-  num: '05',
-  titulo: 'Refinar',
-  texto: 'Rever, testar, cortar, reorganizar e tentar novamente.'
-}];
-
 const sobrePalavras = [
   'Dentista.',
   'Pesquisador.',
@@ -479,6 +468,34 @@ function HomePage() {
                 </div>
             </section>
 
+            {/* 04 — ATENDIMENTO CLÍNICO */}
+            <section id="atendimento" className="border-y border-border bg-secondary/40">
+                <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
+                    <Reveal>
+                        <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Atendimento clínico</p>
+                        <h2 className="mt-6 max-w-[24ch] text-3xl font-light leading-tight sm:text-[2.8rem]">
+                            Cuidado, técnica e <span className="font-script text-primary">planejamento.</span>
+                        </h2>
+                    </Reveal>
+                    <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+                        {atendimentoResumo.map((item, i) => (
+                            <Reveal key={item.titulo} delay={i * 0.06} y={20}>
+                                <div className="h-full bg-background p-7 lg:p-8">
+                                    <h3 className="text-xl font-light tracking-tight text-foreground">{item.titulo}</h3>
+                                    <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">{item.texto}</p>
+                                </div>
+                            </Reveal>
+                        ))}
+                    </div>
+                    <Reveal delay={0.12}>
+                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex min-h-[50px] items-center gap-2 bg-primary px-7 text-[0.78rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px active:scale-[0.98]">
+                            Agendar consulta
+                            <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
+                        </a>
+                    </Reveal>
+                </div>
+            </section>
+
             {/* 04 — O QUE ME MOVE */}
             <section id="move" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
@@ -658,37 +675,8 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* 10 — COMO EU TRABALHO */}
-            <section id="processo" className="border-y border-border bg-secondary/40">
-                <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
-                    <Reveal>
-                        <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Como eu trabalho</p>
-                        <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
-                            Quase tudo começa do <span className="font-script text-primary">mesmo jeito.</span>
-                        </h2>
-                    </Reveal>
-                    <div className="mt-14 divide-y divide-border border-t border-border">
-                        {processo.map((step, i) => <Reveal key={step.num} delay={i * 0.06}>
-                                <div className="group grid gap-3 py-7 sm:grid-cols-[10rem_1fr] sm:items-baseline">
-                                    <h3 className="text-lg font-medium tracking-tight text-foreground">{step.titulo}</h3>
-                                    <p className="text-[0.98rem] leading-relaxed text-muted-foreground">{step.texto}</p>
-                                </div>
-                            </Reveal>)}
-                    </div>
-                    <Reveal delay={0.1}>
-                        <p className="mt-10 max-w-[48rem] text-[1.05rem] leading-relaxed text-muted-foreground">
-                            Não importa muito se o resultado final será uma restauração, um experimento, uma página,
-                            um desenho ou uma interface.
-                        </p>
-                        <p className="mt-4 text-lg font-light leading-relaxed text-foreground">
-                            O processo de criação costuma ser surpreendentemente parecido.
-                        </p>
-                    </Reveal>
-                </div>
-            </section>
-
             {/* SEDAÇÃO CONSCIENTE */}
-            <section id="sedacao" className="mx-auto w-full max-w-[90rem] px-6 py-16 lg:px-12 lg:py-24">
+            <section id="sedacao" className="mx-auto w-full max-w-[72rem] px-6 py-16 lg:px-8 lg:py-24">
                 <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
                     <div>
                         <Reveal>
@@ -726,46 +714,6 @@ function HomePage() {
                         </figure>
                     </Reveal>
                 </div>
-            </section>
-
-            {/* 10 — MAIS QUE UMA DEFINIÇÃO */}
-            <section id="definicao" className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
-                <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Mais que uma definição</p>
-                    <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]"><span style={{
-            fontSize: "48px",
-            lineHeight: "normal"
-          }}><span style={{
-              lineHeight: "normal"
-            }}>Afinal, o que você <span className="font-script text-primary">faz?</span></span></span><span className="font-script text-primary"></span></h2>
-                </Reveal>
-                <div className="mt-10 max-w-[44rem] space-y-6 text-[1.08rem] leading-relaxed text-muted-foreground">
-                    <Reveal delay={0.05}>
-                        <p>Dentista ainda seria a resposta mais fácil. E não está errada.</p>
-                    </Reveal>
-                    <Reveal delay={0.1}>
-                        <p className="text-xl font-light leading-relaxed text-foreground">Só não é completa.</p>
-                    </Reveal>
-                </div>
-                <Reveal delay={0.15}>
-                    <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-[1.1rem] font-light text-foreground">
-                        {['Sou dentista.', 'Pesquisador em formação.', 'Autor.', 'Desenho.', 'Escrevo.', 'Crio.', 'Fotografo.', 'Desenvolvo projetos.', 'Gosto de tecnologia.', 'Gosto de transformar informação em algo mais claro.'].map(line => <li key={line} className="flex items-center gap-6">
-                                <span>{line}</span>
-                                <span className="h-1 w-1 rounded-full bg-primary/40" />
-                            </li>)}
-                    </ul>
-                </Reveal>
-                <Reveal delay={0.2}>
-                    <div className="mt-12 space-y-5 max-w-[48rem] text-[1.08rem] leading-relaxed text-muted-foreground">
-                        <p>
-                            Não quero construir uma trajetória em que tudo precise caber dentro de uma única palavra.
-                        </p>
-                        <p className="text-lg font-light leading-relaxed text-foreground">
-                            Quero continuar descobrindo o que acontece quando conhecimentos diferentes ocupam o mesmo
-                            espaço.
-                        </p>
-                    </div>
-                </Reveal>
             </section>
 
             {/* 11 — CONTATO */}
