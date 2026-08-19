@@ -14,6 +14,7 @@ const IMG_PROJECTS = {
   visual: '/assets/projects/comunicacao-visual-wide.jpg'
 };
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
+const SEDACAO_URL = 'https://www.instagram.com/p/DbT4X1lhsaw/';
 const navLinks = [
   { label: 'Sobre', href: '#sobre' },
   { label: 'Caminho', href: '#caminho' },
@@ -128,10 +129,10 @@ const sedacaoPontos = [{
 }];
 const ondeAtendo = [{
   rotulo: 'Salud Odontologia',
-  href: 'https://matheusfilgueiras.com/#salud-odontologia'
+  href: 'https://api.whatsapp.com/send?phone=22992096463&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras'
 }, {
   rotulo: 'Naturale Dental Studio',
-  href: 'https://matheusfilgueiras.com/#naturale-dental-studio'
+  href: 'https://api.whatsapp.com/send/?phone=5522998508639&text&type=phone_number&app_absent=0'
 }];
 const historiasClinicas = [{
   titulo: 'Clareamento de consultório',
@@ -683,7 +684,7 @@ function HomePage() {
                             ))}
                         </div>
                         <Reveal delay={0.12}>
-                            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
+                            <a href={SEDACAO_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
                                 Saiba mais sobre sedação →
                             </a>
                         </Reveal>
