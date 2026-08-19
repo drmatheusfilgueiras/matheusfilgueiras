@@ -36,12 +36,12 @@ const DiferentesFaces = ({
           pointerEvents: isActive ? 'auto' : 'none'
         }} aria-hidden={!isActive}>
                             <div className="relative aspect-[4/3] w-full overflow-hidden border border-border bg-secondary">
-                                {i === 0 && <img src="https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/odontologia-wxT0H.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover" />}
-                                {i === 1 && <img src="https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/ciaancia-2M5HW.png" alt={item.titulo} loading="lazy" className="h-full w-full object-cover" />}
-                                {i === 2 && <img src="https://images.hostinger.com/ebf733ce-ad35-47fe-850a-d9d3da61d898.png" alt={item.titulo} loading="lazy" className="h-full w-full object-cover" />}
-                                {i === 3 && <img src="https://images.hostinger.com/26c84a28-e864-479d-af6a-47b6dcf322ab.png" alt={item.titulo} loading="lazy" className="h-full w-full object-cover" />}
-                                {i === 4 && <img src="https://images.hostinger.com/9226ec8f-0dcd-453f-a5cb-c7fc7c111da4.png" alt={item.titulo} loading="lazy" className="h-full w-full object-cover" />}
-                                {i === 5 && <img src="https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/tecnologia-L23xY.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover" />}
+                                {i === 0 && <img src="/assets/photos/linguagem-odontologia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
+                                {i === 1 && <img src="/assets/photos/linguagem-ciencia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
+                                {i === 2 && <img src="/assets/photos/linguagem-desenho.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
+                                {i === 3 && <img src="/assets/photos/linguagem-escrita.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
+                                {i === 4 && <img src="/assets/photos/linguagem-design.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
+                                {i === 5 && <img src="/assets/photos/linguagem-tecnologia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
                             </div>
                             <div className="mt-6 max-w-[40rem]">
                                 <h3 className="text-xl font-medium tracking-tight text-foreground">

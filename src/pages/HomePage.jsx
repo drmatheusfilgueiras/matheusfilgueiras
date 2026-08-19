@@ -7,10 +7,10 @@ import DiferentesFaces from '@/components/DiferentesFaces';
 import HistoriasClinicas from '@/components/HistoriasClinicas';
 const IMG_PORTRAIT = '/assets/photos/retrato-editorial-hero.jpg';
 const IMG_PROJECTS = {
-  bravura: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/unidos-pela-bravura-bm0pT.png',
-  pesquisa: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/img_7544-VThWQ.jpg',
-  sedaflow: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/circuito-gbpd-3-Wd5pP.png',
-  visual: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/img_9961-qr4hg.jpg'
+  bravura: '/assets/projects/unidos-pela-bravura-wide.jpg',
+  pesquisa: '/assets/projects/pesquisa-digital-wide.jpg',
+  sedaflow: '/assets/projects/sedaflow-wide.jpg',
+  visual: '/assets/projects/comunicacao-visual-wide.jpg'
 };
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
 const navLinks = [
@@ -51,27 +51,27 @@ const caminho = [{
 }];
 const faces = [{
   titulo: 'Odontologia',
-  img: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/ciaancia-Z4SGO.png',
+  img: '/assets/photos/linguagem-odontologia.jpg',
   texto: 'Clínica, planejamento, reabilitação oral e odontologia digital. Tenho especial interesse nos momentos em que conhecimento técnico, tecnologia e sensibilidade precisam trabalhar juntos.'
 }, {
   titulo: 'Ciência',
-  img: 'https://images.hostinger.com/e1ec4ac1-667b-4faa-aeb5-c97b1d5d4ea9.png',
+  img: '/assets/photos/linguagem-ciencia.jpg',
   texto: 'Pesquisa, escrita acadêmica, experimentação e comunicação científica. Mais do que encontrar respostas, gosto do processo de aprender a formular perguntas melhores.'
 }, {
   titulo: 'Desenho',
-  img: 'https://images.hostinger.com/ebf733ce-ad35-47fe-850a-d9d3da61d898.png',
+  img: '/assets/photos/linguagem-desenho.jpg',
   texto: 'Antes de algumas ideias virarem projetos, elas viram rabiscos. O desenho acabou encontrando espaço também dentro da minha trajetória científica e profissional, especialmente na criação de materiais educativos.'
 }, {
   titulo: 'Escrita',
-  img: 'https://images.hostinger.com/26c84a28-e864-479d-af6a-47b6dcf322ab.png',
+  img: '/assets/photos/linguagem-escrita.jpg',
   texto: 'Artigos, histórias, roteiros e ideias. Escrever é outra maneira que encontrei de organizar pensamentos e transformar assuntos complexos em algo que possa ser compreendido por outras pessoas.'
 }, {
   titulo: 'Design',
-  img: 'https://images.hostinger.com/9226ec8f-0dcd-453f-a5cb-c7fc7c111da4.png',
+  img: '/assets/photos/linguagem-design.jpg',
   texto: 'Identidades visuais, apresentações, fotografia, conteúdo e experiência. Não penso em design como decoração. Design, para mim, é dar forma a uma ideia.'
 }, {
   titulo: 'Tecnologia',
-  img: 'https://images.hostinger.com/6ae07e1c-144e-49f2-85e5-4683fd52b886.png',
+  img: '/assets/photos/linguagem-tecnologia.jpg',
   texto: 'Fluxos digitais, impressão 3D, inteligência artificial, interfaces e desenvolvimento de novos projetos. Não me interessa tecnologia apenas pelo que ela consegue fazer. Me interessa principalmente pelo que podemos criar com ela.'
 }];
 const projetos = [{
