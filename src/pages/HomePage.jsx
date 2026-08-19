@@ -6,6 +6,7 @@ import Reveal from '@/components/Reveal';
 import DiferentesFaces from '@/components/DiferentesFaces';
 import HistoriasClinicas from '@/components/HistoriasClinicas';
 const IMG_PORTRAIT = '/assets/photos/retrato-editorial-hero.jpg';
+const IMG_SEDACAO = '/assets/photos/odontologia.jpg';
 const IMG_PROJECTS = {
   bravura: '/assets/projects/unidos-pela-bravura-wide.jpg',
   pesquisa: '/assets/projects/pesquisa-digital-wide.jpg',
@@ -82,6 +83,7 @@ const projetos = [{
   texto: 'O projeto nasceu a partir de uma pergunta dentro da Odontopediatria e acabou se transformando em uma coleção de livros infantis. A proposta foi criar uma ferramenta capaz de ajudar crianças a compreender melhor o atendimento odontológico e se preparar para essa experiência. No processo, pesquisa científica, escrita, narrativa, ilustração, inteligência artificial e design passaram a trabalhar juntas.',
   destaque: 'O que começou como pesquisa terminou em algo que uma criança pudesse segurar nas mãos.',
   cta: 'Conhecer o projeto',
+  href: 'https://www.amazon.com.br/Unidos-pela-Bravura-Matheus-Filgueiras/dp/6501438985',
   img: IMG_PROJECTS.bravura
 }, {
   num: '02',
@@ -91,6 +93,7 @@ const projetos = [{
   texto: 'Minha pesquisa de mestrado investiga materiais utilizados na impressão 3D aplicada à Odontologia. Entre resinas, processos de pós-cura, células e laboratório, o objetivo é entender melhor não apenas o que conseguimos fabricar digitalmente, mas como esses materiais se comportam quando chegam mais perto da realidade biológica. É uma das áreas onde minha curiosidade por Odontologia e tecnologia se encontra de maneira mais direta.',
   destaque: null,
   cta: 'Conhecer a pesquisa',
+  href: 'https://drive.google.com/file/d/1E6mpmWfzIINpfhY_fl_9ORLJiXTamUrb/view?usp=sharing',
   img: IMG_PROJECTS.pesquisa
 }, {
   num: '03',
@@ -100,6 +103,7 @@ const projetos = [{
   texto: 'SedaFlow nasceu da tentativa de organizar e simplificar processos relacionados à sedação consciente em Odontologia. O projeto reúne uma área clínica que faz parte da minha atuação com outros interesses que sempre estiveram presentes: experiência do usuário, design de interface, organização da informação, tecnologia e comunicação. Mais do que desenvolver uma ferramenta, o processo tem sido um exercício constante de transformar necessidades clínicas em decisões de produto.',
   destaque: null,
   cta: 'Conhecer o projeto',
+  href: 'https://sedaflow.com.br/',
   img: IMG_PROJECTS.sedaflow
 }, {
   num: '04',
@@ -109,7 +113,25 @@ const projetos = [{
   texto: 'Ao longo da minha formação, comecei a desenvolver cada vez mais os materiais que utilizava para apresentar ideias. Apresentações científicas, ilustrações, fotografias, vídeos e identidades visuais passaram a fazer parte do meu processo. Hoje, acredito que comunicar uma ideia também faz parte de construí-la. Porque até o melhor conteúdo pode se perder quando ninguém consegue entendê-lo.',
   destaque: null,
   cta: 'Ver trabalhos',
+  href: 'https://www.behance.net/matheuscarvalh32',
   img: IMG_PROJECTS.visual
+}];
+const sedacaoPontos = [{
+  titulo: 'Ansiedade',
+  texto: 'Para quem sente medo, desconforto ou dificuldade em relaxar durante o atendimento.'
+}, {
+  titulo: 'Procedimentos longos',
+  texto: 'Uma possibilidade para tornar consultas mais extensas mais confortáveis.'
+}, {
+  titulo: 'Sedação consciente',
+  texto: 'Você permanece consciente e responsivo durante todo o atendimento.'
+}];
+const ondeAtendo = [{
+  rotulo: 'Salud Odontologia',
+  href: 'https://matheusfilgueiras.com/#salud-odontologia'
+}, {
+  rotulo: 'Naturale Dental Studio',
+  href: 'https://matheusfilgueiras.com/#naturale-dental-studio'
 }];
 const historiasClinicas = [{
   titulo: 'Reabilitação anterior',
@@ -585,7 +607,7 @@ function HomePage() {
                                     {p.destaque && <p className="mt-5 border-l-2 border-primary/60 pl-5 text-[1.05rem] font-light leading-relaxed text-foreground">
                                             {p.destaque}
                                         </p>}
-                                    <a href="#contato" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
+                                    <a href={p.href} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
                                         {p.cta}
                                         <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                                     </a>
@@ -620,6 +642,46 @@ function HomePage() {
                         <p className="mt-4 text-lg font-light leading-relaxed text-foreground">
                             O processo de criação costuma ser surpreendentemente parecido.
                         </p>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* SEDAÇÃO CONSCIENTE */}
+            <section id="sedacao" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
+                <div className="grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+                    <div>
+                        <Reveal>
+                            <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Sedação consciente</p>
+                            <h2 className="mt-6 max-w-[13ch] text-3xl font-light leading-tight sm:text-[2.8rem]">
+                                Nem todo mundo se sente <span className="font-script text-primary">à vontade no dentista.</span>
+                            </h2>
+                        </Reveal>
+                        <Reveal delay={0.05}>
+                            <p className="mt-7 max-w-[38rem] text-[1.05rem] leading-relaxed text-muted-foreground">
+                                Para algumas pessoas, o desconforto começa antes mesmo do procedimento. A sedação
+                                consciente pode tornar essa experiência mais tranquila, confortável e acolhedora.
+                            </p>
+                        </Reveal>
+                        <div className="mt-10 divide-y divide-border border-y border-border">
+                            {sedacaoPontos.map((ponto, i) => (
+                                <Reveal key={ponto.titulo} delay={i * 0.06}>
+                                    <div className="grid gap-3 py-6 sm:grid-cols-[13rem_1fr] sm:items-baseline">
+                                        <h3 className="text-xl font-light tracking-tight text-foreground">{ponto.titulo}</h3>
+                                        <p className="text-[0.98rem] leading-relaxed text-muted-foreground">{ponto.texto}</p>
+                                    </div>
+                                </Reveal>
+                            ))}
+                        </div>
+                        <Reveal delay={0.12}>
+                            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
+                                Saiba mais sobre sedação →
+                            </a>
+                        </Reveal>
+                    </div>
+                    <Reveal delay={0.1}>
+                        <figure className="relative overflow-hidden">
+                            <img src={IMG_SEDACAO} alt="Matheus Filgueiras durante atendimento odontológico" className="aspect-[4/5] w-full object-cover object-center" loading="lazy" />
+                        </figure>
                     </Reveal>
                 </div>
             </section>
@@ -682,8 +744,9 @@ function HomePage() {
                             </p>
                             <p className="mt-8 font-script text-2xl text-primary-foreground">Matheus Filgueiras</p>
                         </div>
-                        <ul className="space-y-5">
-                            {[{
+                        <div className="space-y-7">
+                            <ul className="space-y-5">
+                                {[{
               Icon: Instagram,
               rotulo: 'Instagram',
               valor: '@dr.matheusfilgueiras',
@@ -721,7 +784,20 @@ function HomePage() {
                                         </span>
                                     </a>
                                 </li>)}
-                        </ul>
+                            </ul>
+                            <div className="border-t border-primary-foreground/20 pt-7">
+                                <p className="text-[0.7rem] uppercase tracking-[0.28em] text-primary-foreground/60">
+                                    Onde atendo?
+                                </p>
+                                <div className="mt-4 space-y-3">
+                                    {ondeAtendo.map((local) => (
+                                        <a key={local.rotulo} href={local.href} target="_blank" rel="noreferrer noopener" className="block min-h-[44px] border-b border-primary-foreground/20 pb-3 text-[1.02rem] text-primary-foreground transition-colors hover:text-background">
+                                            {local.rotulo} ↗
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <Reveal delay={0.1}>
                         <a href="https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras" target="_blank" rel="noreferrer noopener" className="mt-12 inline-flex min-h-[52px] items-center gap-2 bg-primary-foreground px-8 text-[0.8rem] uppercase tracking-[0.22em] text-primary transition-transform hover:-translate-y-px active:scale-[0.98]">
