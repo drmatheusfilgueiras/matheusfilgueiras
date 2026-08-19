@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ArrowDown, ArrowUpRight, Instagram, Linkedin, Mail, FileText } from 'lucide-react';
+import { ArrowUpRight, Instagram, Linkedin, Mail, FileText, Menu, X } from 'lucide-react';
 import Reveal from '@/components/Reveal';
 import DiferentesFaces from '@/components/DiferentesFaces';
 import HistoriasClinicas from '@/components/HistoriasClinicas';
@@ -12,7 +12,14 @@ const IMG_PROJECTS = {
   sedaflow: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/circuito-gbpd-3-Wd5pP.png',
   visual: 'https://horizons-cdn.hostinger.com/11df31c6-0445-4b46-af7c-449f6b18352f/img_9961-qr4hg.jpg'
 };
-const marqueeWords = ['Odontologia', 'Pesquisa', 'Escrita', 'Ilustração', 'Design', 'Tecnologia'];
+const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
+const navLinks = [
+  { label: 'Sobre', href: '#sobre' },
+  { label: 'Caminho', href: '#caminho' },
+  { label: 'Projeto', href: '#projetos' },
+  { label: 'Contato', href: '#contato' },
+];
+const marqueeWords = ['Odontologia', 'Ciência', 'Arte', 'Design', 'Tecnologia'];
 const oQueMeMove = [{
   num: '01',
   titulo: 'Curiosidade',
@@ -192,6 +199,16 @@ function SobreRotator() {
 }
 
 function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   return <div className="min-h-screen bg-background text-foreground antialiased">
             <Helmet>
                 <title>Matheus Filgueiras | Dentista, pesquisador, autor e designer</title>
@@ -200,29 +217,58 @@ function HomePage() {
 
             {/* HEADER */}
             <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
-                <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between px-6 py-4 lg:px-12">
+                <div className="relative mx-auto flex w-full max-w-[90rem] items-center justify-between px-6 py-4 lg:px-12">
                     <a href="#inicio" className="leading-none">
                         <img src="/assets/brand/mf-odonto-azul.png" alt="Matheus Filgueiras" className="block h-10 w-auto" />
                     </a>
-                    <nav className="hidden items-center gap-8 text-[0.72rem] uppercase tracking-[0.22em] text-muted-foreground lg:flex">
-                        <a className="transition-colors hover:text-primary" href="#apresentacao">Apresentação</a>
-                        <a className="transition-colors hover:text-primary" href="#sobre">Sobre</a>
-                        <a className="transition-colors hover:text-primary" href="#move">O que me move</a>
-                        <a className="transition-colors hover:text-primary" href="#projetos">Projetos</a>
-                        <a className="transition-colors hover:text-primary" href="#contato">Contato</a>
+                    <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 text-[0.72rem] uppercase tracking-[0.22em] text-muted-foreground lg:flex">
+                        {navLinks.map((link) => (
+                          <a key={link.href} className="transition-colors hover:text-primary" href={link.href}>{link.label}</a>
+                        ))}
                     </nav>
-                    <a href="https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras" target="_blank" rel="noreferrer noopener" className="inline-flex min-h-[44px] items-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px active:scale-[0.98]">
+                    <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="hidden min-h-[44px] items-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px active:scale-[0.98] lg:inline-flex">
                         Vamos conversar
                         <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                     </a>
+                    <button
+                      type="button"
+                      aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+                      aria-expanded={mobileMenuOpen}
+                      onClick={() => setMobileMenuOpen((open) => !open)}
+                      className="inline-flex h-11 w-11 items-center justify-center border border-border text-primary transition-colors hover:border-primary lg:hidden"
+                    >
+                      {mobileMenuOpen ? <X className="h-5 w-5" strokeWidth={1.6} /> : <Menu className="h-5 w-5" strokeWidth={1.6} />}
+                    </button>
                 </div>
+                <AnimatePresence>
+                  {mobileMenuOpen && (
+                    <motion.nav
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                      className="border-t border-border bg-background px-6 py-6 shadow-[0_18px_40px_-30px_hsl(214_72%_24%/0.4)] lg:hidden"
+                      aria-label="Navegação mobile"
+                    >
+                      <div className="mx-auto flex max-w-[90rem] flex-col gap-5 text-[0.78rem] uppercase tracking-[0.24em] text-muted-foreground">
+                        {navLinks.map((link) => (
+                          <a key={link.href} className="py-1 transition-colors hover:text-primary" href={link.href} onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
+                        ))}
+                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" onClick={() => setMobileMenuOpen(false)} className="mt-2 inline-flex min-h-[48px] items-center justify-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground">
+                          Vamos conversar
+                          <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
+                        </a>
+                      </div>
+                    </motion.nav>
+                  )}
+                </AnimatePresence>
             </header>
 
             {/* 01 — HOME / HERO */}
             <section id="inicio" className="relative overflow-hidden">
                 <div className="mx-auto grid w-full max-w-[90rem] items-center gap-12 px-6 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:px-12 lg:py-28">
                     <div>
-                        <motion.p initial={{
+                        <motion.div initial={{
             opacity: 0,
             y: 12
           }} animate={{
@@ -231,9 +277,11 @@ function HomePage() {
           }} transition={{
             duration: 0.6,
             ease: 'easeOut'
-          }} className="mb-8 text-[0.72rem] uppercase tracking-[0.4em] text-primary">
-                            Matheus Filgueiras
-                        </motion.p>
+          }} className="mb-8 space-y-1 uppercase tracking-[0.34em] text-primary">
+                            <p className="text-[18px] font-medium">Matheus Filgueiras</p>
+                            <p className="text-[16px]">CRO/RJ 59298</p>
+                            <p className="text-[14px]">Nova Friburgo/RJ</p>
+                        </motion.div>
                         <h1 className="text-[2.7rem] font-light leading-[1.04] tracking-tight sm:text-6xl lg:text-[4.6rem]">
                             <motion.span initial={{
               opacity: 0,
@@ -246,7 +294,7 @@ function HomePage() {
               ease: 'easeOut',
               delay: 0.05
             }} className="block">
-                                Dentista por formação.
+                                Eu nunca soube ser
                             </motion.span>
                             <motion.span initial={{
               opacity: 0,
@@ -259,7 +307,7 @@ function HomePage() {
               ease: 'easeOut',
               delay: 0.16
             }} className="block">
-                                <span className="underline-stroke font-script text-primary">Curioso</span> por natureza.
+                                uma coisa só.
                             </motion.span>
                         </h1>
                         <motion.p initial={{
@@ -273,38 +321,10 @@ function HomePage() {
             ease: 'easeOut',
             delay: 0.28
           }} className="mt-8 max-w-[34rem] text-[1.05rem] leading-relaxed text-muted-foreground">
-                            Entre odontologia, ciência, arte, design e tecnologia, encontrei diferentes maneiras de
-                            fazer aquilo de que mais gosto:
+                            Sou dentista, pesquisador em formação e curioso por natureza. Entre odontologia, ciência,
+                            arte, design e tecnologia, encontrei diferentes maneiras de fazer aquilo de que mais gosto:
+                            <strong className="font-medium text-foreground"> transformar ideias em algo real.</strong>
                         </motion.p>
-                        <motion.p initial={{
-            opacity: 0,
-            y: 18
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.7,
-            ease: 'easeOut',
-            delay: 0.36
-          }} className="mt-3 max-w-[34rem] text-[1.15rem] font-light leading-relaxed text-foreground">
-                            transformar ideias em algo real.
-                        </motion.p>
-                        <motion.div initial={{
-            opacity: 0,
-            y: 18
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.7,
-            ease: 'easeOut',
-            delay: 0.44
-          }} className="mt-10 flex flex-wrap items-center gap-4">
-                            <a href="#apresentacao" className="inline-flex min-h-[48px] items-center gap-2 bg-primary px-7 text-[0.78rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px active:scale-[0.98]">
-                                Conheça meu trabalho
-                                <ArrowDown className="h-4 w-4" strokeWidth={1.6} />
-                            </a>
-                        </motion.div>
                     </div>
 
                     <div className="relative">
@@ -411,7 +431,7 @@ function HomePage() {
             {/* 04 — O QUE ME MOVE */}
             <section id="move" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">O que me move</p>
+                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Princípios</p>
                     <h2 className="mt-6 max-w-[24ch] text-3xl font-light leading-tight sm:text-[2.8rem]">
                         Algumas ideias atravessam tudo o que faço.
                     </h2>
@@ -419,8 +439,7 @@ function HomePage() {
                 <div className="mt-16 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-3">
                     {oQueMeMove.map((item, i) => <Reveal key={item.num} delay={i * 0.08} y={20}>
                             <div className="flex h-full flex-col bg-background p-8 lg:p-10">
-                                <span className="text-[0.75rem] tracking-[0.3em] text-primary/60">{item.num}</span>
-                                <h3 className="mt-5 text-2xl font-light tracking-tight text-foreground">
+                                <h3 className="text-2xl font-light tracking-tight text-foreground">
                                     {item.titulo}
                                 </h3>
                                 <p className="mt-5 text-[1rem] font-light leading-relaxed text-foreground">
@@ -450,10 +469,7 @@ function HomePage() {
                     </Reveal>
                     <div className="mt-14 divide-y divide-border border-t border-border">
                         {caminho.map((item, i) => <Reveal key={item.titulo} delay={i * 0.08}>
-                                <div className="grid gap-4 py-9 sm:grid-cols-[6rem_1fr] sm:items-baseline">
-                                    <span className="text-[0.75rem] tracking-[0.3em] text-primary/60">
-                                        {String(i + 1).padStart(2, '0')}
-                                    </span>
+                                <div className="grid gap-4 py-9">
                                     <div>
                                         <h3 className="text-xl font-medium tracking-tight text-foreground sm:text-2xl">
                                             {item.titulo}
@@ -472,7 +488,7 @@ function HomePage() {
             {/* 06 — DIFERENTES FACES */}
             <section id="faces" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Diferentes faces</p>
+                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Linguagens</p>
                     <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
                         Diferentes formas de <span className="font-script text-primary">criar.</span>
                     </h2>
@@ -539,7 +555,7 @@ function HomePage() {
             {/* 09 — PROJETOS SELECIONADOS */}
             <section id="projetos" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Projetos selecionados</p>
+                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Quando a ideia ganha forma</p>
                     <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
                         Algumas ideias que <span className="font-script text-primary">ganharam forma.</span>
                     </h2>
@@ -551,15 +567,14 @@ function HomePage() {
                     </p>
                 </Reveal>
 
-                <div className="mt-16 space-y-20 lg:space-y-28">
+                <div className="mt-14 space-y-14 lg:space-y-16">
                     {projetos.map((p, i) => <Reveal key={p.num} y={28}>
                             <article className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${i % 2 === 1 ? 'lg:[&>figure:first-child]:order-2' : ''}`}>
                                 <figure className="relative overflow-hidden">
-                                    <img src={p.img} alt={p.titulo} className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-[1.03]" loading="lazy" />
+                                    <img src={p.img} alt={p.titulo} className="aspect-[16/10] w-full object-cover transition-transform duration-700 hover:scale-[1.03]" loading="lazy" />
                                 </figure>
                                 <div>
-                                    <span className="text-[0.75rem] tracking-[0.3em] text-primary/60">{p.num}</span>
-                                    <h3 className="mt-4 text-2xl font-light tracking-tight text-foreground sm:text-[2rem]">
+                                    <h3 className="text-2xl font-light tracking-tight text-foreground sm:text-[2rem]">
                                         {p.titulo}
                                     </h3>
                                     <p className="mt-3 text-[0.74rem] uppercase tracking-[0.22em] text-primary">
@@ -591,8 +606,7 @@ function HomePage() {
                     </Reveal>
                     <div className="mt-14 divide-y divide-border border-t border-border">
                         {processo.map((step, i) => <Reveal key={step.num} delay={i * 0.06}>
-                                <div className="group grid gap-3 py-7 sm:grid-cols-[5rem_10rem_1fr] sm:items-baseline">
-                                    <span className="text-[0.75rem] tracking-[0.3em] text-primary/60">{step.num}</span>
+                                <div className="group grid gap-3 py-7 sm:grid-cols-[10rem_1fr] sm:items-baseline">
                                     <h3 className="text-lg font-medium tracking-tight text-foreground">{step.titulo}</h3>
                                     <p className="text-[0.98rem] leading-relaxed text-muted-foreground">{step.texto}</p>
                                 </div>

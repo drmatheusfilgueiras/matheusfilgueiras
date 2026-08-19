@@ -18,9 +18,6 @@ const DiferentesFaces = ({
         const isActive = i === active;
         return <li key={item.titulo}>
                             <button type="button" onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)} className="group flex w-full items-center gap-4 border-b border-border py-4 text-left transition-colors" aria-expanded={isActive}>
-                                <span className={`text-[0.7rem] tracking-[0.3em] transition-colors ${isActive ? 'text-primary' : 'text-primary/40'}`}>
-                                    {String(i + 1).padStart(2, '0')}
-                                </span>
                                 <span className={`font-script text-2xl leading-none transition-all duration-300 sm:text-3xl ${isActive ? 'text-primary translate-x-1' : 'text-foreground/70 group-hover:text-foreground'}`}>
                                     {item.titulo}
                                 </span>
