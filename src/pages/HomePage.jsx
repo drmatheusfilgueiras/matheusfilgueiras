@@ -82,8 +82,8 @@ const projetos = [{
   titulo: 'Unidos pela Bravura',
   tags: 'Odontologia · Ciência · Escrita · Ilustração',
   sub: 'Quando uma pesquisa virou história.',
-  texto: 'O projeto nasceu a partir de uma pergunta dentro da Odontopediatria e acabou se transformando em uma coleção de livros infantis. A proposta foi criar uma ferramenta capaz de ajudar crianças a compreender melhor o atendimento odontológico e se preparar para essa experiência. No processo, pesquisa científica, escrita, narrativa, ilustração, inteligência artificial e design passaram a trabalhar juntas.',
-  destaque: 'O que começou como pesquisa terminou em algo que uma criança pudesse segurar nas mãos.',
+  texto: 'Uma pesquisa em Odontopediatria que se transformou em uma coleção de livros infantis para ajudar crianças a compreender e se preparar melhor para o atendimento odontológico.',
+  destaque: 'Ciência, narrativa, ilustração e design reunidos em algo que uma criança pudesse segurar nas mãos.',
   cta: 'Conhecer o projeto',
   href: 'https://www.amazon.com.br/Unidos-pela-Bravura-Matheus-Filgueiras/dp/6501438985',
   img: IMG_PROJECTS.bravura
@@ -92,8 +92,8 @@ const projetos = [{
   titulo: 'Pesquisa em Odontologia Digital',
   tags: 'Ciência · Materiais · Impressão 3D',
   sub: 'O que acontece depois que apertamos “imprimir”?',
-  texto: 'Minha pesquisa de mestrado investiga materiais utilizados na impressão 3D aplicada à Odontologia. Entre resinas, processos de pós-cura, células e laboratório, o objetivo é entender melhor não apenas o que conseguimos fabricar digitalmente, mas como esses materiais se comportam quando chegam mais perto da realidade biológica. É uma das áreas onde minha curiosidade por Odontologia e tecnologia se encontra de maneira mais direta.',
-  destaque: null,
+  texto: 'Minha pesquisa de mestrado investiga materiais utilizados na impressão 3D em Odontologia, aproximando resinas, processos de pós-cura e laboratório da realidade biológica.',
+  destaque: 'Um encontro entre Odontologia, ciência e tecnologia.',
   cta: 'Conhecer a pesquisa',
   href: 'https://drive.google.com/file/d/1E6mpmWfzIINpfhY_fl_9ORLJiXTamUrb/view?usp=sharing',
   img: IMG_PROJECTS.pesquisa
@@ -102,8 +102,8 @@ const projetos = [{
   titulo: 'SedaFlow',
   tags: 'Odontologia · Produto · Design · Tecnologia',
   sub: 'E se um fluxo clínico pudesse ser repensado?',
-  texto: 'SedaFlow nasceu da tentativa de organizar e simplificar processos relacionados à sedação consciente em Odontologia. O projeto reúne uma área clínica que faz parte da minha atuação com outros interesses que sempre estiveram presentes: experiência do usuário, design de interface, organização da informação, tecnologia e comunicação. Mais do que desenvolver uma ferramenta, o processo tem sido um exercício constante de transformar necessidades clínicas em decisões de produto.',
-  destaque: null,
+  texto: 'SedaFlow nasceu para organizar e simplificar processos relacionados à sedação consciente em Odontologia, reunindo experiência clínica, design de interface e tecnologia.',
+  destaque: 'Necessidades clínicas transformadas em decisões de produto.',
   cta: 'Conhecer o projeto',
   href: 'https://sedaflow.com.br/',
   img: IMG_PROJECTS.sedaflow
@@ -112,8 +112,8 @@ const projetos = [{
   titulo: 'Comunicação visual',
   tags: 'Design · Fotografia · Ciência',
   sub: 'Nem toda pesquisa precisa parecer uma pesquisa.',
-  texto: 'Ao longo da minha formação, comecei a desenvolver cada vez mais os materiais que utilizava para apresentar ideias. Apresentações científicas, ilustrações, fotografias, vídeos e identidades visuais passaram a fazer parte do meu processo. Hoje, acredito que comunicar uma ideia também faz parte de construí-la. Porque até o melhor conteúdo pode se perder quando ninguém consegue entendê-lo.',
-  destaque: null,
+  texto: 'Apresentações, ilustrações, fotografias, vídeos e identidades visuais passaram a fazer parte da maneira como desenvolvo e apresento ideias.',
+  destaque: 'Porque comunicar também faz parte de construir.',
   cta: 'Ver trabalhos',
   href: 'https://www.behance.net/matheuscarvalh32',
   img: IMG_PROJECTS.visual
@@ -625,10 +625,10 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* 09 — PROJETOS SELECIONADOS */}
+            {/* 09 — IDEIAS QUE GANHARAM FORMA */}
             <section id="projetos" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Quando a ideia ganha forma</p>
+                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Ideias que ganharam forma</p>
                     <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
                         Algumas ideias que <span className="font-script text-primary">ganharam forma.</span>
                     </h2>
