@@ -521,7 +521,7 @@ function HomePage() {
 
             {/* 05 — CAMINHO */}
             <section id="caminho" className="border-y border-border bg-secondary/40">
-                <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
+                <div className="mx-auto w-full max-w-[72rem] px-6 py-14 lg:px-8 lg:py-20">
                     <Reveal>
                         <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Caminho</p>
                         <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
