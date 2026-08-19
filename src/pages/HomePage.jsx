@@ -127,6 +127,23 @@ const sedacaoPontos = [{
   titulo: 'Sedação consciente',
   texto: 'Você permanece consciente e responsivo durante todo o atendimento.'
 }];
+const intersecaoItens = [{
+  texto: 'Alguns no papel.',
+  img: '/assets/intersecao/no-papel.jpg',
+  alt: 'Desenho de um dente feito no papel'
+}, {
+  texto: 'Outros no computador.',
+  img: '/assets/intersecao/no-computador.jpg',
+  alt: 'Modelo digital de um dente no computador'
+}, {
+  texto: 'Alguns através de uma restauração.',
+  img: '/assets/intersecao/restauracao.jpg',
+  alt: 'Restauração dental segurada com luvas'
+}, {
+  texto: 'Outros através de um projeto que começa com uma tela em branco.',
+  img: '/assets/intersecao/quadro-branco.gif',
+  alt: 'Fluxo digital de reabilitação em tela branca'
+}];
 const ondeAtendo = [{
   rotulo: 'Salud Odontologia',
   href: 'https://api.whatsapp.com/send?phone=22992096463&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras'
@@ -538,7 +555,7 @@ function HomePage() {
 
             {/* 07 — UMA PEQUENA INTERSEÇÃO */}
             <section id="intersecao" className="relative overflow-hidden border-y border-border bg-primary text-primary-foreground">
-                <div className="mx-auto w-full max-w-[72rem] px-6 py-24 lg:px-8 lg:py-36">
+                <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-28">
                     <Reveal>
                         <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary-foreground/70">
                             Uma pequena interseção
@@ -547,13 +564,20 @@ function HomePage() {
                             Também desenho <span className="font-script">sorrisos.</span>
                         </h2>
                     </Reveal>
-                    <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                        {['Alguns no papel.', 'Outros no computador.', 'Alguns através de uma restauração.', 'Outros através de um projeto que começa com uma tela em branco.'].map((line, i) => <Reveal key={line} delay={i * 0.08}>
-                                <p className="text-lg font-light leading-relaxed text-primary-foreground/90">{line}</p>
+                    <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+                        {intersecaoItens.map((item, i) => <Reveal key={item.texto} delay={i * 0.08}>
+                                <div className="flex h-full flex-col">
+                                    <p className="min-h-[4.5rem] text-lg font-light leading-relaxed text-primary-foreground/90">
+                                        {item.texto}
+                                    </p>
+                                    <figure className="mt-4 aspect-[16/10] w-full overflow-hidden border border-primary-foreground/20 bg-primary-foreground/8">
+                                        <img src={item.img} alt={item.alt} className="h-full w-full object-cover" loading="lazy" />
+                                    </figure>
+                                </div>
                             </Reveal>)}
                     </div>
                     <Reveal delay={0.2}>
-                        <p className="mt-12 max-w-[44rem] text-[1.08rem] leading-relaxed text-primary-foreground/85">
+                        <p className="mt-10 max-w-[44rem] text-[1.08rem] leading-relaxed text-primary-foreground/85">
                             Talvez “designer de sorrisos” não seja exatamente uma profissão. Mas gosto da ideia.
                             Porque desenhar, para mim, sempre significou a mesma coisa:
                         </p>
