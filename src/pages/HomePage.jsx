@@ -240,8 +240,8 @@ function HomePage() {
             {/* HEADER */}
             <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
                 <div className="relative mx-auto flex w-full max-w-[90rem] items-center justify-between px-6 py-4 lg:px-12">
-                    <a href="#inicio" className="leading-none">
-                        <img src="/assets/brand/mf-odonto-azul.png" alt="Matheus Filgueiras" className="block h-10 w-auto" />
+                    <a href="#inicio" className="font-script text-2xl italic leading-none text-primary transition-colors hover:text-foreground sm:text-[1.7rem]">
+                        Matheus Filgueiras
                     </a>
                     <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 text-[0.72rem] uppercase tracking-[0.22em] text-muted-foreground lg:flex">
                         {navLinks.map((link) => (
@@ -299,12 +299,10 @@ function HomePage() {
           }} transition={{
             duration: 0.6,
             ease: 'easeOut'
-          }} className="mb-8 space-y-1 uppercase tracking-[0.34em] text-primary">
-                            <p className="text-[18px] font-medium">Matheus Filgueiras</p>
-                            <p className="text-[16px]">CRO/RJ 59298</p>
-                            <p className="text-[14px]">Nova Friburgo/RJ</p>
+          }} className="mb-8 uppercase tracking-[0.34em] text-primary">
+                            <p className="text-[0.78rem] font-medium">Matheus Filgueiras</p>
                         </motion.div>
-                        <h1 className="text-[2.7rem] font-light leading-[1.04] tracking-tight sm:text-6xl lg:text-[4.6rem]">
+                        <h1 className="text-[3.1rem] font-light leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.8rem]">
                             <motion.span initial={{
               opacity: 0,
               y: 18
@@ -316,7 +314,7 @@ function HomePage() {
               ease: 'easeOut',
               delay: 0.05
             }} className="block">
-                                Eu nunca soube ser
+                                Dentista por formação.
                             </motion.span>
                             <motion.span initial={{
               opacity: 0,
@@ -329,7 +327,7 @@ function HomePage() {
               ease: 'easeOut',
               delay: 0.16
             }} className="block">
-                                uma coisa só.
+                                <span className="font-script italic text-primary">Curioso</span> por natureza.
                             </motion.span>
                         </h1>
                         <motion.p initial={{
@@ -342,10 +340,22 @@ function HomePage() {
             duration: 0.7,
             ease: 'easeOut',
             delay: 0.28
-          }} className="mt-8 max-w-[34rem] text-[1.05rem] leading-relaxed text-muted-foreground">
-                            Sou dentista, pesquisador em formação e curioso por natureza. Entre odontologia, ciência,
-                            arte, design e tecnologia, encontrei diferentes maneiras de fazer aquilo de que mais gosto:
-                            <strong className="font-medium text-foreground"> transformar ideias em algo real.</strong>
+          }} className="mt-8 max-w-[40rem] text-[1.05rem] leading-relaxed text-muted-foreground">
+                            Entre odontologia, ciência, arte, design e tecnologia, encontrei diferentes maneiras de
+                            fazer aquilo de que mais gosto:
+                        </motion.p>
+                        <motion.p initial={{
+            opacity: 0,
+            y: 18
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.7,
+            ease: 'easeOut',
+            delay: 0.38
+          }} className="mt-5 text-[1.08rem] leading-relaxed text-foreground">
+                            transformar ideias em algo real.
                         </motion.p>
                     </div>
 
