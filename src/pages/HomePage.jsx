@@ -401,7 +401,7 @@ function HomePage() {
                     <img
                         src={IMG_PRESENTATION}
                         alt="Matheus Filgueiras na Naturale Dental Studio"
-                        className="h-full min-h-[28rem] w-full object-cover object-[center_42%] sm:min-h-[34rem] lg:min-h-[42rem]"
+                        className="h-full min-h-[24rem] w-full object-cover object-[center_48%] sm:min-h-[28rem] lg:min-h-[34rem]"
                         loading="lazy"
                     />
                 </Reveal>
