@@ -663,8 +663,9 @@ function HomePage() {
                     <div>
                         <Reveal>
                             <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Sedação consciente</p>
-                            <h2 className="mt-6 max-w-[13ch] text-3xl font-light leading-tight sm:text-[2.8rem]">
-                                Nem todo mundo se sente <span className="font-script text-primary">à vontade no dentista.</span>
+                            <h2 className="mt-6 text-[1.38rem] font-light leading-tight min-[360px]:text-[1.55rem] min-[380px]:text-[1.8rem] sm:text-[2.8rem]">
+                                <span className="block whitespace-nowrap">Nem todo mundo se sente</span>
+                                <span className="block whitespace-nowrap font-script text-primary">à vontade no dentista.</span>
                             </h2>
                         </Reveal>
                         <Reveal delay={0.05}>
