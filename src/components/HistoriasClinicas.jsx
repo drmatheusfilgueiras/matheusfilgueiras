@@ -84,22 +84,20 @@ const HistoriasClinicas = ({ casos = [] }) => {
                         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                     >
                         {/* Identificação do caso */}
-                        <div className="grid gap-5 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
-                            <div>
-                                <span className="text-[0.7rem] tracking-[0.3em] text-primary/60">
-                                    {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-                                </span>
-                                <h3 className="mt-1 text-2xl font-light tracking-tight text-foreground sm:text-[1.9rem]">
-                                    {current.titulo}
-                                </h3>
-                                {current.procedimento && (
-                                    <p className="mt-2 text-[0.74rem] uppercase tracking-[0.22em] text-primary">
-                                        {current.procedimento}
-                                    </p>
-                                )}
-                            </div>
+                        <div className="max-w-[48rem]">
+                            <span className="text-[0.7rem] tracking-[0.3em] text-primary/60">
+                                {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+                            </span>
+                            <h3 className="mt-1 text-2xl font-light tracking-tight text-foreground sm:text-[1.9rem]">
+                                {current.titulo}
+                            </h3>
+                            {current.procedimento && (
+                                <p className="mt-2 text-[0.74rem] uppercase tracking-[0.22em] text-primary">
+                                    {current.procedimento}
+                                </p>
+                            )}
                             {current.nota && (
-                                <p className="max-w-[42rem] text-[0.95rem] font-light leading-relaxed text-muted-foreground lg:pt-6">
+                                <p className="mt-3 text-[0.95rem] font-light leading-relaxed text-muted-foreground">
                                     {current.nota}
                                 </p>
                             )}
