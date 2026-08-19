@@ -1,14 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
 @font-face {
-  font-family: "Milena";
-  src: url("/assets/fonts/milena/milena.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: "Sofia Pro";
   src: url("/assets/fonts/sofia-pro/sofia-pro-ultralight.otf") format("opentype");
   font-weight: 100;
@@ -175,10 +167,6 @@ body {
 .font-script {
   font-family: "Playfair Display", serif;
   font-style: italic;
-}
-
-.font-handwritten {
-  font-family: "Milena", "Playfair Display", cursive;
 }
 
 .marquee-track {

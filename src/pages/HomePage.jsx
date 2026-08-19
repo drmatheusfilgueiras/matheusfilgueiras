@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Instagram, Linkedin, Mail, FileText, Menu, X } from 'lucide-react';
 import Reveal from '@/components/Reveal';
 import DiferentesFaces from '@/components/DiferentesFaces';
@@ -217,99 +217,6 @@ function SobreRotator() {
           </motion.span>
         </AnimatePresence>
       </div>
-    </div>
-  );
-}
-
-function IntersecaoAnimada() {
-  const ref = useRef(null);
-  const reduceMotion = useReducedMotion();
-  const inView = useInView(ref, { amount: 0.35, once: true });
-  const typeText = 'Outros no computador.';
-  const show = inView || reduceMotion;
-  const handwritingDelay = reduceMotion ? 0 : 0.2;
-  const typingStartDelay = reduceMotion ? 0 : 1.75;
-  const restorationStartDelay = reduceMotion ? 0 : 3.45;
-  const blankStartDelay = reduceMotion ? 0 : 4.85;
-
-  const itemMotion = (delay = 0) => ({
-    initial: { opacity: 0, y: reduceMotion ? 0 : 12 },
-    animate: show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 12 },
-    transition: { duration: reduceMotion ? 0 : 0.55, delay, ease: [0.22, 1, 0.36, 1] }
-  });
-
-  return (
-    <div ref={ref} className="mt-10 grid items-center gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
-      <motion.div {...itemMotion(0)} className="flex min-h-[7rem] items-center justify-center">
-        <motion.p
-          className="font-handwritten text-3xl leading-tight text-primary-foreground sm:text-[2.45rem]"
-          initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
-          animate={show ? { clipPath: 'inset(0 0% 0 0)', opacity: 1 } : { clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 1.2, delay: handwritingDelay, ease: [0.45, 0, 0.2, 1] }}
-        >
-          Alguns no papel.
-        </motion.p>
-      </motion.div>
-
-      <motion.div {...itemMotion(typingStartDelay - 0.25)} className="flex min-h-[7rem] items-center justify-center">
-        <p
-          className="whitespace-nowrap border-r border-primary-foreground/80 pr-1 font-mono text-lg leading-relaxed text-primary-foreground/90"
-          style={{ fontFamily: '"Courier New", Courier, monospace' }}
-        >
-          {Array.from(typeText).map((char, i) => (
-            <motion.span
-              key={`${char}-${i}`}
-              initial={{ opacity: 0 }}
-              animate={show ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.01, delay: typingStartDelay + i * 0.045 }}
-            >
-              {char}
-            </motion.span>
-          ))}
-        </p>
-      </motion.div>
-
-      <motion.div {...itemMotion(restorationStartDelay - 0.25)} className="flex min-h-[7rem] items-center justify-center">
-        <p className="mx-auto max-w-[17rem] text-lg font-light leading-relaxed text-primary-foreground/90">
-          Alguns através de uma{' '}
-          <span className="inline-flex">
-            <motion.span
-              initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 8 }}
-              transition={{ duration: reduceMotion ? 0 : 0.45, delay: restorationStartDelay, ease: [0.22, 1, 0.36, 1] }}
-            >
-              restaur
-            </motion.span>
-            <motion.span
-              className="font-semibold text-primary-foreground"
-              initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 8 }}
-              transition={{ duration: reduceMotion ? 0 : 0.45, delay: restorationStartDelay + 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              ação.
-            </motion.span>
-          </span>
-        </p>
-      </motion.div>
-
-      <motion.div {...itemMotion(blankStartDelay - 0.25)} className="flex min-h-[7rem] items-center justify-center">
-        <motion.div
-          className="mx-auto max-w-[18rem] bg-primary-foreground px-5 py-4 text-primary"
-          initial={{ opacity: 0, scaleX: reduceMotion ? 1 : 0.92 }}
-          animate={show ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: reduceMotion ? 1 : 0.92 }}
-          transition={{ duration: reduceMotion ? 0 : 0.55, delay: blankStartDelay, ease: [0.22, 1, 0.36, 1] }}
-          style={{ transformOrigin: 'center' }}
-        >
-          <motion.p
-            className="text-[1rem] font-light leading-relaxed"
-            initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
-            animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 8 }}
-            transition={{ duration: reduceMotion ? 0 : 0.5, delay: blankStartDelay + 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
-            Outros através de um projeto que começa com uma tela em branco.
-          </motion.p>
-        </motion.div>
-      </motion.div>
     </div>
   );
 }
@@ -640,7 +547,11 @@ function HomePage() {
                             Também desenho <span className="font-script">sorrisos.</span>
                         </h2>
                     </Reveal>
-                    <IntersecaoAnimada />
+                    <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                        {['Alguns no papel.', 'Outros no computador.', 'Alguns através de uma restauração.', 'Outros através de um projeto que começa com uma tela em branco.'].map((line, i) => <Reveal key={line} delay={i * 0.08}>
+                                <p className="text-lg font-light leading-relaxed text-primary-foreground/90">{line}</p>
+                            </Reveal>)}
+                    </div>
                     <Reveal delay={0.2}>
                         <p className="mt-12 max-w-[44rem] text-[1.08rem] leading-relaxed text-primary-foreground/85">
                             Talvez “designer de sorrisos” não seja exatamente uma profissão. Mas gosto da ideia.
