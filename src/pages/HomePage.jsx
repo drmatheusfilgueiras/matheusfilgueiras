@@ -297,7 +297,7 @@ function HomePage() {
             {/* 01 — HOME / HERO */}
             <section id="inicio" className="relative overflow-hidden">
                 <div className="mx-auto grid w-full max-w-[90rem] items-start gap-12 px-6 pb-16 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-12 lg:pb-24 lg:pt-20">
-                    <div>
+                    <div className="lg:pt-6">
                         <motion.div initial={{
             opacity: 0,
             y: 12
@@ -367,7 +367,7 @@ function HomePage() {
                         </motion.p>
                     </div>
 
-                    <div className="relative">
+                    <div className="relative lg:-mt-4">
                         <motion.img initial={{
             opacity: 0,
             scale: 1.03
