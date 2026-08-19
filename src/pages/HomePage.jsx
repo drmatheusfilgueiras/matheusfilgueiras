@@ -141,6 +141,7 @@ const intersecaoItens = [{
   alt: 'Restauração dental segurada com luvas'
 }, {
   texto: 'Outros através de um projeto que começa com uma tela em branco.',
+  linhasDesktop: ['Outros através de um projeto', 'que começa com uma tela em branco.'],
   img: '/assets/intersecao/quadro-branco.gif',
   alt: 'Fluxo digital de reabilitação em tela branca'
 }];
@@ -564,11 +565,16 @@ function HomePage() {
                             Também desenho <span className="font-script">sorrisos.</span>
                         </h2>
                     </Reveal>
-                    <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+                    <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1.18fr] lg:gap-6">
                         {intersecaoItens.map((item, i) => <Reveal key={item.texto} delay={i * 0.08}>
                                 <div className="flex h-full flex-col">
-                                    <p className="min-h-[4.5rem] text-lg font-light leading-relaxed text-primary-foreground/90">
-                                        {item.texto}
+                                    <p className="flex min-h-[4.6rem] flex-col text-lg font-light leading-relaxed text-primary-foreground/90 lg:min-h-[4.25rem]">
+                                        {item.linhasDesktop ? <>
+                                            <span className="lg:hidden">{item.texto}</span>
+                                            {item.linhasDesktop.map((line) => <span key={line} className="hidden lg:block lg:whitespace-nowrap">
+                                                    {line}
+                                                </span>)}
+                                        </> : item.texto}
                                     </p>
                                     <figure className="mt-4 aspect-[16/10] w-full overflow-hidden border border-primary-foreground/20 bg-primary-foreground/8">
                                         <img src={item.img} alt={item.alt} className="h-full w-full object-cover" loading="lazy" />
