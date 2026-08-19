@@ -155,7 +155,7 @@ function HomePage() {
             <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
                 <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between px-6 py-4 lg:px-12">
                     <a href="#inicio" className="leading-none">
-                        <span className="font-script text-2xl text-primary">Matheus Filgueiras</span>
+                        <img src="/assets/brand/mf-odonto-azul.png" alt="Matheus Filgueiras" className="block h-10 w-auto" />
                     </a>
                     <nav className="hidden items-center gap-8 text-[0.72rem] uppercase tracking-[0.22em] text-muted-foreground lg:flex">
                         <a className="transition-colors hover:text-primary" href="#apresentacao">Apresentação</a>
