@@ -576,7 +576,7 @@ function HomePage() {
                                                 </span>)}
                                         </> : item.texto}
                                     </p>
-                                    <figure className="mt-4 aspect-[16/10] w-full overflow-hidden border border-primary-foreground/20 bg-primary-foreground/8">
+                                    <figure className="mt-4 aspect-[16/10] w-full max-w-[calc((72rem-4.5rem)/4.18)] overflow-hidden border border-primary-foreground/20 bg-primary-foreground/8">
                                         <img src={item.img} alt={item.alt} className="h-full w-full object-cover" loading="lazy" />
                                     </figure>
                                 </div>
