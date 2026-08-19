@@ -11,7 +11,7 @@ const IMG_PROJECTS = {
   bravura: '/assets/projects/unidos-pela-bravura-wide.jpg',
   pesquisa: '/assets/projects/pesquisa-digital-wide.jpg',
   sedaflow: '/assets/projects/sedaflow-wide.jpg',
-  visual: '/assets/projects/comunicacao-visual-wide.jpg'
+  visual: '/assets/projects/comunicacao-visual-brand-20260819.jpg'
 };
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
 const SEDACAO_URL = 'https://www.instagram.com/p/DbT4X1lhsaw/';
@@ -69,7 +69,7 @@ const faces = [{
   texto: 'Artigos, histórias, roteiros e ideias. Escrever é outra maneira que encontrei de organizar pensamentos e transformar assuntos complexos em algo que possa ser compreendido por outras pessoas.'
 }, {
   titulo: 'Design',
-  img: '/assets/photos/linguagem-design.jpg',
+  img: '/assets/photos/linguagem-design-laptop-20260819.jpg',
   texto: 'Identidades visuais, apresentações, fotografia, conteúdo e experiência. Não penso em design como decoração. Design, para mim, é dar forma a uma ideia.'
 }, {
   titulo: 'Tecnologia',

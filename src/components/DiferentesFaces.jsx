@@ -40,7 +40,7 @@ const DiferentesFaces = ({
                                 {i === 1 && <img src="/assets/photos/linguagem-ciencia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
                                 {i === 2 && <img src="/assets/photos/linguagem-desenho.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
                                 {i === 3 && <img src="/assets/photos/linguagem-escrita.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
-                                {i === 4 && <img src="/assets/photos/linguagem-design.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
+                                {i === 4 && <img src="/assets/photos/linguagem-design-laptop-20260819.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
                                 {i === 5 && <img src="/assets/photos/linguagem-tecnologia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
                             </div>
                             <div className="mt-6 max-w-[40rem]">
