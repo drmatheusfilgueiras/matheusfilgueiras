@@ -227,27 +227,31 @@ function IntersecaoAnimada() {
   const inView = useInView(ref, { amount: 0.35, once: true });
   const typeText = 'Outros no computador.';
   const show = inView || reduceMotion;
+  const handwritingDelay = reduceMotion ? 0 : 0.2;
+  const typingStartDelay = reduceMotion ? 0 : 1.75;
+  const restorationStartDelay = reduceMotion ? 0 : 3.45;
+  const blankStartDelay = reduceMotion ? 0 : 4.85;
 
   const itemMotion = (delay = 0) => ({
     initial: { opacity: 0, y: reduceMotion ? 0 : 12 },
     animate: show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 12 },
-    transition: { duration: reduceMotion ? 0 : 0.5, delay, ease: [0.22, 1, 0.36, 1] }
+    transition: { duration: reduceMotion ? 0 : 0.55, delay, ease: [0.22, 1, 0.36, 1] }
   });
 
   return (
-    <div ref={ref} className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-      <motion.div {...itemMotion(0)} className="min-h-[5.5rem]">
+    <div ref={ref} className="mt-10 grid items-center gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
+      <motion.div {...itemMotion(0)} className="flex min-h-[7rem] items-center justify-center">
         <motion.p
           className="font-handwritten text-3xl leading-tight text-primary-foreground sm:text-[2.45rem]"
           initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
           animate={show ? { clipPath: 'inset(0 0% 0 0)', opacity: 1 } : { clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 1.25, delay: 0.15, ease: [0.45, 0, 0.2, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 1.2, delay: handwritingDelay, ease: [0.45, 0, 0.2, 1] }}
         >
           Alguns no papel.
         </motion.p>
       </motion.div>
 
-      <motion.div {...itemMotion(0.2)} className="min-h-[5.5rem]">
+      <motion.div {...itemMotion(typingStartDelay - 0.25)} className="flex min-h-[7rem] items-center justify-center">
         <p
           className="whitespace-nowrap border-r border-primary-foreground/80 pr-1 font-mono text-lg leading-relaxed text-primary-foreground/90"
           style={{ fontFamily: '"Courier New", Courier, monospace' }}
@@ -257,7 +261,7 @@ function IntersecaoAnimada() {
               key={`${char}-${i}`}
               initial={{ opacity: 0 }}
               animate={show ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.01, delay: reduceMotion ? 0 : 0.45 + i * 0.045 }}
+              transition={{ duration: reduceMotion ? 0 : 0.01, delay: typingStartDelay + i * 0.045 }}
             >
               {char}
             </motion.span>
@@ -265,14 +269,14 @@ function IntersecaoAnimada() {
         </p>
       </motion.div>
 
-      <motion.div {...itemMotion(0.4)} className="min-h-[5.5rem]">
-        <p className="text-lg font-light leading-relaxed text-primary-foreground/90">
+      <motion.div {...itemMotion(restorationStartDelay - 0.25)} className="flex min-h-[7rem] items-center justify-center">
+        <p className="mx-auto max-w-[17rem] text-lg font-light leading-relaxed text-primary-foreground/90">
           Alguns através de uma{' '}
           <span className="inline-flex">
             <motion.span
               initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
               animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 8 }}
-              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.45, delay: restorationStartDelay, ease: [0.22, 1, 0.36, 1] }}
             >
               restaur
             </motion.span>
@@ -280,7 +284,7 @@ function IntersecaoAnimada() {
               className="font-semibold text-primary-foreground"
               initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
               animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 8 }}
-              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.45, delay: restorationStartDelay + 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               ação.
             </motion.span>
@@ -288,19 +292,19 @@ function IntersecaoAnimada() {
         </p>
       </motion.div>
 
-      <motion.div {...itemMotion(0.6)} className="min-h-[5.5rem]">
+      <motion.div {...itemMotion(blankStartDelay - 0.25)} className="flex min-h-[7rem] items-center justify-center">
         <motion.div
-          className="bg-primary-foreground px-5 py-4 text-primary"
+          className="mx-auto max-w-[18rem] bg-primary-foreground px-5 py-4 text-primary"
           initial={{ opacity: 0, scaleX: reduceMotion ? 1 : 0.92 }}
           animate={show ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: reduceMotion ? 1 : 0.92 }}
-          transition={{ duration: reduceMotion ? 0 : 0.55, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          style={{ transformOrigin: 'left center' }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, delay: blankStartDelay, ease: [0.22, 1, 0.36, 1] }}
+          style={{ transformOrigin: 'center' }}
         >
           <motion.p
             className="text-[1rem] font-light leading-relaxed"
             initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
             animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: reduceMotion ? 0 : 8 }}
-            transition={{ duration: reduceMotion ? 0 : 0.5, delay: 1.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.5, delay: blankStartDelay + 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             Outros através de um projeto que começa com uma tela em branco.
           </motion.p>
