@@ -131,7 +131,14 @@ const sedacaoPontos = [{
 }];
 const atendimentoResumo = [{
   titulo: 'Onde atendo',
-  texto: 'Nova Friburgo/RJ, na Salud Odontologia e na Naturale Dental Studio.'
+  texto: 'Nova Friburgo/RJ, na ',
+  locais: [{
+    rotulo: 'Salud Odontologia',
+    href: 'https://maps.app.goo.gl/3Nh823BXRHRjNq5t7'
+  }, {
+    rotulo: 'Naturale Dental Studio',
+    href: 'https://maps.app.goo.gl/36ZhTdptqXVGiW4V7'
+  }]
 }, {
   titulo: 'Como posso ajudar',
   texto: 'Clareamento, restaurações e reabilitação oral, planejamento digital e sedação consciente.'
@@ -501,7 +508,21 @@ function HomePage() {
                             <Reveal key={item.titulo} delay={i * 0.06} y={20}>
                                 <div className="h-full bg-background p-7 lg:p-8">
                                     <h3 className="text-xl font-light tracking-tight text-foreground">{item.titulo}</h3>
-                                    <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">{item.texto}</p>
+                                    {item.locais ? (
+                                        <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">
+                                            {item.texto}
+                                            <a href={item.locais[0].href} target="_blank" rel="noreferrer noopener" className="text-foreground underline decoration-primary/40 underline-offset-4 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
+                                                {item.locais[0].rotulo}
+                                            </a>
+                                            {' e na '}
+                                            <a href={item.locais[1].href} target="_blank" rel="noreferrer noopener" className="text-foreground underline decoration-primary/40 underline-offset-4 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
+                                                {item.locais[1].rotulo}
+                                            </a>
+                                            .
+                                        </p>
+                                    ) : (
+                                        <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">{item.texto}</p>
+                                    )}
                                 </div>
                             </Reveal>
                         ))}
