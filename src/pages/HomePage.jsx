@@ -60,23 +60,23 @@ const faces = [{
 }, {
   titulo: 'Ciência',
   img: '/assets/photos/linguagem-ciencia.jpg',
-  texto: 'Pesquisa, escrita acadêmica, experimentação e comunicação científica. Mais do que encontrar respostas, gosto do processo de aprender a formular perguntas melhores.'
+  texto: 'Pesquisa, escrita acadêmica, experimentação e comunicação científica. Mais do que encontrar respostas, gosto do processo de aprender a formular perguntas melhores, inclusive para tomar decisões clínicas com mais critério.'
 }, {
   titulo: 'Desenho',
   img: '/assets/photos/linguagem-desenho.jpg',
-  texto: 'Antes de algumas ideias virarem projetos, elas viram rabiscos. O desenho acabou encontrando espaço também dentro da minha trajetória científica e profissional, especialmente na criação de materiais educativos.'
+  texto: 'Antes de algumas ideias virarem projetos, elas viram rabiscos. O desenho treina olhar, proporção e observação, e isso atravessa a forma como planejo, explico e construo soluções.'
 }, {
   titulo: 'Escrita',
   img: '/assets/photos/linguagem-escrita.jpg',
-  texto: 'Artigos, histórias, roteiros e ideias. Escrever é outra maneira que encontrei de organizar pensamentos e transformar assuntos complexos em algo que possa ser compreendido por outras pessoas.'
+  texto: 'Artigos, histórias, roteiros e ideias. Escrever é uma maneira de organizar pensamentos, traduzir temas complexos e comunicar melhor aquilo que precisa ser compreendido.'
 }, {
   titulo: 'Design',
   img: '/assets/photos/linguagem-design-laptop-20260819.jpg',
-  texto: 'Identidades visuais, apresentações, fotografia, conteúdo e experiência. Não penso em design como decoração. Design, para mim, é dar forma a uma ideia.'
+  texto: 'Identidades visuais, apresentações, fotografia, conteúdo e experiência. Não penso em design como decoração, mas como uma forma de organizar informação, planejamento, experiência e comunicação.'
 }, {
   titulo: 'Tecnologia',
   img: '/assets/photos/linguagem-tecnologia.jpg',
-  texto: 'Fluxos digitais, impressão 3D, inteligência artificial, interfaces e desenvolvimento de novos projetos. Não me interessa tecnologia apenas pelo que ela consegue fazer. Me interessa principalmente pelo que podemos criar com ela.'
+  texto: 'Fluxos digitais, impressão 3D, inteligência artificial, interfaces e desenvolvimento de novos projetos. A tecnologia me interessa quando amplia possibilidades clínicas, criativas e humanas.'
 }];
 const projetos = [{
   num: '01',
@@ -131,13 +131,13 @@ const sedacaoPontos = [{
 }];
 const atendimentoResumo = [{
   titulo: 'Onde atendo',
-  texto: 'Nova Friburgo/RJ, em Salud Odontologia e Naturale Dental Studio.'
+  texto: 'Nova Friburgo/RJ, na Salud Odontologia e na Naturale Dental Studio.'
 }, {
   titulo: 'Como posso ajudar',
-  texto: 'Planejamento reabilitador, restaurações, clareamento, odontologia digital e sedação consciente.'
+  texto: 'Clareamento, restaurações e reabilitação oral, planejamento digital e sedação consciente.'
 }, {
   titulo: 'Como agendar',
-  texto: 'O primeiro contato acontece pelo WhatsApp, com direcionamento para o local mais adequado.'
+  texto: 'O primeiro contato acontece pelo WhatsApp. A partir dele, direcionamos o atendimento para o local mais adequado.'
 }];
 const intersecaoItens = [{
   texto: 'Alguns no papel.',
@@ -184,7 +184,6 @@ const historiasClinicas = [{
   depois: 'https://images.hostinger.com/5170f588-6a11-4cdb-9605-0c55317d195f.png'
 }];
 const sobrePalavras = [
-  'Dentista.',
   'Pesquisador.',
   'Autor.',
   'Desenhista.',
@@ -210,7 +209,10 @@ function SobreRotator() {
 
   return (
     <div className="space-y-4">
-      <p className="text-[0.72rem] uppercase tracking-[0.32em] text-primary">Eu sou...</p>
+      <div>
+        <p className="text-[0.72rem] uppercase tracking-[0.32em] text-primary">Eu sou dentista.</p>
+        <p className="mt-3 text-[0.72rem] uppercase tracking-[0.32em] text-primary/70">E também...</p>
+      </div>
       <div className="relative min-h-[4.5rem] overflow-hidden text-4xl font-light leading-tight tracking-tight text-foreground sm:text-[3rem]">
         <AnimatePresence mode="wait">
           <motion.span
@@ -242,8 +244,8 @@ function HomePage() {
 
   return <div className="min-h-screen bg-background text-foreground antialiased">
             <Helmet>
-                <title>Matheus Filgueiras | Dentista, pesquisador, autor e designer</title>
-                <meta name="description" content="Matheus Filgueiras, cirurgião-dentista, mestrando em Odontologia e criador. Odontologia, pesquisa, escrita, ilustração, design e tecnologia na interseção entre diferentes maneiras de criar." />
+                <title>Matheus Filgueiras | Cirurgião-Dentista em Nova Friburgo</title>
+                <meta name="description" content="Matheus Filgueiras é cirurgião-dentista e mestrando em Odontologia em Nova Friburgo/RJ. Clínica, planejamento, reabilitação oral, odontologia digital e sedação consciente, com pesquisa, design e tecnologia integrados à prática." />
             </Helmet>
 
             {/* HEADER */}
@@ -258,7 +260,7 @@ function HomePage() {
                         ))}
                     </nav>
                     <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="hidden min-h-[44px] items-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px active:scale-[0.98] lg:inline-flex">
-                        Vamos conversar
+                        Agendar consulta
                         <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                     </a>
                     <button
@@ -286,7 +288,7 @@ function HomePage() {
                           <a key={link.href} className="py-1 transition-colors hover:text-primary" href={link.href} onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
                         ))}
                         <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" onClick={() => setMobileMenuOpen(false)} className="mt-2 inline-flex min-h-[48px] items-center justify-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground">
-                          Vamos conversar
+                          Agendar consulta
                           <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                         </a>
                       </div>
@@ -427,8 +429,8 @@ function HomePage() {
                             </Reveal>
                             <Reveal delay={0.15}>
                                 <p>
-                                    Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design, comunicação,
-                                    tecnologia e de entender como ideias se transformam em experiências.
+                                    Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design,
+                                    comunicação e tecnologia.
                                 </p>
                             </Reveal>
                             <Reveal delay={0.2}>
@@ -439,7 +441,8 @@ function HomePage() {
                             </Reveal>
                             <Reveal delay={0.25}>
                                 <p className="text-foreground">
-                                    Grande parte do que faço nasce justamente do encontro entre eles.
+                                    Grande parte do que aprendo fora da clínica acaba mudando a maneira como penso
+                                    dentro dela.
                                 </p>
                             </Reveal>
                         </div>
@@ -460,8 +463,9 @@ function HomePage() {
                         <Reveal delay={0.05} className="text-[1.05rem] leading-relaxed text-muted-foreground">
                             <p>
                                 Minha formação começou na Odontologia, mas minha curiosidade sempre encontrou outros
-                                caminhos. Hoje, prefiro não escolher entre eles, gosto justamente do que acontece
-                                quando essas partes se encontram.
+                                caminhos. Hoje, não vejo esses interesses como trajetórias separadas. São diferentes
+                                maneiras de observar, pensar e criar, e todas acabam encontrando espaço na forma como
+                                exerço a Odontologia.
                             </p>
                         </Reveal>
                         <Reveal delay={0.12} className="space-y-6 text-[1.05rem] leading-relaxed text-muted-foreground">
@@ -482,6 +486,13 @@ function HomePage() {
                         <h2 className="mt-6 max-w-[24ch] text-3xl font-light leading-tight sm:text-[2.8rem]">
                             Cuidado, técnica e <span className="font-script text-primary">planejamento.</span>
                         </h2>
+                    </Reveal>
+                    <Reveal delay={0.05}>
+                        <p className="mt-6 max-w-[44rem] text-[1.05rem] leading-relaxed text-muted-foreground">
+                            Cada atendimento começa entendendo a pessoa antes de decidir o procedimento. A primeira
+                            consulta é o espaço para conversar, avaliar necessidades e construir um planejamento
+                            individualizado.
+                        </p>
                     </Reveal>
                     <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
                         {atendimentoResumo.map((item, i) => (
@@ -569,9 +580,9 @@ function HomePage() {
                 </Reveal>
                 <Reveal delay={0.05}>
                     <p className="mt-6 max-w-[40rem] text-[1.05rem] leading-relaxed text-muted-foreground">
-                        Não gosto muito da palavra “habilidades”. Prefiro pensar em{' '}
-                        <span className="text-foreground">linguagens</span>. São ferramentas diferentes que uso
-                        dependendo da ideia que quero tirar do papel.
+                        Não gosto muito da palavra “habilidades”. Prefiro pensar em linguagens. São diferentes formas
+                        de observar, pensar e criar, ferramentas que ampliam meu repertório e que, de maneiras
+                        diferentes, acabam encontrando espaço na minha Odontologia.
                     </p>
                 </Reveal>
                 <DiferentesFaces faces={faces} />
@@ -638,50 +649,7 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* 09 — IDEIAS QUE GANHARAM FORMA */}
-            <section id="projetos" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
-                <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Ideias que ganharam forma</p>
-                    <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
-                        Algumas ideias que <span className="font-script text-primary">ganharam forma.</span>
-                    </h2>
-                </Reveal>
-                <Reveal delay={0.05}>
-                    <p className="mt-6 max-w-[44rem] text-[1.02rem] leading-relaxed text-muted-foreground">
-                        Não são todas as coisas que já fiz. São algumas das que ajudam a explicar quem estou me
-                        tornando.
-                    </p>
-                </Reveal>
-
-                <div className="mt-14 space-y-14 lg:space-y-16">
-                    {projetos.map((p, i) => <Reveal key={p.num} y={28}>
-                            <article className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${i % 2 === 1 ? 'lg:[&>figure:first-child]:order-2' : ''}`}>
-                                <figure className="relative overflow-hidden">
-                                    <img src={p.img} alt={p.titulo} className="aspect-[16/10] w-full object-cover transition-transform duration-700 hover:scale-[1.03]" loading="lazy" />
-                                </figure>
-                                <div>
-                                    <h3 className="text-2xl font-light tracking-tight text-foreground sm:text-[2rem]">
-                                        {p.titulo}
-                                    </h3>
-                                    <p className="mt-3 text-[0.74rem] uppercase tracking-[0.22em] text-primary">
-                                        {p.tags}
-                                    </p>
-                                    <p className="mt-5 font-script text-xl text-foreground/80">{p.sub}</p>
-                                    <p className="mt-5 text-[1rem] leading-relaxed text-muted-foreground">{p.texto}</p>
-                                    {p.destaque && <p className="mt-5 border-l-2 border-primary/60 pl-5 text-[1.05rem] font-light leading-relaxed text-foreground">
-                                            {p.destaque}
-                                        </p>}
-                                    <a href={p.href} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
-                                        {p.cta}
-                                        <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
-                                    </a>
-                                </div>
-                            </article>
-                        </Reveal>)}
-                </div>
-            </section>
-
-            {/* SEDAÇÃO CONSCIENTE */}
+            {/* 09 — SEDAÇÃO CONSCIENTE */}
             <section id="sedacao" className="mx-auto w-full max-w-[72rem] px-6 py-16 lg:px-8 lg:py-24">
                 <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
                     <div>
@@ -719,6 +687,50 @@ function HomePage() {
                             <img src={IMG_SEDACAO} alt="Matheus Filgueiras preparando equipamento de sedação consciente" className="aspect-[5/6] w-full object-cover object-center" loading="lazy" />
                         </figure>
                     </Reveal>
+                </div>
+            </section>
+
+            {/* 10 — IDEIAS QUE GANHARAM FORMA */}
+            <section id="projetos" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
+                <Reveal>
+                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Ideias que ganharam forma</p>
+                    <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
+                        Algumas ideias que <span className="font-script text-primary">ganharam forma.</span>
+                    </h2>
+                </Reveal>
+                <Reveal delay={0.05}>
+                    <p className="mt-6 max-w-[44rem] text-[1.02rem] leading-relaxed text-muted-foreground">
+                        A Odontologia é o ponto de partida de grande parte do que faço. Algumas perguntas, porém,
+                        acabam ultrapassando a clínica e ganhando outras formas: pesquisa, livros, tecnologia ou
+                        comunicação.
+                    </p>
+                </Reveal>
+
+                <div className="mt-14 space-y-14 lg:space-y-16">
+                    {projetos.map((p, i) => <Reveal key={p.num} y={28}>
+                            <article className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${i % 2 === 1 ? 'lg:[&>figure:first-child]:order-2' : ''}`}>
+                                <figure className="relative overflow-hidden">
+                                    <img src={p.img} alt={p.titulo} className="aspect-[16/10] w-full object-cover transition-transform duration-700 hover:scale-[1.03]" loading="lazy" />
+                                </figure>
+                                <div>
+                                    <h3 className="text-2xl font-light tracking-tight text-foreground sm:text-[2rem]">
+                                        {p.titulo}
+                                    </h3>
+                                    <p className="mt-3 text-[0.74rem] uppercase tracking-[0.22em] text-primary">
+                                        {p.tags}
+                                    </p>
+                                    <p className="mt-5 font-script text-xl text-foreground/80">{p.sub}</p>
+                                    <p className="mt-5 text-[1rem] leading-relaxed text-muted-foreground">{p.texto}</p>
+                                    {p.destaque && <p className="mt-5 border-l-2 border-primary/60 pl-5 text-[1.05rem] font-light leading-relaxed text-foreground">
+                                            {p.destaque}
+                                        </p>}
+                                    <a href={p.href} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
+                                        {p.cta}
+                                        <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
+                                    </a>
+                                </div>
+                            </article>
+                        </Reveal>)}
                 </div>
             </section>
 
