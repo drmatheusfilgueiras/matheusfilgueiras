@@ -973,7 +973,7 @@ function HomePage() {
                             </ul>
                             <div>
                                 <p className="text-[0.7rem] uppercase tracking-[0.28em] text-primary-foreground/60">
-                                    Onde atendo?
+                                    Marque sua consulta
                                 </p>
                                 <div className="mt-4 space-y-3">
                                     {ondeAtendo.map((local) => (
