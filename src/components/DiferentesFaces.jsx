@@ -17,7 +17,7 @@ const DiferentesFaces = ({
                 {faces.map((item, i) => {
         const isActive = i === active;
         return <li key={item.titulo}>
-                            <button type="button" onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)} className="group flex w-full items-center gap-4 border-b border-border py-4 text-left transition-colors" aria-expanded={isActive}>
+                            <button type="button" onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)} className="group flex w-full items-center gap-4 border-b border-border py-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background" aria-expanded={isActive}>
                                 <span className={`font-script text-2xl leading-none transition-all duration-300 sm:text-3xl ${isActive ? 'text-primary translate-x-1' : 'text-foreground/70 group-hover:text-foreground'}`}>
                                     {item.titulo}
                                 </span>
@@ -35,13 +35,13 @@ const DiferentesFaces = ({
           opacity: isActive ? 1 : 0,
           pointerEvents: isActive ? 'auto' : 'none'
         }} aria-hidden={!isActive}>
-                            <div className="relative aspect-[4/3] w-full overflow-hidden border border-border bg-secondary">
-                                {i === 0 && <img src="/assets/photos/linguagem-odontologia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
-                                {i === 1 && <img src="/assets/photos/linguagem-ciencia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
-                                {i === 2 && <img src="/assets/photos/linguagem-desenho.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
-                                {i === 3 && <img src="/assets/photos/linguagem-escrita.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
-                                {i === 4 && <img src="/assets/photos/linguagem-design-laptop-20260819.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
-                                {i === 5 && <img src="/assets/photos/linguagem-tecnologia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center" />}
+                            <div className="relative aspect-[4/3] w-full overflow-hidden border border-border/80 bg-secondary">
+                                {i === 0 && <img src="/assets/photos/linguagem-odontologia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]" />}
+                                {i === 1 && <img src="/assets/photos/linguagem-ciencia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]" />}
+                                {i === 2 && <img src="/assets/photos/linguagem-desenho.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]" />}
+                                {i === 3 && <img src="/assets/photos/linguagem-escrita.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]" />}
+                                {i === 4 && <img src="/assets/photos/linguagem-design-laptop-20260819.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]" />}
+                                {i === 5 && <img src="/assets/photos/linguagem-tecnologia.jpg" alt={item.titulo} loading="lazy" className="h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]" />}
                             </div>
                             <div className="mt-6 max-w-[40rem]">
                                 <h3 className="text-xl font-medium tracking-tight text-foreground">

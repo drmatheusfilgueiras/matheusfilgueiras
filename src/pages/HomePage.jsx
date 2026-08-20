@@ -249,15 +249,15 @@ function HomePage() {
             {/* HEADER */}
             <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
                 <div className="relative mx-auto flex w-full max-w-[90rem] items-center justify-between px-6 py-4 lg:px-12">
-                    <a href="#inicio" className="font-script text-2xl italic leading-none text-primary transition-colors hover:text-foreground sm:text-[1.7rem]">
+                    <a href="#inicio" className="font-script text-2xl italic leading-none text-primary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:text-[1.7rem]">
                         Matheus Filgueiras
                     </a>
                     <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 text-[0.72rem] uppercase tracking-[0.22em] text-muted-foreground lg:flex">
                         {navLinks.map((link) => (
-                          <a key={link.href} className="transition-colors hover:text-primary" href={link.href}>{link.label}</a>
+                          <a key={link.href} className="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-4 focus-visible:ring-offset-background" href={link.href}>{link.label}</a>
                         ))}
                     </nav>
-                    <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="hidden min-h-[44px] items-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px active:scale-[0.98] lg:inline-flex">
+                    <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="hidden min-h-[44px] items-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98] lg:inline-flex">
                         Agendar consulta
                         <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                     </a>
@@ -266,7 +266,7 @@ function HomePage() {
                       aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
                       aria-expanded={mobileMenuOpen}
                       onClick={() => setMobileMenuOpen((open) => !open)}
-                      className="inline-flex h-11 w-11 items-center justify-center border border-border text-primary transition-colors hover:border-primary lg:hidden"
+                      className="inline-flex h-11 w-11 items-center justify-center border border-border text-primary transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background lg:hidden"
                     >
                       {mobileMenuOpen ? <X className="h-5 w-5" strokeWidth={1.6} /> : <Menu className="h-5 w-5" strokeWidth={1.6} />}
                     </button>
@@ -283,9 +283,9 @@ function HomePage() {
                     >
                       <div className="mx-auto flex max-w-[90rem] flex-col gap-5 text-[0.78rem] uppercase tracking-[0.24em] text-muted-foreground">
                         {navLinks.map((link) => (
-                          <a key={link.href} className="py-1 transition-colors hover:text-primary" href={link.href} onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
+                          <a key={link.href} className="py-1 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-4 focus-visible:ring-offset-background" href={link.href} onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
                         ))}
-                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" onClick={() => setMobileMenuOpen(false)} className="mt-2 inline-flex min-h-[48px] items-center justify-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground">
+                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" onClick={() => setMobileMenuOpen(false)} className="mt-2 inline-flex min-h-[48px] items-center justify-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98]">
                           Agendar consulta
                           <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                         </a>
@@ -499,7 +499,7 @@ function HomePage() {
                     <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
                         {atendimentoResumo.map((item, i) => (
                             <Reveal key={item.titulo} delay={i * 0.06} y={20}>
-                                <div className="h-full bg-background p-7 lg:p-8">
+                                <div className="h-full bg-background p-7 transition-colors duration-300 hover:bg-secondary/35 lg:p-8">
                                     <h3 className="text-xl font-light tracking-tight text-foreground">{item.titulo}</h3>
                                     {item.locais ? (
                                         <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">
@@ -514,10 +514,11 @@ function HomePage() {
                                             .
                                         </p>
                                     ) : item.servicos ? (
-                                        <ul className="mt-5 grid gap-2 text-[0.92rem] leading-snug text-muted-foreground">
+                                        <ul className="mt-5 grid gap-2 text-[0.92rem] leading-snug text-foreground/85">
                                             {item.servicos.map((servico) => (
-                                                <li key={servico} className="border-l border-primary/30 pl-3 text-foreground/85">
-                                                    {servico}
+                                                <li key={servico} className="flex items-center gap-3 border-b border-border/70 pb-2 last:border-b-0 last:pb-0">
+                                                    <span aria-hidden="true" className="h-px w-4 shrink-0 bg-primary/45" />
+                                                    <span>{servico}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -529,7 +530,7 @@ function HomePage() {
                         ))}
                     </div>
                     <Reveal delay={0.12}>
-                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex min-h-[50px] items-center gap-2 bg-primary px-7 text-[0.78rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px active:scale-[0.98]">
+                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex min-h-[50px] items-center gap-2 bg-primary px-7 text-[0.78rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98]">
                             Agendar consulta
                             <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                         </a>
@@ -671,7 +672,7 @@ function HomePage() {
                             ))}
                         </div>
                         <Reveal delay={0.12}>
-                            <a href={SEDACAO_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
+                            <a href={SEDACAO_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background">
                                 Saiba mais sobre sedação →
                             </a>
                         </Reveal>
@@ -718,7 +719,7 @@ function HomePage() {
                                     {p.destaque && <p className="mt-5 border-l-2 border-primary/60 pl-5 text-[1.05rem] font-light leading-relaxed text-foreground">
                                             {p.destaque}
                                         </p>}
-                                    <a href={p.href} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground">
+                                    <a href={p.href} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background">
                                         {p.cta}
                                         <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                                     </a>
@@ -746,7 +747,7 @@ function HomePage() {
                             </p>
                             <p className="mt-8 font-script text-2xl text-primary-foreground">Matheus Filgueiras</p>
                             <Reveal delay={0.1}>
-                                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex min-h-[52px] items-center gap-2 bg-primary-foreground px-8 text-[0.8rem] uppercase tracking-[0.22em] text-primary transition-transform hover:-translate-y-px active:scale-[0.98]">
+                                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex min-h-[52px] items-center gap-2 bg-primary-foreground px-8 text-[0.8rem] uppercase tracking-[0.22em] text-primary transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/70 focus-visible:ring-offset-4 focus-visible:ring-offset-primary active:scale-[0.98]">
                                     Vamos conversar
                                     <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                                 </a>
@@ -780,7 +781,7 @@ function HomePage() {
               valor,
               href
             }) => <li key={rotulo} className="border-b border-primary-foreground/20 pb-5">
-                                    <a href={href} target="_blank" rel="noreferrer noopener" className="flex min-h-[44px] items-start gap-4 group">
+                                    <a href={href} target="_blank" rel="noreferrer noopener" className="group flex min-h-[44px] items-start gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-primary">
                                         <Icon className="mt-1 h-5 w-5 shrink-0 text-primary-foreground/80" strokeWidth={1.5} />
                                         <span>
                                             <span className="block text-[0.7rem] uppercase tracking-[0.28em] text-primary-foreground/60">
@@ -799,7 +800,7 @@ function HomePage() {
                                 </p>
                                 <div className="mt-4 space-y-3">
                                     {ondeAtendo.map((local) => (
-                                        <a key={local.rotulo} href={local.href} target="_blank" rel="noreferrer noopener" className="block min-h-[44px] border-b border-primary-foreground/20 pb-3 text-[1.02rem] text-primary-foreground transition-colors hover:text-background">
+                                        <a key={local.rotulo} href={local.href} target="_blank" rel="noreferrer noopener" className="block min-h-[44px] border-b border-primary-foreground/20 pb-3 text-[1.02rem] text-primary-foreground transition-colors hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 focus-visible:ring-offset-4 focus-visible:ring-offset-primary">
                                             {local.rotulo} ↗
                                         </a>
                                     ))}

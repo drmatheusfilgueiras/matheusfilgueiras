@@ -67,7 +67,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                 role="region"
                 aria-roledescription="carrossel"
                 aria-label="Histórias clínicas"
-                className="relative select-none outline-none"
+                className="relative select-none outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
@@ -109,13 +109,13 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                 type="button"
                                 onClick={() => paginate(-1)}
                                 aria-label="Caso anterior"
-                                className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-primary hover:text-primary active:scale-[0.96]"
+                                className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-all hover:-translate-y-0.5 hover:border-primary hover:bg-secondary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.96]"
                             >
                                 <ArrowLeft className="h-4 w-4" strokeWidth={1.6} />
                             </button>
                             <div className="grid min-w-0 gap-4 sm:grid-cols-2 sm:gap-5">
-                                <figure className="relative overflow-hidden border border-border bg-secondary">
-                                    <span className="absolute left-3 top-3 z-10 bg-background/90 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary">
+                                <figure className="relative overflow-hidden border border-border/80 bg-secondary">
+                                    <span className="absolute left-3 top-3 z-10 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary backdrop-blur-sm">
                                         Antes
                                     </span>
                                     <img
@@ -123,11 +123,11 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                         alt={`${current.titulo}, antes`}
                                         loading="lazy"
                                         draggable={false}
-                                        className="aspect-[4/3] w-full object-cover"
+                                        className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.015]"
                                     />
                                 </figure>
-                                <figure className="relative overflow-hidden border border-border bg-secondary">
-                                    <span className="absolute left-3 top-3 z-10 bg-background/90 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary">
+                                <figure className="relative overflow-hidden border border-border/80 bg-secondary">
+                                    <span className="absolute left-3 top-3 z-10 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.28em] text-primary backdrop-blur-sm">
                                         Depois
                                     </span>
                                     <img
@@ -135,7 +135,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                         alt={`${current.titulo}, depois`}
                                         loading="lazy"
                                         draggable={false}
-                                        className="aspect-[4/3] w-full object-cover"
+                                        className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.015]"
                                     />
                                 </figure>
                             </div>
@@ -143,7 +143,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                 type="button"
                                 onClick={() => paginate(1)}
                                 aria-label="Próximo caso"
-                                className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-primary hover:text-primary active:scale-[0.96]"
+                                className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-all hover:-translate-y-0.5 hover:border-primary hover:bg-secondary/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.96]"
                             >
                                 <ArrowRight className="h-4 w-4" strokeWidth={1.6} />
                             </button>
@@ -164,7 +164,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                 setIndex(i);
                             }}
                             aria-label={`Ir para o caso ${i + 1}: ${c.titulo}`}
-                            className={`h-1.5 transition-all duration-300 ${i === index ? 'w-8 bg-primary' : 'w-3 bg-primary/25 hover:bg-primary/50'}`}
+                            className={`h-1.5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${i === index ? 'w-8 bg-primary' : 'w-3 bg-primary/25 hover:bg-primary/50'}`}
                         />
                     ))}
                 </div>
