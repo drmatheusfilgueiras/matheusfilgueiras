@@ -184,6 +184,22 @@ const historiasClinicas = [{
   antes: 'https://images.hostinger.com/1350fb0d-2215-4a35-bbf0-49cbc5bc7c90.png',
   depois: 'https://images.hostinger.com/5170f588-6a11-4cdb-9605-0c55317d195f.png'
 }];
+const feedbackPaciente = [{
+  nome: 'Nome do paciente 01',
+  contexto: 'Paciente atendido em Nova Friburgo',
+  foto: null,
+  texto: 'Aqui entra o primeiro relato real do paciente, mantendo o texto exatamente como foi autorizado para uso.'
+}, {
+  nome: 'Nome do paciente 02',
+  contexto: 'Paciente atendido em Nova Friburgo',
+  foto: null,
+  texto: 'Aqui entra um segundo feedback autorizado, com tempo suficiente para leitura antes da próxima transição.'
+}, {
+  nome: 'Nome do paciente 03',
+  contexto: 'Paciente atendido em Nova Friburgo',
+  foto: null,
+  texto: 'Aqui entra uma terceira percepção do atendimento, preservando o tom humano e a autorização de uso.'
+}];
 const sobrePalavras = [
   'Pesquisador.',
   'Autor.',
@@ -299,6 +315,98 @@ function AppointmentModal({ open, onOpenChange }) {
   );
 }
 
+function PatientFeedbackSection() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const item = feedbackPaciente[active];
+
+  useEffect(() => {
+    if (paused || reduceMotion || feedbackPaciente.length <= 1) return undefined;
+
+    const interval = window.setInterval(() => {
+      setActive((current) => (current + 1) % feedbackPaciente.length);
+    }, 8000);
+
+    return () => window.clearInterval(interval);
+  }, [paused, reduceMotion]);
+
+  return (
+    <section id="feedback" className="border-y border-border bg-background">
+      <div className="mx-auto w-full max-w-[72rem] px-6 py-16 lg:px-8 lg:py-24">
+        <Reveal>
+          <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Feedback</p>
+          <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
+            Depois da <span className="font-script text-primary">consulta.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.05}>
+          <p className="mt-6 max-w-[40rem] text-[1.05rem] leading-relaxed text-muted-foreground">
+            Algumas percepções de quem viveu o atendimento de perto.
+          </p>
+        </Reveal>
+
+        <div
+          className="mt-12 border-y border-border py-8"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+        >
+          <Reveal delay={0.08}>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.article
+                key={item.nome}
+                initial={{ opacity: 0, y: reduceMotion ? 0 : 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduceMotion ? 0 : -14 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="grid gap-8 lg:grid-cols-[14rem_1fr] lg:items-center lg:gap-14"
+              >
+                <figure className="aspect-[4/5] w-full max-w-[14rem] overflow-hidden border border-border bg-secondary">
+                  {item.foto ? (
+                    <img src={item.foto} alt={`Foto de ${item.nome}`} className="h-full w-full object-cover" loading="lazy" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center px-6 text-center text-[0.68rem] uppercase tracking-[0.28em] text-primary/55">
+                      Foto autorizada do paciente
+                    </div>
+                  )}
+                </figure>
+                <div className="max-w-[46rem]">
+                  <span aria-hidden="true" className="font-script text-6xl leading-none text-primary/25">
+                    “
+                  </span>
+                  <blockquote className="-mt-3 text-2xl font-light leading-relaxed tracking-tight text-foreground sm:text-[2rem]">
+                    {item.texto}
+                  </blockquote>
+                  <span aria-hidden="true" className="mt-2 block text-right font-script text-6xl leading-none text-primary/25">
+                    ”
+                  </span>
+                  <footer className="mt-4 border-t border-border pt-5">
+                    <p className="text-[1.05rem] font-medium text-foreground">{item.nome}</p>
+                    <p className="mt-1 text-[0.72rem] uppercase tracking-[0.26em] text-primary/70">{item.contexto}</p>
+                  </footer>
+                </div>
+              </motion.article>
+            </AnimatePresence>
+          </Reveal>
+          <div className="mt-8 flex items-center gap-2 lg:ml-[17.5rem]">
+            {feedbackPaciente.map((feedback, i) => (
+              <button
+                key={feedback.nome}
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={`Ver feedback ${i + 1}`}
+                className={`h-1.5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${i === active ? 'w-8 bg-primary' : 'w-3 bg-primary/25 hover:bg-primary/50'}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [appointmentModalOpen, setAppointmentModalOpen] = useState(false);
@@ -385,7 +493,7 @@ function HomePage() {
             ease: 'easeOut'
           }} className="mb-8 text-primary">
                             <p className="text-[0.95rem] font-medium uppercase tracking-[0.34em]">Matheus Filgueiras</p>
-                            <p className="mt-2 text-[0.73rem] font-medium tracking-[0.24em]">Cirurgião-dentista</p>
+                            <p className="mt-2 text-[0.73rem] font-medium uppercase tracking-[0.24em]">CIRURGIÃO-DENTISTA</p>
                             <p className="mt-1 text-[0.59rem] font-medium uppercase tracking-[0.24em]">CRO/RJ 59298</p>
                         </motion.div>
                         <h1 className="text-[3.1rem] font-light leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.8rem]">
@@ -714,6 +822,7 @@ function HomePage() {
                     <HistoriasClinicas casos={historiasClinicas} />
                 </div>
             </section>
+            <PatientFeedbackSection />
             {/* 09 — SEDAÇÃO CONSCIENTE */}
             <section id="sedacao" className="mx-auto w-full max-w-[72rem] px-6 py-16 lg:px-8 lg:py-24">
                 <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
