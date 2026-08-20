@@ -122,6 +122,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                         src={current.antes}
                                         alt={`${current.titulo}, antes`}
                                         loading="lazy"
+                                        referrerPolicy="no-referrer"
                                         draggable={false}
                                         className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.015]"
                                     />
@@ -134,6 +135,7 @@ const HistoriasClinicas = ({ casos = [] }) => {
                                         src={current.depois}
                                         alt={`${current.titulo}, depois`}
                                         loading="lazy"
+                                        referrerPolicy="no-referrer"
                                         draggable={false}
                                         className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.015]"
                                     />
