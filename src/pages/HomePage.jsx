@@ -210,10 +210,10 @@ function SobreRotator() {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-[0.72rem] uppercase tracking-[0.32em] text-primary">Eu sou dentista.</p>
-        <p className="mt-3 text-[0.72rem] uppercase tracking-[0.32em] text-primary/70">E também...</p>
+        <p className="text-[0.78rem] uppercase tracking-[0.28em] text-primary">Eu sou dentista.</p>
+        <p className="mt-3 text-[0.78rem] uppercase tracking-[0.28em] text-primary/70">E também...</p>
       </div>
-      <div className="relative min-h-[4.5rem] overflow-hidden text-4xl font-light leading-tight tracking-tight text-foreground sm:text-[3rem]">
+      <div className="relative min-h-[3.8rem] overflow-hidden text-[2.45rem] font-light leading-tight tracking-tight text-foreground sm:text-[2.7rem]">
         <AnimatePresence mode="wait">
           <motion.span
             key={palavra}
@@ -459,7 +459,7 @@ function HomePage() {
                             Eu nunca soube ser uma coisa só.
                         </h2>
                     </Reveal>
-                    <div className="mt-10 grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+                    <div className="mt-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch lg:gap-12">
                         <Reveal delay={0.05} className="text-[1.05rem] leading-relaxed text-muted-foreground">
                             <p>
                                 Minha formação começou na Odontologia, mas minha curiosidade sempre encontrou outros
@@ -468,11 +468,13 @@ function HomePage() {
                                 exerço a Odontologia.
                             </p>
                         </Reveal>
-                        <Reveal delay={0.12} className="space-y-6 text-[1.05rem] leading-relaxed text-muted-foreground">
-                            <SobreRotator />
-                            <p className="border-l-2 border-primary/60 pl-5 text-lg font-light leading-relaxed text-foreground">
-                                Talvez eu não precise ser uma coisa só.
-                            </p>
+                        <Reveal delay={0.12} className="flex border-t border-border pt-10 text-[1.05rem] leading-relaxed text-muted-foreground lg:min-h-full lg:items-center lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0 xl:pl-16">
+                            <div className="w-full space-y-6">
+                                <SobreRotator />
+                                <p className="border-l-2 border-primary/60 pl-5 text-lg font-light leading-relaxed text-foreground">
+                                    Talvez eu não precise ser uma coisa só.
+                                </p>
+                            </div>
                         </Reveal>
                     </div>
                 </div>
