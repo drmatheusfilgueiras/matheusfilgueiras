@@ -24,22 +24,6 @@ const navLinks = [
   { label: 'Contato', href: '#contato' },
 ];
 const marqueeWords = ['Odontologia', 'Ciência', 'Arte', 'Design', 'Tecnologia'];
-const oQueMeMove = [{
-  num: '01',
-  titulo: 'Curiosidade',
-  texto: 'Gosto de entender como as coisas funcionam, e principalmente imaginar como poderiam funcionar de outra maneira.',
-  resto: 'Foi essa curiosidade que me levou da clínica ao laboratório, do papel ao digital e da Odontologia a projetos que, muitas vezes, começam longe dela.'
-}, {
-  num: '02',
-  titulo: 'Cuidado',
-  texto: 'Um bom resultado não depende apenas daquilo que fazemos, mas de para quem estamos fazendo.',
-  resto: 'Na clínica, em um livro, em uma interface ou em uma apresentação, tento nunca esquecer que existe alguém do outro lado.'
-}, {
-  num: '03',
-  titulo: 'Criação',
-  texto: 'Tenho dificuldade em permanecer apenas no campo das ideias. Gosto de transformá-las.',
-  resto: 'Às vezes em um sorriso. Às vezes em uma pesquisa. Às vezes em um desenho, um livro, uma imagem ou um produto digital.'
-}];
 const caminho = [{
   titulo: 'Odontologia',
   lugar: 'Universidade Federal Fluminense',
@@ -141,7 +125,14 @@ const atendimentoResumo = [{
   }]
 }, {
   titulo: 'Como posso ajudar',
-  texto: 'Clareamento, restaurações e reabilitação oral, planejamento digital e sedação consciente.'
+  servicos: [
+    'Clareamento dental',
+    'Restaurações estéticas',
+    'Reabilitação oral',
+    'Planejamento digital',
+    'Atendimento para pacientes ansiosos',
+    'Sedação consciente'
+  ]
 }, {
   titulo: 'Como agendar',
   texto: 'O primeiro contato acontece pelo WhatsApp. A partir dele, direcionamos o atendimento para o local mais adequado.'
@@ -520,6 +511,14 @@ function HomePage() {
                                             </a>
                                             .
                                         </p>
+                                    ) : item.servicos ? (
+                                        <ul className="mt-5 grid gap-2 text-[0.92rem] leading-snug text-muted-foreground">
+                                            {item.servicos.map((servico) => (
+                                                <li key={servico} className="border-l border-primary/30 pl-3 text-foreground/85">
+                                                    {servico}
+                                                </li>
+                                            ))}
+                                        </ul>
                                     ) : (
                                         <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">{item.texto}</p>
                                     )}
@@ -534,36 +533,6 @@ function HomePage() {
                         </a>
                     </Reveal>
                 </div>
-            </section>
-
-            {/* 04 — O QUE ME MOVE */}
-            <section id="move" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
-                <Reveal>
-                    <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Princípios</p>
-                    <h2 className="mt-6 max-w-[24ch] text-3xl font-light leading-tight sm:text-[2.8rem]">
-                        Algumas ideias atravessam tudo o que faço.
-                    </h2>
-                </Reveal>
-                <div className="mt-16 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-3">
-                    {oQueMeMove.map((item, i) => <Reveal key={item.num} delay={i * 0.08} y={20}>
-                            <div className="flex h-full flex-col bg-background p-8 lg:p-10">
-                                <h3 className="text-2xl font-light tracking-tight text-foreground">
-                                    {item.titulo}
-                                </h3>
-                                <p className="mt-5 text-[1rem] font-light leading-relaxed text-foreground">
-                                    {item.texto}
-                                </p>
-                                <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-                                    {item.resto}
-                                </p>
-                            </div>
-                        </Reveal>)}
-                </div>
-                <Reveal delay={0.1}>
-                    <p className="mt-10 text-center text-lg font-light leading-relaxed text-foreground">
-                        Muda o meio. <span className="font-script text-primary">A vontade de construir alguma coisa continua a mesma.</span>
-                    </p>
-                </Reveal>
             </section>
 
             {/* 05 — CAMINHO */}
