@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion';
 
 /**
  * Each face is rendered as its own `<img>` with a STATIC string-literal `src`
@@ -8,10 +9,25 @@ import React, { useState } from 'react';
  * regresses the bug where all six images change together.
  */
 const DiferentesFaces = ({
-  faces
+  faces,
+  scrollNarrative = false
 }) => {
+  const sectionRef = useRef(null);
   const [active, setActive] = useState(0);
-  return <div className="mt-14 grid gap-10 border-t border-border pt-10 lg:grid-cols-[20rem_1fr] lg:gap-16">
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end']
+  });
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (!scrollNarrative || reduceMotion || faces.length === 0) return;
+    const nextIndex = Math.min(faces.length - 1, Math.max(0, Math.floor(latest * faces.length)));
+    setActive(nextIndex);
+  });
+
+  return <div ref={sectionRef} className={`mt-14 ${scrollNarrative ? 'lg:h-[520vh]' : ''}`}>
+          <div className={`grid gap-10 border-t border-border pt-10 lg:grid-cols-[20rem_1fr] lg:gap-16 ${scrollNarrative ? 'lg:sticky lg:top-24 lg:min-h-[calc(100vh-6rem)] lg:items-center' : ''}`}>
             {/* Lista vertical */}
             <ul className="flex flex-col">
                 {faces.map((item, i) => {
@@ -54,6 +70,7 @@ const DiferentesFaces = ({
                         </div>;
       })}
             </div>
+          </div>
         </div>;
 };
 export default DiferentesFaces;

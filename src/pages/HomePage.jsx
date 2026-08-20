@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Instagram, Linkedin, Mail, FileText, Menu, X } from 'lucide-react';
 import Reveal from '@/components/Reveal';
@@ -15,12 +16,14 @@ const IMG_PROJECTS = {
   visual: '/assets/projects/comunicacao-visual-brand-20260819.jpg'
 };
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
+const SALUD_WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=22992096463&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
+const NATURALE_WHATSAPP_URL = 'https://api.whatsapp.com/send/?phone=5522998508639&text&type=phone_number&app_absent=0';
 const SEDACAO_URL = 'https://www.instagram.com/p/DbT4X1lhsaw/';
 const navLinks = [
   { label: 'Sobre', href: '#sobre' },
   { label: 'Atendimento', href: '#atendimento' },
   { label: 'Caminho', href: '#caminho' },
-  { label: 'Projeto', href: '#projetos' },
+  { label: 'Projetos', href: '#projetos' },
   { label: 'Contato', href: '#contato' },
 ];
 const marqueeWords = ['Odontologia', 'Ciência', 'Arte', 'Design', 'Tecnologia'];
@@ -157,10 +160,10 @@ const intersecaoItens = [{
 }];
 const ondeAtendo = [{
   rotulo: 'Salud Odontologia',
-  href: 'https://api.whatsapp.com/send?phone=22992096463&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras'
+  href: SALUD_WHATSAPP_URL
 }, {
   rotulo: 'Naturale Dental Studio',
-  href: 'https://api.whatsapp.com/send/?phone=5522998508639&text&type=phone_number&app_absent=0'
+  href: NATURALE_WHATSAPP_URL
 }];
 const historiasClinicas = [{
   titulo: 'Clareamento de consultório',
@@ -229,22 +232,91 @@ function SobreRotator() {
   );
 }
 
+function AppointmentModal({ open, onOpenChange }) {
+  const reduceMotion = useReducedMotion();
+  const locations = [{
+    name: 'Salud Odontologia',
+    city: 'Nova Friburgo',
+    href: SALUD_WHATSAPP_URL
+  }, {
+    name: 'Naturale Dental Studio',
+    city: 'Nova Friburgo',
+    href: NATURALE_WHATSAPP_URL
+  }];
+
+  const animationClass = reduceMotion
+    ? ''
+    : 'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:slide-in-from-bottom-3 data-[state=closed]:slide-out-to-bottom-2';
+
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay className={`fixed inset-0 z-50 bg-foreground/15 backdrop-blur-[3px] ${animationClass}`} />
+        <Dialog.Content
+          className={`fixed bottom-5 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-[36rem] -translate-x-1/2 border border-border bg-background p-7 text-foreground outline-none sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:p-9 ${animationClass}`}
+          aria-labelledby="appointment-title"
+        >
+          <Dialog.Close className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center text-primary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background" aria-label="Fechar">
+            <X className="h-4 w-4" strokeWidth={1.6} />
+          </Dialog.Close>
+          <p className="text-[0.7rem] uppercase tracking-[0.34em] text-primary">Agendar consulta</p>
+          <Dialog.Title id="appointment-title" className="mt-5 max-w-[18ch] text-3xl font-light leading-tight text-foreground">
+            Onde você prefere ser atendido?
+          </Dialog.Title>
+          <Dialog.Description className="mt-4 text-[1rem] leading-relaxed text-muted-foreground">
+            Escolha o local para continuar com o agendamento.
+          </Dialog.Description>
+
+          <div className="mt-8 border-y border-border">
+            {locations.map((location) => (
+              <a
+                key={location.name}
+                href={location.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="group grid gap-1 border-b border-border py-5 last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:grid-cols-[1fr_auto] sm:items-center"
+              >
+                <span>
+                  <span className="block text-[0.78rem] uppercase tracking-[0.26em] text-primary">{location.name}</span>
+                  <span className="mt-1 block text-[0.98rem] text-muted-foreground">{location.city}</span>
+                </span>
+                <span className="text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors group-hover:text-foreground">
+                  Agendar →
+                </span>
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-7 text-[0.98rem] leading-relaxed text-muted-foreground">
+            <p>Não sabe qual escolher?</p>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-1 inline-flex text-primary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background">
+              Fale comigo →
+            </a>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
 function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [appointmentModalOpen, setAppointmentModalOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    document.body.style.overflow = mobileMenuOpen || appointmentModalOpen ? 'hidden' : '';
 
     return () => {
       document.body.style.overflow = '';
     };
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, appointmentModalOpen]);
 
   return <div className="min-h-screen bg-background text-foreground antialiased">
             <Helmet>
                 <title>Matheus Filgueiras | Cirurgião-Dentista em Nova Friburgo</title>
                 <meta name="description" content="Matheus Filgueiras é cirurgião-dentista e mestrando em Odontologia em Nova Friburgo/RJ. Clínica, planejamento, reabilitação oral, odontologia digital e sedação consciente, com pesquisa, design e tecnologia integrados à prática." />
             </Helmet>
+            <AppointmentModal open={appointmentModalOpen} onOpenChange={setAppointmentModalOpen} />
 
             {/* HEADER */}
             <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
@@ -257,10 +329,10 @@ function HomePage() {
                           <a key={link.href} className="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-4 focus-visible:ring-offset-background" href={link.href}>{link.label}</a>
                         ))}
                     </nav>
-                    <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="hidden min-h-[44px] items-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98] lg:inline-flex">
+                    <button type="button" onClick={() => setAppointmentModalOpen(true)} className="hidden min-h-[44px] items-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98] lg:inline-flex">
                         Agendar consulta
                         <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
-                    </a>
+                    </button>
                     <button
                       type="button"
                       aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
@@ -285,10 +357,13 @@ function HomePage() {
                         {navLinks.map((link) => (
                           <a key={link.href} className="py-1 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-4 focus-visible:ring-offset-background" href={link.href} onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
                         ))}
-                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" onClick={() => setMobileMenuOpen(false)} className="mt-2 inline-flex min-h-[48px] items-center justify-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98]">
+                        <button type="button" onClick={() => {
+                          setMobileMenuOpen(false);
+                          setAppointmentModalOpen(true);
+                        }} className="mt-2 inline-flex min-h-[48px] items-center justify-center gap-2 bg-primary px-5 text-[0.74rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98]">
                           Agendar consulta
                           <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
-                        </a>
+                        </button>
                       </div>
                     </motion.nav>
                   )}
@@ -479,7 +554,6 @@ function HomePage() {
                     </div>
                 </div>
             </section>
-
             {/* 04 — ATENDIMENTO CLÍNICO */}
             <section id="atendimento" className="border-y border-border bg-secondary/40">
                 <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
@@ -537,7 +611,6 @@ function HomePage() {
                     </Reveal>
                 </div>
             </section>
-
             {/* 05 — CAMINHO */}
             <section id="caminho" className="border-y border-border bg-secondary/40">
                 <div className="mx-auto w-full max-w-[72rem] px-6 py-14 lg:px-8 lg:py-20">
@@ -564,7 +637,6 @@ function HomePage() {
                     </div>
                 </div>
             </section>
-
             {/* 06 — DIFERENTES FACES */}
             <section id="faces" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
@@ -580,7 +652,7 @@ function HomePage() {
                         diferentes, acabam encontrando espaço na minha Odontologia.
                     </p>
                 </Reveal>
-                <DiferentesFaces faces={faces} />
+                <DiferentesFaces faces={faces} scrollNarrative />
             </section>
 
             {/* 07 — UMA PEQUENA INTERSEÇÃO */}
@@ -622,7 +694,6 @@ function HomePage() {
                     </Reveal>
                 </div>
             </section>
-
             {/* 08 — HISTÓRIAS CLÍNICAS */}
             <section id="historias" className="border-y border-border bg-secondary/40">
                 <div className="mx-auto w-full max-w-[90rem] px-6 py-16 lg:px-12 lg:py-24">
@@ -643,7 +714,6 @@ function HomePage() {
                     <HistoriasClinicas casos={historiasClinicas} />
                 </div>
             </section>
-
             {/* 09 — SEDAÇÃO CONSCIENTE */}
             <section id="sedacao" className="mx-auto w-full max-w-[72rem] px-6 py-16 lg:px-8 lg:py-24">
                 <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
@@ -684,7 +754,6 @@ function HomePage() {
                     </Reveal>
                 </div>
             </section>
-
             {/* 10 — IDEIAS QUE GANHARAM FORMA */}
             <section id="projetos" className="mx-auto w-full max-w-[90rem] px-6 py-20 lg:px-12 lg:py-32">
                 <Reveal>
@@ -728,7 +797,6 @@ function HomePage() {
                         </Reveal>)}
                 </div>
             </section>
-
             {/* 11 — CONTATO */}
             <section id="contato" className="border-t border-border bg-primary text-primary-foreground">
                 <div className="mx-auto w-full max-w-[72rem] px-6 py-16 lg:px-8 lg:py-24">
