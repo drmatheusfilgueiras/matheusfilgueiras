@@ -131,9 +131,7 @@ const atendimentoResumo = [{
   servicos: [
     'Clareamento dental',
     'Restaurações estéticas',
-    'Reabilitação oral',
     'Planejamento digital',
-    'Atendimento para pacientes ansiosos',
     'Sedação consciente'
   ]
 }, {
