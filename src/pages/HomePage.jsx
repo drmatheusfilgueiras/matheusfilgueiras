@@ -396,16 +396,16 @@ function HomePage() {
             </section>
 
             {/* 02 — APRESENTAÇÃO */}
-            <section id="apresentacao" className="mx-auto grid w-full max-w-[90rem] px-6 lg:grid-cols-[0.82fr_1fr] lg:items-center lg:px-12">
-                <Reveal className="overflow-hidden">
+            <section id="apresentacao" className="mx-auto grid w-full max-w-[90rem] px-6 lg:min-h-[36rem] lg:grid-cols-[0.82fr_1fr] lg:items-stretch lg:px-12">
+                <Reveal className="overflow-hidden lg:h-full">
                     <img
                         src={IMG_PRESENTATION}
                         alt="Matheus Filgueiras na Naturale Dental Studio"
-                        className="h-[22rem] w-full object-cover object-[center_52%] sm:h-[25rem] lg:h-[28rem]"
+                        className="h-[26rem] w-full object-cover object-[center_44%] sm:h-[30rem] lg:h-full lg:min-h-[36rem] lg:object-[center_46%]"
                         loading="lazy"
                     />
                 </Reveal>
-                <div className="flex items-center py-12 lg:py-12 lg:pl-14 xl:pl-20">
+                <div className="flex items-center py-14 lg:py-16 lg:pl-14 xl:pl-20">
                     <div>
                         <Reveal>
                             <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Apresentação</p>
