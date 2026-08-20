@@ -309,9 +309,9 @@ function HomePage() {
             duration: 0.6,
             ease: 'easeOut'
           }} className="mb-8 text-primary">
-                            <p className="text-[0.78rem] font-medium uppercase tracking-[0.34em]">Matheus Filgueiras</p>
-                            <p className="mt-2 text-[0.56rem] font-medium tracking-[0.24em]">Cirurgião-dentista</p>
-                            <p className="mt-1 text-[0.42rem] font-medium uppercase tracking-[0.24em]">CRO/RJ 59298</p>
+                            <p className="text-[0.95rem] font-medium uppercase tracking-[0.34em]">Matheus Filgueiras</p>
+                            <p className="mt-2 text-[0.73rem] font-medium tracking-[0.24em]">Cirurgião-dentista</p>
+                            <p className="mt-1 text-[0.59rem] font-medium uppercase tracking-[0.24em]">CRO/RJ 59298</p>
                         </motion.div>
                         <h1 className="text-[3.1rem] font-light leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.8rem]">
                             <motion.span initial={{
