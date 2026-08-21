@@ -478,7 +478,7 @@ function HomePage() {
 
             {/* 01 — HOME / HERO */}
             <section id="inicio" className="relative overflow-hidden">
-                <div className="mx-auto grid w-full max-w-[90rem] items-start gap-12 px-6 pb-16 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-12 lg:pb-24 lg:pt-20">
+                <div className="mx-auto grid w-full max-w-[90rem] items-start gap-12 px-6 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-12 lg:pt-20">
                     <div className="lg:pt-6">
                         <motion.div initial={{
             opacity: 0,
