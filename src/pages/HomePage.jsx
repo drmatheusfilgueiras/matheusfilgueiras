@@ -661,56 +661,56 @@ function HomePage() {
                 </div>
             </section>
             {/* 04 — ATENDIMENTO CLÍNICO */}
-            <section id="atendimento" className="border-y border-border bg-secondary/40">
+            <section id="atendimento" className="border-y border-primary/30 bg-primary text-primary-foreground">
                 <div className="mx-auto w-full max-w-[72rem] px-6 py-20 lg:px-8 lg:py-32">
                     <Reveal>
-                        <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Atendimento clínico</p>
+                        <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary-foreground/70">Atendimento clínico</p>
                         <h2 className="mt-6 max-w-[24ch] text-3xl font-light leading-tight sm:text-[2.8rem]">
-                            Cuidado, técnica e <span className="font-script text-primary">planejamento.</span>
+                            Cuidado, técnica e <span className="font-script">planejamento.</span>
                         </h2>
                     </Reveal>
                     <Reveal delay={0.05}>
-                        <p className="mt-6 max-w-[44rem] text-[1.05rem] leading-relaxed text-muted-foreground">
+                        <p className="mt-6 max-w-[44rem] text-[1.05rem] leading-relaxed text-primary-foreground/80">
                             Cada atendimento começa entendendo a pessoa antes de decidir o procedimento. A primeira
                             consulta é o espaço para conversar, avaliar necessidades e construir um planejamento
                             individualizado.
                         </p>
                     </Reveal>
-                    <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+                    <div className="mt-10 grid gap-px overflow-hidden border border-primary-foreground/20 bg-primary-foreground/20 md:grid-cols-3">
                         {atendimentoResumo.map((item, i) => (
                             <Reveal key={item.titulo} delay={i * 0.06} y={20}>
-                                <div className="h-full bg-background p-7 transition-colors duration-300 hover:bg-secondary/35 lg:p-8">
-                                    <h3 className="text-xl font-light tracking-tight text-foreground">{item.titulo}</h3>
+                                <div className="h-full bg-primary-foreground/10 p-7 transition-colors duration-300 hover:bg-primary-foreground/15 lg:p-8">
+                                    <h3 className="text-xl font-light tracking-tight text-primary-foreground">{item.titulo}</h3>
                                     {item.locais ? (
-                                        <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">
+                                        <p className="mt-4 text-[0.98rem] leading-relaxed text-primary-foreground/75">
                                             {item.texto}
-                                            <a href={item.locais[0].href} target="_blank" rel="noreferrer noopener" className="text-foreground underline decoration-primary/40 underline-offset-4 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
+                                            <a href={item.locais[0].href} target="_blank" rel="noreferrer noopener" className="text-primary-foreground underline decoration-primary-foreground/45 underline-offset-4 transition-colors hover:text-background focus-visible:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60">
                                                 {item.locais[0].rotulo}
                                             </a>
                                             {' e na '}
-                                            <a href={item.locais[1].href} target="_blank" rel="noreferrer noopener" className="text-foreground underline decoration-primary/40 underline-offset-4 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40">
+                                            <a href={item.locais[1].href} target="_blank" rel="noreferrer noopener" className="text-primary-foreground underline decoration-primary-foreground/45 underline-offset-4 transition-colors hover:text-background focus-visible:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60">
                                                 {item.locais[1].rotulo}
                                             </a>
                                             .
                                         </p>
                                     ) : item.servicos ? (
-                                        <ul className="mt-5 grid gap-2 text-[0.92rem] leading-snug text-foreground/85">
+                                        <ul className="mt-5 grid gap-2 text-[0.92rem] leading-snug text-primary-foreground/90">
                                             {item.servicos.map((servico) => (
-                                                <li key={servico} className="flex items-center gap-3 border-b border-border/70 pb-2 last:border-b-0 last:pb-0">
-                                                    <span aria-hidden="true" className="h-px w-4 shrink-0 bg-primary/45" />
+                                                <li key={servico} className="flex items-center gap-3 border-b border-primary-foreground/20 pb-2 last:border-b-0 last:pb-0">
+                                                    <span aria-hidden="true" className="h-px w-4 shrink-0 bg-primary-foreground/55" />
                                                     <span>{servico}</span>
                                                 </li>
                                             ))}
                                         </ul>
                                     ) : (
-                                        <p className="mt-4 text-[0.98rem] leading-relaxed text-muted-foreground">{item.texto}</p>
+                                        <p className="mt-4 text-[0.98rem] leading-relaxed text-primary-foreground/75">{item.texto}</p>
                                     )}
                                 </div>
                             </Reveal>
                         ))}
                     </div>
                     <Reveal delay={0.12}>
-                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex min-h-[50px] items-center gap-2 bg-primary px-7 text-[0.78rem] uppercase tracking-[0.22em] text-primary-foreground transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background active:scale-[0.98]">
+                        <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex min-h-[50px] items-center gap-2 bg-primary-foreground px-7 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/70 focus-visible:ring-offset-4 focus-visible:ring-offset-primary active:scale-[0.98]">
                             Agendar consulta
                             <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                         </a>
