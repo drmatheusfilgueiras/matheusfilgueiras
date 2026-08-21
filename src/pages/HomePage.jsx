@@ -719,7 +719,7 @@ function HomePage() {
             </section>
             {/* 05 — CAMINHO */}
             <section id="caminho" className="border-y border-border bg-secondary/40">
-                <div className="mx-auto w-full max-w-[72rem] px-6 py-14 lg:px-8 lg:py-20">
+                <div className="mx-auto w-full max-w-[72rem] px-6 py-12 lg:px-8 lg:py-16">
                     <Reveal>
                         <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Caminho</p>
                         <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
@@ -834,8 +834,7 @@ function HomePage() {
                         </Reveal>
                         <Reveal delay={0.05}>
                             <p className="mt-6 max-w-[38rem] text-[1.05rem] leading-relaxed text-muted-foreground">
-                                Para algumas pessoas, o desconforto começa antes mesmo do procedimento. A sedação
-                                consciente pode tornar essa experiência mais tranquila, confortável e acolhedora.
+                                A sedação consciente pode tornar essa experiência mais tranquila, confortável e acolhedora.
                             </p>
                         </Reveal>
                         <div className="mt-8 divide-y divide-border border-y border-border">
