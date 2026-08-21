@@ -143,6 +143,12 @@ body {
   color: hsl(var(--foreground));
 }
 
+.apple-test {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Sofia Pro", "Helvetica Neue", Arial, sans-serif;
+  font-feature-settings: "kern" 1;
+  text-rendering: geometricPrecision;
+}
+
 ::selection {
   background: hsl(var(--primary) / 0.14);
   color: hsl(var(--foreground));
