@@ -38,7 +38,7 @@ const caminho = [{
 }, {
   titulo: 'Extensão, ensino e projetos',
   lugar: 'Ligas acadêmicas e iniciativas',
-  texto: 'Ao longo dessa trajetória, participei da construção de ligas acadêmicas, projetos de extensão, atividades científicas e iniciativas que me aproximaram também do ensino e da comunicação. Mais do que preencher uma linha do currículo, foram experiências que me ensinaram a trabalhar com pessoas, organizar ideias e transformar projetos em algo que realmente acontecesse.'
+  texto: 'Ao longo dessa trajetória, participei da construção de ligas acadêmicas, projetos de extensão, atividades científicas e iniciativas que me aproximaram também do ensino e da comunicação. Mais do que preencher uma linha do currículo, foram experiências que me ensinaram a conduzir processos, colaborar com pessoas e sustentar boas perguntas até que elas encontrassem aplicação.'
 }];
 const faces = [{
   titulo: 'Odontologia',
@@ -51,15 +51,15 @@ const faces = [{
 }, {
   titulo: 'Desenho',
   img: '/assets/photos/linguagem-desenho.jpg',
-  texto: 'Antes de algumas ideias virarem projetos, elas viram rabiscos. O desenho treina olhar, proporção e observação, e isso atravessa a forma como planejo, explico e construo soluções.'
+  texto: 'O desenho treina olhar, proporção e observação. Esse exercício atravessa a forma como planejo, explico e tomo decisões clínicas.'
 }, {
   titulo: 'Escrita',
   img: '/assets/photos/linguagem-escrita.jpg',
-  texto: 'Artigos, histórias, roteiros e ideias. Escrever é uma maneira de organizar pensamentos, traduzir temas complexos e comunicar melhor aquilo que precisa ser compreendido.'
+  texto: 'Artigos, histórias e roteiros. Escrever é uma maneira de organizar pensamentos, traduzir temas complexos e comunicar melhor aquilo que precisa ser compreendido.'
 }, {
   titulo: 'Design',
   img: '/assets/photos/linguagem-design-laptop-20260819.jpg',
-  texto: 'Identidades visuais, apresentações, fotografia, conteúdo e experiência. Não penso em design como decoração, mas como uma forma de organizar informação, planejamento, experiência e comunicação.'
+  texto: 'Identidades visuais, apresentações, fotografia, conteúdo e experiência. Não penso em design como decoração, mas como um modo de organizar informação, planejamento, experiência e comunicação.'
 }, {
   titulo: 'Tecnologia',
   img: '/assets/photos/linguagem-tecnologia.jpg',
@@ -100,8 +100,8 @@ const projetos = [{
   titulo: 'Comunicação visual',
   tags: 'Design · Fotografia · Ciência',
   sub: 'Nem toda pesquisa precisa parecer uma pesquisa.',
-  texto: 'Apresentações, ilustrações, fotografias, vídeos e identidades visuais passaram a fazer parte da maneira como desenvolvo e apresento ideias.',
-  destaque: 'Porque comunicar também faz parte de construir.',
+  texto: 'Apresentações, ilustrações, fotografias, vídeos e identidades visuais passaram a fazer parte da maneira como preparo e apresento projetos.',
+  destaque: 'Porque comunicar também faz parte do método.',
   cta: 'Ver trabalhos',
   href: 'https://www.behance.net/matheuscarvalh32',
   img: IMG_PROJECTS.visual
@@ -753,9 +753,9 @@ function HomePage() {
                 </Reveal>
                 <Reveal delay={0.05}>
                     <p className="mt-6 max-w-[40rem] text-[1.05rem] leading-relaxed text-muted-foreground">
-                        Não gosto muito da palavra “habilidades”. Prefiro pensar em linguagens. São diferentes formas
-                        de observar, pensar e criar, ferramentas que ampliam meu repertório e que, de maneiras
-                        diferentes, acabam encontrando espaço na minha Odontologia.
+                        Não gosto muito da palavra “habilidades”. Prefiro pensar em linguagens. Cada uma treina uma
+                        atenção diferente: olhar, escutar, perguntar, organizar e explicar melhor o que precisa ser
+                        compreendido.
                     </p>
                 </Reveal>
                 <DiferentesFaces faces={faces} scrollNarrative />
@@ -865,14 +865,13 @@ function HomePage() {
                 <Reveal>
                     <p className="text-[0.72rem] uppercase tracking-[0.4em] text-primary">Ideias que ganharam forma</p>
                     <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
-                        Algumas ideias que <span className="font-script text-primary">ganharam forma.</span>
+                        Projetos que atravessam <span className="font-script text-primary">a clínica.</span>
                     </h2>
                 </Reveal>
                 <Reveal delay={0.05}>
                     <p className="mt-6 max-w-[44rem] text-[1.02rem] leading-relaxed text-muted-foreground">
-                        A Odontologia é o ponto de partida de grande parte do que faço. Algumas perguntas, porém,
-                        acabam ultrapassando a clínica e ganhando outras formas: pesquisa, livros, tecnologia ou
-                        comunicação.
+                        A Odontologia é o ponto de partida de grande parte do que faço. Algumas perguntas seguem para
+                        outras superfícies: pesquisa, livros, tecnologia e comunicação.
                     </p>
                 </Reveal>
 
@@ -912,17 +911,16 @@ function HomePage() {
                                 Contato
                             </p>
                             <h2 className="mt-6 text-3xl font-light leading-tight sm:text-[2.8rem]">
-                                Podemos começar por uma <span className="font-script">ideia.</span>
+                                Escolha onde deseja <span className="font-script">ser atendido.</span>
                             </h2>
                             <p className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-primary-foreground/85">
-                                Projetos, pesquisa, Odontologia, livros, design, tecnologia, ou alguma coisa que
-                                ainda não tenha nome. Se você encontrou algo por aqui que despertou uma conversa,
-                                será um prazer continuar.
+                                Atendo em Nova Friburgo/RJ. Selecione uma unidade para iniciar o agendamento pelo
+                                WhatsApp e direcionar sua consulta para o local mais adequado.
                             </p>
                             <p className="mt-8 font-script text-2xl text-primary-foreground">Matheus Filgueiras</p>
                             <Reveal delay={0.1}>
                                 <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex min-h-[52px] items-center gap-2 bg-primary-foreground px-8 text-[0.8rem] uppercase tracking-[0.22em] text-primary transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/70 focus-visible:ring-offset-4 focus-visible:ring-offset-primary active:scale-[0.98]">
-                                    Vamos conversar
+                                    Agendar consulta
                                     <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                                 </a>
                             </Reveal>
@@ -971,6 +969,9 @@ function HomePage() {
                             <div>
                                 <p className="text-[0.7rem] uppercase tracking-[0.28em] text-primary-foreground/60">
                                     Marque sua consulta
+                                </p>
+                                <p className="mt-3 text-[0.96rem] leading-relaxed text-primary-foreground/75">
+                                    Escolha uma das unidades abaixo:
                                 </p>
                                 <div className="mt-4 space-y-3">
                                     {ondeAtendo.map((local) => (
