@@ -149,6 +149,14 @@ body {
   text-rendering: geometricPrecision;
 }
 
+.apple-gallery-scrollbar {
+  scrollbar-width: none;
+}
+
+.apple-gallery-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 ::selection {
   background: hsl(var(--primary) / 0.14);
   color: hsl(var(--foreground));

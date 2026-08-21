@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
-import HomePage from './pages/HomePage';
 import AppleTestPage from './pages/AppleTestPage';
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
         <Router>
             <ScrollToTop />
             <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<AppleTestPage />} />
                 <Route path="/teste-apple" element={<AppleTestPage />} />
             </Routes>
         </Router>

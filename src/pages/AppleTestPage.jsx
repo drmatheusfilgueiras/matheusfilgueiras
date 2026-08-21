@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpRight, FileText, Instagram, Linkedin, Mail } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, Instagram, Linkedin, Mail, X } from 'lucide-react';
 import Reveal from '@/components/Reveal';
 import Seo from '@/components/Seo';
 
@@ -94,7 +95,7 @@ const intersecao = [
 
 const historias = [
   {
-    titulo: 'Clareamento de consultorio',
+    titulo: 'Clareamento de consultório',
     texto: 'Um tratamento planejado para devolver luminosidade ao sorriso de forma gradual, respeitando as características naturais dos dentes e buscando um resultado harmônico, sem excessos.',
     antes: '/assets/cases/clareamento-antes.jpg',
     depois: '/assets/cases/clareamento-depois.jpg',
@@ -165,7 +166,7 @@ const feedbacks = [
   },
 ];
 
-const sobreRotator = ['Dentista.', 'Pesquisador.', 'Autor.', 'Desenhista.', 'Criador.', 'Comunicador.', 'Curioso.', 'Matheus.'];
+const sobreRotator = ['Pesquisador.', 'Autor.', 'Desenhista.', 'Criador.', 'Comunicador.', 'Curioso.'];
 
 const socialLinks = [
   {
@@ -194,6 +195,27 @@ const socialLinks = [
   },
 ];
 
+const appointmentOptions = [
+  {
+    title: 'Salud Odontologia',
+    subtitle: 'Nova Friburgo/RJ',
+    description: 'Agendar consulta na Salud pelo WhatsApp.',
+    href: SALUD_WHATSAPP_URL,
+  },
+  {
+    title: 'Naturale Dental Studio',
+    subtitle: 'Nova Friburgo/RJ',
+    description: 'Agendar consulta na Naturale pelo WhatsApp.',
+    href: NATURALE_WHATSAPP_URL,
+  },
+  {
+    title: 'Falar com Matheus',
+    subtitle: 'Atendimento direto',
+    description: 'Tirar dúvidas antes de escolher a clínica.',
+    href: WHATSAPP_URL,
+  },
+];
+
 function FeedbackApple() {
   const [index, setIndex] = useState(0);
 
@@ -214,13 +236,13 @@ function FeedbackApple() {
         <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] text-[#1d1d1f] sm:text-6xl">
           Depois da consulta.
         </h2>
-        <div className="mx-auto mt-12 max-w-3xl rounded-[8px] bg-white p-8 shadow-[0_18px_60px_rgba(0,0,0,0.08)] sm:p-12">
-          <p className="text-6xl leading-none text-[#0066cc]/20">“</p>
-          <p className="mx-auto -mt-4 max-w-2xl text-2xl font-medium leading-tight tracking-[-0.02em] text-[#1d1d1f] sm:text-4xl">
+        <div className="relative mx-auto mt-12 max-w-3xl rounded-[24px] bg-white p-8 shadow-[0_18px_60px_rgba(0,0,0,0.08)] sm:p-12">
+          <p className="absolute left-7 top-5 text-7xl leading-none text-[#0066cc]/20 sm:left-10 sm:top-8">“</p>
+          <p className="relative z-10 mx-auto max-w-2xl px-4 pt-8 text-2xl font-medium leading-tight tracking-[-0.02em] text-[#1d1d1f] sm:text-4xl">
             {feedback.texto}
           </p>
-          <p className="mt-6 text-6xl leading-none text-[#0066cc]/20">”</p>
-          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">{feedback.nome}</p>
+          <p className="absolute bottom-16 right-7 text-7xl leading-none text-[#0066cc]/20 sm:bottom-20 sm:right-10">”</p>
+          <p className="relative z-10 mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">{feedback.nome}</p>
           <div className="mt-7 flex justify-center gap-2" aria-label="Feedback atual">
             {feedbacks.map((item, itemIndex) => (
               <button
@@ -238,19 +260,161 @@ function FeedbackApple() {
   );
 }
 
-function LinkButton({ href, children, dark = false }) {
+function ClinicalGalleryApple() {
+  const scrollerRef = useRef(null);
+
+  const scrollGallery = (direction) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    scroller.scrollBy({
+      left: direction * scroller.clientWidth * 0.82,
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <a
-      href={href}
-      target={href?.startsWith('#') ? undefined : '_blank'}
-      rel={href?.startsWith('#') ? undefined : 'noreferrer noopener'}
-      className={`inline-flex min-h-[44px] items-center justify-center rounded-full px-6 text-[0.95rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 active:scale-[0.98] ${
+    <div className="relative mt-12">
+      <div
+        ref={scrollerRef}
+        className="apple-gallery-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 scroll-smooth"
+        aria-label="Galeria de histórias clínicas"
+      >
+        {historias.map((item, index) => (
+          <article
+            key={item.titulo}
+            className="min-w-[88%] snap-center overflow-hidden rounded-[24px] bg-[#f5f5f7] shadow-[0_18px_60px_rgba(0,0,0,0.07)] md:min-w-[72%] xl:min-w-[58%]"
+          >
+            <div className="grid gap-px bg-white sm:grid-cols-2">
+              <figure className="bg-white">
+                <img src={item.antes} alt={`${item.titulo} antes`} className="aspect-[16/9] w-full object-cover" loading="lazy" />
+                <figcaption className="px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#6e6e73]">Antes</figcaption>
+              </figure>
+              <figure className="bg-white">
+                <img src={item.depois} alt={`${item.titulo} depois`} className="aspect-[16/9] w-full object-cover" loading="lazy" />
+                <figcaption className="px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#6e6e73]">Depois</figcaption>
+              </figure>
+            </div>
+            <div className="grid gap-6 border-t border-[#e8e8ed] p-7 sm:p-9 lg:grid-cols-[0.38fr_0.62fr] lg:items-start">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#0066cc]">
+                  Caso {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-[#1d1d1f] sm:text-4xl">{item.titulo}</h3>
+              </div>
+              <p className="text-lg leading-relaxed tracking-[-0.015em] text-[#515154]">{item.texto}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        onClick={() => scrollGallery(-1)}
+        className="absolute left-0 top-1/2 hidden h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#1d1d1f] shadow-[0_12px_34px_rgba(0,0,0,0.14)] backdrop-blur transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 lg:flex"
+        aria-label="Ver caso anterior"
+      >
+        <ChevronLeft className="h-5 w-5" strokeWidth={2} />
+      </button>
+      <button
+        type="button"
+        onClick={() => scrollGallery(1)}
+        className="absolute right-0 top-1/2 hidden h-12 w-12 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-white/90 text-[#1d1d1f] shadow-[0_12px_34px_rgba(0,0,0,0.14)] backdrop-blur transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 lg:flex"
+        aria-label="Ver próximo caso"
+      >
+        <ChevronRight className="h-5 w-5" strokeWidth={2} />
+      </button>
+    </div>
+  );
+}
+
+function AppointmentModalApple({ open, onOpenChange, onBlue = false }) {
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay asChild>
+          <motion.div
+            className="fixed inset-0 z-[80] bg-[#f5f5f7]/18 backdrop-blur-xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+          />
+        </Dialog.Overlay>
+        <Dialog.Content asChild aria-labelledby="appointment-apple-title">
+          <div className="pointer-events-none fixed inset-0 z-[90] flex items-center justify-center p-4 outline-none">
+            <motion.div
+              className={`pointer-events-auto relative max-h-[calc(100vh-2rem)] w-full max-w-[34rem] overflow-y-auto rounded-[28px] border p-5 shadow-[0_28px_90px_rgba(0,0,0,0.2)] backdrop-blur-2xl transition-colors sm:p-6 ${
+                onBlue ? 'border-white/42 bg-white/14 text-white shadow-[0_28px_90px_rgba(0,20,70,0.26)]' : 'border-white/55 bg-white/78 text-[#1d1d1f]'
+              }`}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Dialog.Close
+                className={`absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 ${
+                  onBlue ? 'bg-white/18 text-white/78 hover:bg-white/28 hover:text-white' : 'bg-white/70 text-[#6e6e73] hover:bg-white hover:text-[#1d1d1f]'
+                }`}
+                aria-label="Fechar"
+              >
+                <X className="h-4 w-4" strokeWidth={2} />
+              </Dialog.Close>
+
+              <p className={`pr-12 text-xs font-semibold uppercase tracking-[0.24em] ${onBlue ? 'text-white/66' : 'text-[#0066cc]'}`}>Agendar consulta</p>
+              <Dialog.Title id="appointment-apple-title" className={`mt-4 max-w-[16ch] text-3xl font-semibold leading-[1] tracking-[-0.05em] sm:text-5xl ${onBlue ? 'text-white' : 'text-[#1d1d1f]'}`}>
+                Onde você prefere ser atendido?
+              </Dialog.Title>
+              <Dialog.Description className={`mt-3 max-w-xl text-base leading-relaxed tracking-[-0.015em] ${onBlue ? 'text-white/78' : 'text-[#424245]'}`}>
+                Escolha uma clínica para seguir ao WhatsApp, ou fale comigo antes de decidir o melhor caminho.
+              </Dialog.Description>
+
+              <div className="mt-5 grid gap-2.5">
+                {appointmentOptions.map((option) => (
+                  <a
+                    key={option.title}
+                    href={option.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className={`group grid gap-3 rounded-[20px] p-4 backdrop-blur-xl transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 sm:grid-cols-[1fr_auto] sm:items-center ${
+                      onBlue
+                        ? 'bg-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)] hover:bg-white/16'
+                        : 'bg-white/58 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.55)] hover:bg-white/76'
+                    }`}
+                  >
+                    <span>
+                      <span className={`block text-lg font-semibold tracking-[-0.035em] ${onBlue ? 'text-white' : 'text-[#1d1d1f]'}`}>{option.title}</span>
+                      <span className={`mt-1 block text-xs font-semibold uppercase tracking-[0.18em] ${onBlue ? 'text-white/54' : 'text-[#0066cc]'}`}>{option.subtitle}</span>
+                      <span className={`mt-2 block text-[0.92rem] leading-relaxed tracking-[-0.01em] ${onBlue ? 'text-white/74' : 'text-[#424245]'}`}>{option.description}</span>
+                    </span>
+                    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-colors ${
+                      onBlue ? 'bg-white/14 text-white group-hover:bg-white group-hover:text-[#0066cc]' : 'bg-white/86 text-[#0066cc] group-hover:bg-[#0066cc] group-hover:text-white'
+                    }`}>
+                      <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+function ScheduleButton({ children, dark = false, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-[1rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 active:scale-[0.98] ${
         dark ? 'bg-white text-[#1d1d1f]' : 'bg-[#0066cc] text-white'
       }`}
     >
       {children}
       <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
-    </a>
+    </button>
   );
 }
 
@@ -267,9 +431,9 @@ function SobreAppleRotator() {
   }, []);
 
   return (
-    <div className="min-h-[11rem]">
+    <div className="min-h-[8.5rem]">
       <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/60">Eu sou dentista. E também...</p>
-      <div className="relative mt-8 min-h-[5.5rem] overflow-hidden">
+      <div className="relative mt-5 min-h-[4.8rem] overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.p
             key={word}
@@ -277,7 +441,7 @@ function SobreAppleRotator() {
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: -24, filter: 'blur(8px)' }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className={`text-6xl font-semibold tracking-[-0.06em] ${word === 'Matheus.' ? 'italic' : ''}`}
+            className={`text-5xl font-semibold tracking-[-0.06em] sm:text-6xl ${word === 'Matheus.' ? 'italic' : ''}`}
           >
             {word}
           </motion.p>
@@ -304,7 +468,7 @@ function AppleLanguagesSection() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+        <div className="mt-12 grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-start">
           <Reveal className="divide-y divide-[#d2d2d7] border-y border-[#d2d2d7]">
             {linguagens.map((item, index) => {
               const isActive = activeIndex === index;
@@ -316,7 +480,7 @@ function AppleLanguagesSection() {
                   onMouseEnter={() => setActiveIndex(index)}
                   onFocus={() => setActiveIndex(index)}
                   onClick={() => setActiveIndex(index)}
-                  className="group flex w-full items-center justify-between gap-6 py-6 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/30 focus-visible:ring-offset-4 focus-visible:ring-offset-[#f5f5f7]"
+                  className="group flex w-full items-center justify-between gap-6 py-5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/30 focus-visible:ring-offset-4 focus-visible:ring-offset-[#f5f5f7]"
                 >
                   <span className={`text-3xl font-semibold tracking-[-0.045em] transition-colors sm:text-4xl ${isActive ? 'text-[#0066cc]' : 'text-[#1d1d1f] group-hover:text-[#0066cc]'}`}>
                     {item.titulo}
@@ -328,7 +492,7 @@ function AppleLanguagesSection() {
           </Reveal>
 
           <Reveal delay={0.08} className="lg:sticky lg:top-24">
-            <div className="overflow-hidden rounded-[8px] bg-white shadow-[0_18px_70px_rgba(0,0,0,0.08)]">
+            <div className="overflow-hidden rounded-[24px] bg-white shadow-[0_18px_70px_rgba(0,0,0,0.08)]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.titulo}
@@ -337,11 +501,11 @@ function AppleLanguagesSection() {
                   exit={{ opacity: 0, y: -18 }}
                   transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <img src={active.img} alt={active.titulo} className="aspect-[16/10] w-full object-cover" loading="lazy" />
-                  <div className="p-7 sm:p-9">
+                  <img src={active.img} alt={active.titulo} className="aspect-[16/7] w-full object-cover" loading="lazy" />
+                  <div className="p-6 sm:p-7">
                     <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#0066cc]">Linguagem ativa</p>
-                    <h3 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-[#1d1d1f]">{active.titulo}</h3>
-                    <p className="mt-5 text-lg leading-relaxed tracking-[-0.015em] text-[#515154]">{active.texto}</p>
+                    <h3 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-[#1d1d1f] sm:text-4xl">{active.titulo}</h3>
+                    <p className="mt-4 text-base leading-relaxed tracking-[-0.015em] text-[#515154] sm:text-lg">{active.texto}</p>
                   </div>
                 </motion.div>
               </AnimatePresence>
@@ -354,36 +518,66 @@ function AppleLanguagesSection() {
 }
 
 function AppleTestPage() {
+  const [appointmentOpen, setAppointmentOpen] = useState(false);
+  const [headerOnBlue, setHeaderOnBlue] = useState(false);
+
+  useEffect(() => {
+    const updateHeaderTone = () => {
+      const blueSections = Array.from(document.querySelectorAll('[data-blue-section="true"]'));
+      const probeY = 52;
+
+      setHeaderOnBlue(
+        blueSections.some((section) => {
+          const rect = section.getBoundingClientRect();
+          return rect.top <= probeY && rect.bottom >= probeY;
+        }),
+      );
+    };
+
+    updateHeaderTone();
+    window.addEventListener('scroll', updateHeaderTone, { passive: true });
+    window.addEventListener('resize', updateHeaderTone);
+
+    return () => {
+      window.removeEventListener('scroll', updateHeaderTone);
+      window.removeEventListener('resize', updateHeaderTone);
+    };
+  }, []);
+
   return (
     <div className="apple-test min-h-screen bg-[#f5f5f7] text-[#1d1d1f]">
       <Helmet>
-        <title>Teste Apple · Matheus Filgueiras</title>
+        <title>Matheus Filgueiras · Cirurgião-dentista</title>
         <meta
           name="description"
-          content="Versão teste do site pessoal de Matheus Filgueiras com direção visual mais refinada, minimalista e inspirada em interfaces de produto."
+          content="Site oficial de Matheus Filgueiras, cirurgião-dentista em Nova Friburgo/RJ, com atuação em clínica, ciência, design e tecnologia."
         />
       </Helmet>
       <Seo
-        title="Teste Apple · Matheus Filgueiras"
-        description="Versão teste do site pessoal de Matheus Filgueiras com direção visual mais refinada, minimalista e inspirada em interfaces de produto."
+        title="Matheus Filgueiras · Cirurgião-dentista"
+        description="Site oficial de Matheus Filgueiras, cirurgião-dentista em Nova Friburgo/RJ, com atuação em clínica, ciência, design e tecnologia."
         siteName="Matheus Filgueiras"
       />
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white/78 backdrop-blur-xl">
-        <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
-          <a href="#inicio-apple" className="shrink-0 text-sm font-semibold tracking-[-0.01em] text-[#1d1d1f]">
+      <header className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl transition-colors duration-300 ${headerOnBlue ? 'border-white/15 bg-[#0066cc]/88' : 'border-black/10 bg-white/78'}`}>
+        <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-5">
+          <a href="#inicio-apple" className={`shrink-0 text-base font-semibold tracking-[-0.01em] transition-colors ${headerOnBlue ? 'text-white' : 'text-[#1d1d1f]'}`}>
             Matheus Filgueiras
           </a>
-          <div className="hidden items-center gap-6 text-xs text-[#424245] md:flex">
+          <div className={`hidden items-center gap-7 text-[0.9rem] font-medium transition-colors md:flex ${headerOnBlue ? 'text-white/82' : 'text-[#424245]'}`}>
             {navLinks.map(([label, href]) => (
-              <a key={href} href={href} className="transition-colors hover:text-[#0066cc]">
+              <a key={href} href={href} className={`transition-colors ${headerOnBlue ? 'hover:text-white' : 'hover:text-[#0066cc]'}`}>
                 {label}
               </a>
             ))}
           </div>
-          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-full bg-[#0066cc] px-4 py-1.5 text-xs font-semibold text-white">
+          <button
+            type="button"
+            onClick={() => setAppointmentOpen(true)}
+            className={`rounded-full px-5 py-2 text-[0.88rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 ${headerOnBlue ? 'bg-white text-[#0066cc]' : 'bg-[#0066cc] text-white'}`}
+          >
             Agendar
-          </a>
+          </button>
         </nav>
       </header>
 
@@ -400,14 +594,14 @@ function AppleTestPage() {
               </p>
               <p className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">transformar ideias em algo real.</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <LinkButton href={WHATSAPP_URL}>Agendar consulta</LinkButton>
+                <ScheduleButton onClick={() => setAppointmentOpen(true)}>Agendar consulta</ScheduleButton>
                 <a href="#projetos-apple" className="inline-flex min-h-[44px] items-center rounded-full px-6 text-[0.95rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]">
                   Ver projetos
                 </a>
               </div>
             </Reveal>
             <Reveal delay={0.08}>
-              <figure className="overflow-hidden rounded-[8px] bg-[#e8e8ed]">
+              <figure className="overflow-hidden rounded-[24px] bg-[#e8e8ed]">
                 <img
                   src="/assets/photos/retrato-editorial-hero.jpg"
                   alt="Matheus Filgueiras"
@@ -419,21 +613,21 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <section id="apresentacao-apple" className="bg-white px-5 py-20 sm:px-8 lg:py-28">
-          <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch">
-            <Reveal className="overflow-hidden rounded-[8px] bg-[#f5f5f7]">
+        <section id="apresentacao-apple" className="bg-white px-5 py-14 sm:px-8 lg:py-20">
+          <div className="mx-auto grid max-w-6xl gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+            <Reveal className="overflow-hidden rounded-[24px] bg-[#f5f5f7]">
               <img
                 src="/assets/photos/apresentacao-naturale.jpg"
                 alt="Matheus Filgueiras na Naturale Dental Studio"
-                className="h-[32rem] w-full object-cover object-[center_46%] lg:h-full"
+                className="h-[28rem] w-full object-cover object-[center_46%] lg:h-[34rem]"
                 loading="lazy"
               />
             </Reveal>
-            <Reveal delay={0.08} className="flex items-center rounded-[8px] bg-[#f5f5f7] p-8 sm:p-12 lg:p-16">
+            <Reveal delay={0.08} className="flex items-center rounded-[24px] bg-[#f5f5f7] p-7 sm:p-10 lg:p-12">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Apresentação</p>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">Ola, sou o Matheus.</h2>
-                <div className="mt-8 space-y-5 text-lg leading-relaxed tracking-[-0.015em] text-[#515154]">
+                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">Olá, sou o Matheus.</h2>
+                <div className="mt-6 space-y-4 text-[1.05rem] leading-relaxed tracking-[-0.015em] text-[#515154]">
                   <p>Sou cirurgião-dentista e mestrando em Odontologia. Essa provavelmente é a maneira mais simples de me apresentar.</p>
                   <p className="text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">Só não é a mais completa.</p>
                   <p>Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design, comunicação e tecnologia.</p>
@@ -444,29 +638,30 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <section className="bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:py-28">
+        <section className="bg-[#f5f5f7] px-5 py-16 sm:px-8 lg:py-24">
           <div className="mx-auto max-w-6xl">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Sobre</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                Eu nunca soube ser uma coisa só.
+                <span className="block">Eu nunca soube</span>
+                <span className="block">ser uma coisa só.</span>
               </h2>
             </Reveal>
-            <div className="mt-12 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-              <Reveal className="rounded-[8px] bg-white p-8 sm:p-12">
-                <p className="text-xl leading-relaxed tracking-[-0.02em] text-[#515154]">
+            <div className="mt-10 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+              <Reveal className="flex items-center rounded-[24px] bg-white p-7 sm:p-9">
+                <p className="text-[1.08rem] leading-relaxed tracking-[-0.02em] text-[#515154] sm:text-xl">
                   Minha formação começou na Odontologia, mas minha curiosidade sempre encontrou outros caminhos. Hoje, não vejo esses interesses como trajetórias separadas. São diferentes maneiras de observar, pensar e criar, e todas acabam encontrando espaço na forma como exerço a Odontologia.
                 </p>
               </Reveal>
-              <Reveal delay={0.08} className="rounded-[8px] bg-[#0066cc] p-8 text-white sm:p-12">
+              <Reveal delay={0.08} className="rounded-[24px] bg-[#0066cc] p-7 text-white sm:p-9">
                 <SobreAppleRotator />
-                <p className="mt-8 text-xl leading-relaxed text-white/72">Talvez eu não precise ser uma coisa só.</p>
+                <p className="mt-5 text-xl leading-relaxed text-white/72">Talvez eu não precise ser uma coisa só.</p>
               </Reveal>
             </div>
           </div>
         </section>
 
-        <section id="atendimento-apple" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
+        <section id="atendimento-apple" data-blue-section="true" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">Atendimento clínico</p>
@@ -479,14 +674,14 @@ function AppleTestPage() {
             </Reveal>
             <div className="mt-12 grid gap-3 md:grid-cols-3">
               {atendimento.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.05} className="rounded-[8px] bg-white/[0.08] p-7 ring-1 ring-white/10">
+                <Reveal key={item.titulo} delay={index * 0.05} className="rounded-[24px] bg-white/[0.08] p-7 ring-1 ring-white/10">
                   <h3 className="text-2xl font-semibold tracking-[-0.03em]">{item.titulo}</h3>
                   <p className="mt-4 leading-relaxed text-white/68">{item.texto}</p>
                 </Reveal>
               ))}
             </div>
             <div className="mt-10">
-              <LinkButton href={WHATSAPP_URL} dark>Agendar consulta</LinkButton>
+              <ScheduleButton onClick={() => setAppointmentOpen(true)} dark>Agendar consulta</ScheduleButton>
             </div>
           </div>
         </section>
@@ -515,7 +710,7 @@ function AppleTestPage() {
 
         <AppleLanguagesSection />
 
-        <section className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
+        <section data-blue-section="true" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/60">Uma pequena interseção</p>
@@ -525,9 +720,9 @@ function AppleTestPage() {
             </Reveal>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {intersecao.map(([texto, img], index) => (
-                <Reveal key={texto} delay={index * 0.04} className="overflow-hidden rounded-[8px] bg-white/10 ring-1 ring-white/15">
+                <Reveal key={texto} delay={index * 0.04} className="overflow-hidden rounded-[24px] bg-white/10 ring-1 ring-white/15">
                   <img src={img} alt={texto} className="aspect-[16/10] w-full object-cover" loading="lazy" />
-                  <p className="min-h-[5.5rem] p-5 text-lg font-semibold leading-snug tracking-[-0.02em]">{texto}</p>
+                  <p className="min-h-[5.5rem] p-5 text-lg font-medium leading-snug tracking-[-0.02em] text-white/80">{texto}</p>
                 </Reveal>
               ))}
             </div>
@@ -542,30 +737,7 @@ function AppleTestPage() {
                 Entre o planejamento e o resultado.
               </h2>
             </Reveal>
-            <div className="mt-12 grid gap-5">
-              {historias.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.08}>
-                  <article className="grid gap-6 rounded-[8px] bg-[#f5f5f7] p-5 lg:grid-cols-[1.1fr_0.9fr] lg:p-7">
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <figure className="overflow-hidden rounded-[8px] bg-white">
-                        <img src={item.antes} alt={`${item.titulo} antes`} className="aspect-[4/3] w-full object-cover" loading="lazy" />
-                        <figcaption className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#6e6e73]">Antes</figcaption>
-                      </figure>
-                      <figure className="overflow-hidden rounded-[8px] bg-white">
-                        <img src={item.depois} alt={`${item.titulo} depois`} className="aspect-[4/3] w-full object-cover" loading="lazy" />
-                        <figcaption className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#6e6e73]">Depois</figcaption>
-                      </figure>
-                    </div>
-                    <div className="flex items-center">
-                      <div>
-                        <h3 className="text-3xl font-semibold tracking-[-0.045em]">{item.titulo}</h3>
-                        <p className="mt-5 text-lg leading-relaxed tracking-[-0.015em] text-[#515154]">{item.texto}</p>
-                      </div>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
+            <ClinicalGalleryApple />
           </div>
         </section>
 
@@ -582,9 +754,14 @@ function AppleTestPage() {
             <div className="mt-12 grid gap-5">
               {projetos.map((item, index) => (
                 <Reveal key={item.titulo} delay={index * 0.05}>
-                  <article className="grid overflow-hidden rounded-[8px] bg-[#f5f5f7] lg:grid-cols-2">
-                    <img src={item.img} alt={item.titulo} className="h-full min-h-[20rem] w-full object-cover" loading="lazy" />
-                    <div className="p-8 sm:p-12">
+                  <article className="grid overflow-hidden rounded-[24px] bg-[#f5f5f7] lg:grid-cols-2">
+                    <img
+                      src={item.img}
+                      alt={item.titulo}
+                      className={`h-full min-h-[20rem] w-full object-cover ${index % 2 === 1 ? 'lg:order-2' : ''}`}
+                      loading="lazy"
+                    />
+                    <div className={`p-8 sm:p-12 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0066cc]">{item.tags}</p>
                       <h3 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">{item.titulo}</h3>
                       <p className="mt-5 text-2xl font-semibold tracking-[-0.035em] text-[#1d1d1f]">{item.sub}</p>
@@ -604,7 +781,7 @@ function AppleTestPage() {
 
         <section className="bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:py-28">
           <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.92fr_1.08fr]">
-            <Reveal className="flex items-center rounded-[8px] bg-white p-8 sm:p-12">
+            <Reveal className="flex items-center rounded-[24px] bg-white p-8 sm:p-12">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Sedação consciente</p>
                 <h2 className="mt-4 text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
@@ -624,14 +801,14 @@ function AppleTestPage() {
                 </a>
               </div>
             </Reveal>
-            <Reveal delay={0.08} className="overflow-hidden rounded-[8px] bg-white">
+            <Reveal delay={0.08} className="overflow-hidden rounded-[24px] bg-white">
               <img src="/assets/photos/sedacao-consciente.jpg" alt="Matheus preparando equipamento de sedação consciente" className="h-full min-h-[34rem] w-full object-cover object-center" loading="lazy" />
             </Reveal>
           </div>
         </section>
 
-        <section id="contato-apple" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        <section id="contato-apple" data-blue-section="true" className="flex min-h-screen items-center bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-24">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">Contato</p>
               <h2 className="mt-4 text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
@@ -642,17 +819,17 @@ function AppleTestPage() {
               </p>
             </Reveal>
             <Reveal delay={0.08} className="grid gap-3 sm:grid-cols-2">
-              <a href={SALUD_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[8px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1">
+              <a href={SALUD_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">Marque sua consulta</p>
                 <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em]">Salud Odontologia</h3>
                 <p className="mt-4 text-[#0066cc]">Agendar pelo WhatsApp ↗</p>
               </a>
-              <a href={NATURALE_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[8px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1">
+              <a href={NATURALE_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">Marque sua consulta</p>
                 <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em]">Naturale Dental Studio</h3>
                 <p className="mt-4 text-[#0066cc]">Agendar pelo WhatsApp ↗</p>
               </a>
-              <div className="rounded-[8px] border border-white/20 p-7 sm:col-span-2">
+              <div className="rounded-[24px] border border-white/20 p-7 sm:col-span-2">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">Outros contatos</p>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   {socialLinks.map(({ Icon, label, value, href }) => (
@@ -661,12 +838,12 @@ function AppleTestPage() {
                       href={href}
                       target={href.startsWith('mailto:') ? undefined : '_blank'}
                       rel={href.startsWith('mailto:') ? undefined : 'noreferrer noopener'}
-                      className="group flex min-h-[64px] items-center gap-4 rounded-[8px] bg-white/10 px-4 py-3 transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                      className="group flex min-h-[64px] min-w-0 items-center gap-4 rounded-[24px] bg-white/10 px-4 py-3 transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                     >
                       <Icon className="h-5 w-5 shrink-0 text-white/80" strokeWidth={1.7} />
-                      <span>
+                      <span className="min-w-0">
                         <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-white/55">{label}</span>
-                        <span className="mt-1 block text-[0.98rem] font-semibold leading-snug text-white transition-colors group-hover:text-white">{value}</span>
+                        <span className={`mt-1 block font-semibold leading-snug text-white transition-colors group-hover:text-white ${label === 'E-mail' ? 'whitespace-nowrap text-[0.78rem] tracking-[-0.02em] xl:text-[0.84rem]' : 'text-[0.95rem] [overflow-wrap:anywhere]'}`}>{value}</span>
                       </span>
                     </a>
                   ))}
@@ -676,6 +853,8 @@ function AppleTestPage() {
           </div>
         </section>
       </main>
+
+      <AppointmentModalApple open={appointmentOpen} onOpenChange={setAppointmentOpen} onBlue={headerOnBlue} />
     </div>
   );
 }
