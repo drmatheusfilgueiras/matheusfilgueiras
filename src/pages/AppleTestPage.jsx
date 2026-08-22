@@ -328,13 +328,13 @@ function ClinicalGalleryApple() {
   );
 }
 
-function AppointmentModalApple({ open, onOpenChange, onBlue = false }) {
+function AppointmentModalApple({ open, onOpenChange }) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay asChild>
           <motion.div
-            className="fixed inset-0 z-[80] bg-[#07111d]/28 backdrop-blur-xl"
+            className="fixed inset-0 z-[80] bg-[#05101f]/48 backdrop-blur-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -344,28 +344,28 @@ function AppointmentModalApple({ open, onOpenChange, onBlue = false }) {
         <Dialog.Content asChild aria-labelledby="appointment-apple-title">
           <div className="pointer-events-none fixed inset-0 z-[90] flex items-center justify-center p-4 outline-none">
             <motion.div
-              className={`pointer-events-auto relative max-h-[calc(100vh-2rem)] w-full max-w-[34rem] overflow-y-auto rounded-[28px] border p-5 shadow-[0_28px_90px_rgba(0,0,0,0.2)] backdrop-blur-2xl transition-colors sm:p-6 ${
-                onBlue ? 'border-white/42 bg-white/14 text-white shadow-[0_28px_90px_rgba(0,20,70,0.26)]' : 'border-white/55 bg-white/78 text-[#1d1d1f]'
-              }`}
+              className="pointer-events-auto relative max-h-[calc(100vh-2rem)] w-full max-w-[34rem] overflow-y-auto rounded-[28px] border border-white/28 bg-[#0066cc] p-5 text-white shadow-[0_32px_110px_rgba(0,36,96,0.36)] backdrop-blur-2xl sm:p-6"
+              style={{
+                background:
+                  'linear-gradient(180deg, rgba(0,112,224,0.98) 0%, rgba(0,98,196,0.98) 58%, rgba(0,86,174,0.98) 100%)',
+              }}
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             >
               <Dialog.Close
-                className={`absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 ${
-                  onBlue ? 'bg-white/18 text-white/78 hover:bg-white/28 hover:text-white' : 'bg-white/70 text-[#6e6e73] hover:bg-white hover:text-[#1d1d1f]'
-                }`}
+                className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/16 text-white/82 shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-colors hover:bg-white/24 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
                 aria-label="Fechar"
               >
                 <X className="h-4 w-4" strokeWidth={2} />
               </Dialog.Close>
 
-              <p className={`pr-12 text-xs font-semibold uppercase tracking-[0.24em] ${onBlue ? 'text-white/66' : 'text-[#0066cc]'}`}>Agendar consulta</p>
-              <Dialog.Title id="appointment-apple-title" className={`mt-4 max-w-[16ch] text-3xl font-semibold leading-[1] tracking-[-0.05em] sm:text-5xl ${onBlue ? 'text-white' : 'text-[#1d1d1f]'}`}>
+              <p className="pr-12 text-xs font-semibold uppercase tracking-[0.24em] text-white/72">Agendar consulta</p>
+              <Dialog.Title id="appointment-apple-title" className="mt-4 max-w-[16ch] text-3xl font-semibold leading-[1] tracking-[-0.05em] text-white sm:text-5xl">
                 Onde você prefere ser atendido?
               </Dialog.Title>
-              <Dialog.Description className={`mt-3 max-w-xl text-base leading-relaxed tracking-[-0.015em] ${onBlue ? 'text-white/78' : 'text-[#424245]'}`}>
+              <Dialog.Description className="mt-3 max-w-xl text-base leading-relaxed tracking-[-0.015em] text-white/82">
                 Escolha uma clínica para seguir ao WhatsApp, ou fale comigo antes de decidir o melhor caminho.
               </Dialog.Description>
 
@@ -376,20 +376,14 @@ function AppointmentModalApple({ open, onOpenChange, onBlue = false }) {
                     href={option.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className={`group grid gap-3 rounded-[20px] p-4 backdrop-blur-xl transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 sm:grid-cols-[1fr_auto] sm:items-center ${
-                      onBlue
-                        ? 'bg-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)] hover:bg-white/16'
-                        : 'bg-white/58 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.55)] hover:bg-white/76'
-                    }`}
+                    className="group grid gap-3 rounded-[20px] bg-white/12 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.34)] backdrop-blur-xl transition-transform hover:-translate-y-0.5 hover:bg-white/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 sm:grid-cols-[1fr_auto] sm:items-center"
                   >
                     <span>
-                      <span className={`block text-lg font-semibold tracking-[-0.035em] ${onBlue ? 'text-white' : 'text-[#1d1d1f]'}`}>{option.title}</span>
-                      <span className={`mt-1 block text-xs font-semibold uppercase tracking-[0.18em] ${onBlue ? 'text-white/54' : 'text-[#0066cc]'}`}>{option.subtitle}</span>
-                      <span className={`mt-2 block text-[0.92rem] leading-relaxed tracking-[-0.01em] ${onBlue ? 'text-white/74' : 'text-[#424245]'}`}>{option.description}</span>
+                      <span className="block text-lg font-semibold tracking-[-0.035em] text-white">{option.title}</span>
+                      <span className="mt-1 block text-xs font-semibold uppercase tracking-[0.18em] text-white/62">{option.subtitle}</span>
+                      <span className="mt-2 block text-[0.92rem] leading-relaxed tracking-[-0.01em] text-white/78">{option.description}</span>
                     </span>
-                    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-colors ${
-                      onBlue ? 'bg-white/14 text-white group-hover:bg-white group-hover:text-[#0066cc]' : 'bg-white/86 text-[#0066cc] group-hover:bg-[#0066cc] group-hover:text-white'
-                    }`}>
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/16 text-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-colors group-hover:bg-white group-hover:text-[#0066cc]">
                       <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
                     </span>
                   </a>
@@ -855,7 +849,7 @@ function AppleTestPage() {
         </section>
       </main>
 
-      <AppointmentModalApple open={appointmentOpen} onOpenChange={setAppointmentOpen} onBlue={headerOnBlue} />
+      <AppointmentModalApple open={appointmentOpen} onOpenChange={setAppointmentOpen} />
     </div>
   );
 }
