@@ -53,6 +53,13 @@ const atendimento = [
   },
 ];
 
+const tratamentos = [
+  'Clareamento dental',
+  'Restaurações estéticas',
+  'Planejamento digital',
+  'Sedação consciente',
+];
+
 const linguagens = [
   {
     titulo: 'Odontologia',
@@ -334,7 +341,7 @@ function AppointmentModalApple({ open, onOpenChange, onBlue = false }) {
       <Dialog.Portal>
         <Dialog.Overlay asChild>
           <motion.div
-            className="fixed inset-0 z-[80] bg-[#f5f5f7]/18 backdrop-blur-xl"
+            className="fixed inset-0 z-[80] bg-[#07111d]/28 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -369,7 +376,7 @@ function AppointmentModalApple({ open, onOpenChange, onBlue = false }) {
                 Escolha uma clínica para seguir ao WhatsApp, ou fale comigo antes de decidir o melhor caminho.
               </Dialog.Description>
 
-              <div className="mt-5 grid gap-2.5">
+              <div className="mt-6 grid gap-3">
                 {appointmentOptions.map((option) => (
                   <a
                     key={option.title}
@@ -408,6 +415,7 @@ function ScheduleButton({ children, dark = false, onClick }) {
     <button
       type="button"
       onClick={onClick}
+      aria-label={typeof children === 'string' ? children : 'Abrir opções de agendamento'}
       className={`inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-[1rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 active:scale-[0.98] ${
         dark ? 'bg-white text-[#1d1d1f]' : 'bg-[#0066cc] text-white'
       }`}
@@ -586,7 +594,7 @@ function AppleTestPage() {
           <div className="mx-auto grid min-h-[calc(100vh-3rem)] max-w-6xl items-center gap-10 py-10 lg:grid-cols-[0.96fr_1.04fr] lg:py-16">
             <Reveal>
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#0066cc]">CIRURGIÃO-DENTISTA · CRO/RJ 59298</p>
-              <h1 className="mt-5 text-[3.5rem] font-semibold leading-[0.96] tracking-[-0.065em] text-[#1d1d1f] sm:text-7xl lg:text-8xl">
+              <h1 className="mt-5 text-[3.2rem] font-semibold leading-[0.96] tracking-[-0.065em] text-[#1d1d1f] sm:text-7xl lg:text-8xl">
                 Dentista por formação. Curioso por natureza.
               </h1>
               <p className="mt-7 max-w-2xl text-xl leading-relaxed tracking-[-0.02em] text-[#6e6e73] sm:text-2xl">
@@ -595,7 +603,7 @@ function AppleTestPage() {
               <p className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">transformar ideias em algo real.</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ScheduleButton onClick={() => setAppointmentOpen(true)}>Agendar consulta</ScheduleButton>
-                <a href="#projetos-apple" className="inline-flex min-h-[44px] items-center rounded-full px-6 text-[0.95rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]">
+                <a href="#projetos-apple" className="inline-flex min-h-[48px] items-center rounded-full border border-[#0066cc]/15 px-6 text-[0.95rem] font-semibold text-[#0066cc] transition-colors hover:border-[#0066cc]/35 hover:bg-[#0066cc]/5 hover:text-[#1d1d1f]">
                   Ver projetos
                 </a>
               </div>
@@ -674,10 +682,17 @@ function AppleTestPage() {
             </Reveal>
             <div className="mt-12 grid gap-3 md:grid-cols-3">
               {atendimento.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.05} className="rounded-[24px] bg-white/[0.08] p-7 ring-1 ring-white/10">
+                <Reveal key={item.titulo} delay={index * 0.05} className="rounded-[24px] bg-white/[0.1] p-7 ring-1 ring-white/14">
                   <h3 className="text-2xl font-semibold tracking-[-0.03em]">{item.titulo}</h3>
-                  <p className="mt-4 leading-relaxed text-white/68">{item.texto}</p>
+                  <p className="mt-4 leading-relaxed text-white/76">{item.texto}</p>
                 </Reveal>
+              ))}
+            </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {tratamentos.map((item) => (
+                <span key={item} className="rounded-full bg-white/[0.12] px-4 py-2 text-sm font-semibold text-white/82 ring-1 ring-white/14">
+                  {item}
+                </span>
               ))}
             </div>
             <div className="mt-10">
@@ -686,13 +701,13 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <section id="caminho-apple" className="bg-white px-5 py-20 sm:px-8 lg:py-28">
+        <section id="caminho-apple" className="bg-white px-5 py-16 sm:px-8 lg:py-20">
           <div className="mx-auto max-w-6xl">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Caminho</p>
               <h2 className="mt-4 text-5xl font-semibold tracking-[-0.06em] sm:text-7xl">O caminho até aqui.</h2>
             </Reveal>
-            <div className="mt-12 divide-y divide-[#d2d2d7] border-y border-[#d2d2d7]">
+            <div className="mt-10 divide-y divide-[#d2d2d7] border-y border-[#d2d2d7]">
               {caminho.map((item, index) => (
                 <Reveal key={item.titulo} delay={index * 0.04}>
                   <article className="grid gap-5 py-8 md:grid-cols-[0.38fr_0.62fr]">
@@ -819,12 +834,12 @@ function AppleTestPage() {
               </p>
             </Reveal>
             <Reveal delay={0.08} className="grid gap-3 sm:grid-cols-2">
-              <a href={SALUD_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1">
+              <a href={SALUD_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">Marque sua consulta</p>
                 <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em]">Salud Odontologia</h3>
                 <p className="mt-4 text-[#0066cc]">Agendar pelo WhatsApp ↗</p>
               </a>
-              <a href={NATURALE_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1">
+              <a href={NATURALE_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">Marque sua consulta</p>
                 <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em]">Naturale Dental Studio</h3>
                 <p className="mt-4 text-[#0066cc]">Agendar pelo WhatsApp ↗</p>
