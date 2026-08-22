@@ -743,7 +743,8 @@ function AppleTestPage() {
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Ideias que ganharam forma</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                Projetos que atravessam a clínica.
+                <span className="block">Projetos que atravessam</span>
+                <span className="block">a clínica.</span>
               </h2>
             </Reveal>
             <div className="mt-12 grid gap-5">
