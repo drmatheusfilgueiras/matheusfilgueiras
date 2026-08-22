@@ -53,13 +53,6 @@ const atendimento = [
   },
 ];
 
-const tratamentos = [
-  'Clareamento dental',
-  'Restaurações estéticas',
-  'Planejamento digital',
-  'Sedação consciente',
-];
-
 const linguagens = [
   {
     titulo: 'Odontologia',
@@ -686,13 +679,6 @@ function AppleTestPage() {
                   <h3 className="text-2xl font-semibold tracking-[-0.03em]">{item.titulo}</h3>
                   <p className="mt-4 leading-relaxed text-white/76">{item.texto}</p>
                 </Reveal>
-              ))}
-            </div>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {tratamentos.map((item) => (
-                <span key={item} className="rounded-full bg-white/[0.12] px-4 py-2 text-sm font-semibold text-white/82 ring-1 ring-white/14">
-                  {item}
-                </span>
               ))}
             </div>
             <div className="mt-10">
