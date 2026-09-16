@@ -201,9 +201,53 @@ body {
   to { transform: translate3d(-50%, 0, 0); }
 }
 
+.bravura-flip-next {
+  animation: bravura-flip-next 620ms ease-in-out forwards;
+}
+
+.bravura-flip-previous {
+  animation: bravura-flip-previous 620ms ease-in-out forwards;
+}
+
+@keyframes bravura-flip-next {
+  0% {
+    filter: brightness(1);
+    transform: rotateY(0deg);
+  }
+
+  45% {
+    filter: brightness(0.92);
+  }
+
+  100% {
+    filter: brightness(0.86);
+    transform: rotateY(-180deg);
+  }
+}
+
+@keyframes bravura-flip-previous {
+  0% {
+    filter: brightness(1);
+    transform: rotateY(0deg);
+  }
+
+  45% {
+    filter: brightness(0.92);
+  }
+
+  100% {
+    filter: brightness(0.86);
+    transform: rotateY(180deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee-track { animation: none; }
+  .bravura-flip-next,
+  .bravura-flip-previous {
+    animation: none;
+  }
 }
 
 .underline-stroke {
