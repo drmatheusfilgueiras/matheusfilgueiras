@@ -7,7 +7,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store, max-age=0');
 header('X-Content-Type-Options: nosniff');
 
-$accessKeyHash = getenv('ACCESS_LOG_KEY_HASH') ?: '853ee8a0dfc76b927e313f4b7eb5c455ef55ff3696fd2761b08ffe8af7ec20f1';
+$accessKeyHash = getenv('ACCESS_LOG_KEY_HASH') ?: 'dd69f8786a282536c7fa6ca077d12622b82c3963df23a3f7297040fda68d89b4';
 
 function respond(int $status, array $payload): void
 {
