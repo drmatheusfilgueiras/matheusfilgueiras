@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const TOTAL_PAGES = 61;
 const TURN_MS = 620;
-const TOTAL_SPREADS = Math.ceil((TOTAL_PAGES - 1) / 2) + 1;
+const TOTAL_SPREADS = Math.ceil((TOTAL_PAGES - 2) / 2) + 2;
 
 const pageSrc = (page) => `/assets/unidos-pela-bravura/pages/page-${String(page).padStart(2, '0')}.jpg`;
 
@@ -12,10 +12,18 @@ function getSpread(spreadIndex) {
     return { left: null, right: 1 };
   }
 
+  if (spreadIndex === TOTAL_SPREADS - 1) {
+    return { left: null, right: TOTAL_PAGES };
+  }
+
   const left = spreadIndex * 2;
-  const right = left + 1 <= TOTAL_PAGES ? left + 1 : null;
+  const right = left + 1 < TOTAL_PAGES ? left + 1 : null;
 
   return { left, right };
+}
+
+function isSinglePageSpread(spread) {
+  return !spread.left && Boolean(spread.right);
 }
 
 function getDisplaySpread(turn, fallbackSpread) {
@@ -24,7 +32,7 @@ function getDisplaySpread(turn, fallbackSpread) {
   }
 
   if (turn.direction === 'next') {
-    if (!turn.from.left) {
+    if (isSinglePageSpread(turn.from) || isSinglePageSpread(turn.to)) {
       return turn.to;
     }
 
@@ -34,7 +42,7 @@ function getDisplaySpread(turn, fallbackSpread) {
     };
   }
 
-  if (!turn.to.left) {
+  if (isSinglePageSpread(turn.from) || isSinglePageSpread(turn.to)) {
     return turn.to;
   }
 
