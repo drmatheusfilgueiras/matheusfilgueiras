@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const TOTAL_PAGES = 61;
+const TOTAL_PAGES = 62;
 const TURN_MS = 620;
 const TOTAL_SPREADS = Math.ceil((TOTAL_PAGES - 2) / 2) + 2;
 
