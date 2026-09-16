@@ -18,6 +18,32 @@ function getSpread(spreadIndex) {
   return { left, right };
 }
 
+function getDisplaySpread(turn, fallbackSpread) {
+  if (!turn) {
+    return fallbackSpread;
+  }
+
+  if (turn.direction === 'next') {
+    if (!turn.from.left) {
+      return turn.to;
+    }
+
+    return {
+      left: turn.from.left,
+      right: turn.to.right,
+    };
+  }
+
+  if (!turn.to.left) {
+    return turn.to;
+  }
+
+  return {
+    left: turn.to.left,
+    right: turn.from.right,
+  };
+}
+
 function PageImage({ page, eager = false }) {
   if (!page) {
     return <div className="h-full w-full bg-[#f5f5f7]" aria-hidden="true" />;
@@ -200,8 +226,9 @@ export default function UnidosBravuraFlipbook() {
 
   useEffect(() => clearTurnTimer, [clearTurnTimer]);
 
-  const displayedSpread = turn?.to || spread;
+  const displayedSpread = getDisplaySpread(turn, spread);
   const turningSpread = turn?.from;
+  const isTurningFromCover = Boolean(turn && !turn.from.left);
   const isDisplayCover = !displayedSpread.left;
   const isTurningToCover = Boolean(turn && !turn.to.left);
   const canGoPrevious = spreadIndex > 0 && !turn;
@@ -229,15 +256,20 @@ export default function UnidosBravuraFlipbook() {
           {!isDisplayCover && <BookPage page={displayedSpread.left} side="left" eager={spreadIndex <= 1} />}
           <BookPage page={displayedSpread.right} side={isDisplayCover ? 'single' : 'right'} eager={spreadIndex <= 1} />
 
-          {turn?.direction === 'next' && turningSpread?.right && displayedSpread.left && (
-            <TurningPage direction="next" frontPage={turningSpread.right} backPage={displayedSpread.left} />
+          {turn?.direction === 'next' && turningSpread?.right && turn.to.left && (
+            <TurningPage
+              direction="next"
+              frontPage={turningSpread.right}
+              backPage={turn.to.left}
+              fullPage={isTurningFromCover}
+            />
           )}
 
-          {turn?.direction === 'previous' && turningSpread?.left && displayedSpread.right && (
+          {turn?.direction === 'previous' && turningSpread?.left && turn.to.right && (
             <TurningPage
               direction="previous"
               frontPage={turningSpread.left}
-              backPage={displayedSpread.right}
+              backPage={turn.to.right}
               fullPage={isTurningToCover}
             />
           )}
