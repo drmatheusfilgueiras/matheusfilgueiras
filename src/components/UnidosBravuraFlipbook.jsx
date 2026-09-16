@@ -71,6 +71,42 @@ function BookPage({ page, side, eager = false }) {
   );
 }
 
+function TurningPage({ direction, frontPage, backPage }) {
+  const isNext = direction === 'next';
+
+  return (
+    <div
+      className={`absolute inset-y-[1.2%] z-40 w-[48.8%] overflow-hidden shadow-[0_18px_56px_rgba(0,0,0,0.18)] [transform-style:preserve-3d] ${
+        isNext
+          ? 'bravura-flip-next right-[1.2%] origin-left rounded-r-[10px]'
+          : 'bravura-flip-previous left-[1.2%] origin-right rounded-l-[10px]'
+      }`}
+      aria-hidden="true"
+    >
+      <div className="bravura-turn-face bravura-turn-front absolute inset-0 overflow-hidden">
+        <PageImage page={frontPage} />
+        <div
+          className={`pointer-events-none absolute inset-0 mix-blend-multiply ${
+            isNext
+              ? 'bg-gradient-to-l from-black/22 via-transparent to-white/18'
+              : 'bg-gradient-to-r from-black/22 via-transparent to-white/18'
+          }`}
+        />
+      </div>
+      <div className="bravura-turn-face bravura-turn-back absolute inset-0 overflow-hidden [transform:rotateY(180deg)]">
+        <PageImage page={backPage} />
+        <div
+          className={`pointer-events-none absolute inset-0 mix-blend-multiply ${
+            isNext
+              ? 'bg-gradient-to-r from-black/18 via-transparent to-white/12'
+              : 'bg-gradient-to-l from-black/18 via-transparent to-white/12'
+          }`}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function UnidosBravuraFlipbook() {
   const [spreadIndex, setSpreadIndex] = useState(0);
   const [turn, setTurn] = useState(null);
@@ -179,18 +215,12 @@ export default function UnidosBravuraFlipbook() {
           {!isDisplayCover && <BookPage page={displayedSpread.left} side="left" eager={spreadIndex <= 1} />}
           <BookPage page={displayedSpread.right} side={isDisplayCover ? 'single' : 'right'} eager={spreadIndex <= 1} />
 
-          {turn?.direction === 'next' && turningSpread?.right && (
-            <div className="bravura-flip-next absolute inset-y-[1.2%] right-[1.2%] z-40 w-[48.8%] origin-left overflow-hidden rounded-r-[10px] bg-white shadow-[0_18px_56px_rgba(0,0,0,0.22)] [transform-style:preserve-3d]">
-              <PageImage page={turningSpread.right} />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-black/22 via-transparent to-white/18 mix-blend-multiply" />
-            </div>
+          {turn?.direction === 'next' && turningSpread?.right && displayedSpread.left && (
+            <TurningPage direction="next" frontPage={turningSpread.right} backPage={displayedSpread.left} />
           )}
 
-          {turn?.direction === 'previous' && turningSpread?.left && (
-            <div className="bravura-flip-previous absolute inset-y-[1.2%] left-[1.2%] z-40 w-[48.8%] origin-right overflow-hidden rounded-l-[10px] bg-white shadow-[0_18px_56px_rgba(0,0,0,0.22)] [transform-style:preserve-3d]">
-              <PageImage page={turningSpread.left} />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/22 via-transparent to-white/18 mix-blend-multiply" />
-            </div>
+          {turn?.direction === 'previous' && turningSpread?.left && displayedSpread.right && (
+            <TurningPage direction="previous" frontPage={turningSpread.left} backPage={displayedSpread.right} />
           )}
         </div>
       </div>

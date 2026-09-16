@@ -209,6 +209,20 @@ body {
   animation: bravura-flip-previous 620ms ease-in-out forwards;
 }
 
+.bravura-turn-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.bravura-turn-front {
+  animation: bravura-turn-front 620ms linear forwards;
+}
+
+.bravura-turn-back {
+  opacity: 0;
+  animation: bravura-turn-back 620ms linear forwards;
+}
+
 @keyframes bravura-flip-next {
   0% {
     filter: brightness(1);
@@ -241,11 +255,37 @@ body {
   }
 }
 
+@keyframes bravura-turn-front {
+  0%,
+  44% {
+    opacity: 1;
+  }
+
+  45%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes bravura-turn-back {
+  0%,
+  44% {
+    opacity: 0;
+  }
+
+  45%,
+  100% {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee-track { animation: none; }
   .bravura-flip-next,
-  .bravura-flip-previous {
+  .bravura-flip-previous,
+  .bravura-turn-front,
+  .bravura-turn-back {
     animation: none;
   }
 }
