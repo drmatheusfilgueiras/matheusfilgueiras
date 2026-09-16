@@ -71,19 +71,27 @@ function BookPage({ page, side, eager = false }) {
   );
 }
 
-function TurningPage({ direction, frontPage, backPage }) {
+function TurningPage({ direction, frontPage, backPage, fullPage = false }) {
   const isNext = direction === 'next';
+  const frontPlacement = fullPage
+    ? 'inset-[1.2%] rounded-[10px]'
+    : isNext
+    ? 'inset-y-[1.2%] right-[1.2%] w-[48.8%] rounded-r-[10px]'
+    : 'inset-y-[1.2%] left-[1.2%] w-[48.8%] rounded-l-[10px]';
+  const backPlacement = fullPage
+    ? 'inset-[1.2%] rounded-[10px]'
+    : isNext
+    ? 'inset-y-[1.2%] left-[1.2%] w-[48.8%] rounded-l-[10px]'
+    : 'inset-y-[1.2%] right-[1.2%] w-[48.8%] rounded-r-[10px]';
+  const frontOrigin = isNext ? 'origin-left' : 'origin-right';
+  const backOrigin = isNext ? 'origin-right' : 'origin-left';
 
   return (
-    <div
-      className={`absolute inset-y-[1.2%] z-40 w-[48.8%] overflow-hidden shadow-[0_18px_56px_rgba(0,0,0,0.18)] [transform-style:preserve-3d] ${
-        isNext
-          ? 'bravura-flip-next right-[1.2%] origin-left rounded-r-[10px]'
-          : 'bravura-flip-previous left-[1.2%] origin-right rounded-l-[10px]'
-      }`}
-      aria-hidden="true"
-    >
-      <div className="bravura-turn-face bravura-turn-front absolute inset-0 overflow-hidden">
+    <>
+      <div
+        className={`bravura-turn-front absolute z-40 overflow-hidden bg-white shadow-[0_18px_56px_rgba(0,0,0,0.18)] ${frontPlacement} ${frontOrigin}`}
+        aria-hidden="true"
+      >
         <PageImage page={frontPage} />
         <div
           className={`pointer-events-none absolute inset-0 mix-blend-multiply ${
@@ -93,17 +101,22 @@ function TurningPage({ direction, frontPage, backPage }) {
           }`}
         />
       </div>
-      <div className="bravura-turn-face bravura-turn-back absolute inset-0 overflow-hidden [transform:rotateY(180deg)]">
-        <PageImage page={backPage} />
+      {!fullPage && (
         <div
-          className={`pointer-events-none absolute inset-0 mix-blend-multiply ${
-            isNext
-              ? 'bg-gradient-to-r from-black/18 via-transparent to-white/12'
-              : 'bg-gradient-to-l from-black/18 via-transparent to-white/12'
-          }`}
-        />
-      </div>
-    </div>
+          className={`bravura-turn-back absolute z-40 overflow-hidden bg-white shadow-[0_18px_56px_rgba(0,0,0,0.16)] ${backPlacement} ${backOrigin}`}
+          aria-hidden="true"
+        >
+          <PageImage page={backPage} />
+          <div
+            className={`pointer-events-none absolute inset-0 mix-blend-multiply ${
+              isNext
+                ? 'bg-gradient-to-r from-black/18 via-transparent to-white/12'
+                : 'bg-gradient-to-l from-black/18 via-transparent to-white/12'
+            }`}
+          />
+        </div>
+      )}
+    </>
   );
 }
 
@@ -190,6 +203,7 @@ export default function UnidosBravuraFlipbook() {
   const displayedSpread = turn?.to || spread;
   const turningSpread = turn?.from;
   const isDisplayCover = !displayedSpread.left;
+  const isTurningToCover = Boolean(turn && !turn.to.left);
   const canGoPrevious = spreadIndex > 0 && !turn;
   const canGoNext = spreadIndex < TOTAL_SPREADS - 1 && !turn;
 
@@ -220,7 +234,12 @@ export default function UnidosBravuraFlipbook() {
           )}
 
           {turn?.direction === 'previous' && turningSpread?.left && displayedSpread.right && (
-            <TurningPage direction="previous" frontPage={turningSpread.left} backPage={displayedSpread.right} />
+            <TurningPage
+              direction="previous"
+              frontPage={turningSpread.left}
+              backPage={displayedSpread.right}
+              fullPage={isTurningToCover}
+            />
           )}
         </div>
       </div>

@@ -209,18 +209,16 @@ body {
   animation: bravura-flip-previous 620ms ease-in-out forwards;
 }
 
-.bravura-turn-face {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
 .bravura-turn-front {
-  animation: bravura-turn-front 620ms linear forwards;
+  animation: bravura-fold-away 620ms ease-in-out forwards;
+  will-change: opacity, transform, filter;
 }
 
 .bravura-turn-back {
+  animation: bravura-fold-in 620ms ease-in-out forwards;
   opacity: 0;
-  animation: bravura-turn-back 620ms linear forwards;
+  transform: scaleX(0.02);
+  will-change: opacity, transform, filter;
 }
 
 @keyframes bravura-flip-next {
@@ -255,27 +253,45 @@ body {
   }
 }
 
-@keyframes bravura-turn-front {
-  0%,
-  44% {
+@keyframes bravura-fold-away {
+  0% {
+    filter: brightness(1);
     opacity: 1;
+    transform: scaleX(1);
   }
 
-  45%,
+  48% {
+    filter: brightness(0.86);
+    opacity: 1;
+    transform: scaleX(0.02);
+  }
+
+  49%,
   100% {
+    filter: brightness(0.86);
     opacity: 0;
+    transform: scaleX(0.02);
   }
 }
 
-@keyframes bravura-turn-back {
+@keyframes bravura-fold-in {
   0%,
-  44% {
+  51% {
+    filter: brightness(0.9);
     opacity: 0;
+    transform: scaleX(0.02);
   }
 
-  45%,
-  100% {
+  52% {
+    filter: brightness(0.9);
     opacity: 1;
+    transform: scaleX(0.02);
+  }
+
+  100% {
+    filter: brightness(1);
+    opacity: 1;
+    transform: scaleX(1);
   }
 }
 
