@@ -100,15 +100,15 @@ function BookPage({ page, side, eager = false }) {
 function TurningPage({ direction, frontPage, backPage, fullPage = false }) {
   const isNext = direction === 'next';
   const frontPlacement = fullPage
-    ? 'inset-[1.2%] rounded-[10px]'
+    ? 'inset-0 rounded-[10px]'
     : isNext
-    ? 'inset-y-[1.2%] right-[1.2%] w-[48.8%] rounded-r-[10px]'
-    : 'inset-y-[1.2%] left-[1.2%] w-[48.8%] rounded-l-[10px]';
+    ? 'inset-y-0 right-0 w-1/2 rounded-r-[10px]'
+    : 'inset-y-0 left-0 w-1/2 rounded-l-[10px]';
   const backPlacement = fullPage
-    ? 'inset-[1.2%] rounded-[10px]'
+    ? 'inset-0 rounded-[10px]'
     : isNext
-    ? 'inset-y-[1.2%] left-[1.2%] w-[48.8%] rounded-l-[10px]'
-    : 'inset-y-[1.2%] right-[1.2%] w-[48.8%] rounded-r-[10px]';
+    ? 'inset-y-0 left-0 w-1/2 rounded-l-[10px]'
+    : 'inset-y-0 right-0 w-1/2 rounded-r-[10px]';
   const frontOrigin = isNext ? 'origin-left' : 'origin-right';
   const backOrigin = isNext ? 'origin-right' : 'origin-left';
 
@@ -243,14 +243,13 @@ export default function UnidosBravuraFlipbook() {
         className="relative mx-auto"
         style={{ width: isDisplayCover ? 'min(82vw, 560px)' : 'min(96vw, 1120px)' }}
       >
-        <div className="absolute inset-x-[8%] bottom-0 h-12 translate-y-8 rounded-[50%] bg-black/20 blur-2xl" />
         <div
-          className={`relative grid aspect-[2/1] overflow-visible rounded-[12px] bg-[#ede9e0] p-[1.2%] shadow-[0_28px_90px_rgba(0,0,0,0.18)] ring-1 ring-black/10 [perspective:2200px] ${
+          className={`relative grid aspect-[2/1] overflow-visible rounded-[10px] [perspective:2200px] ${
             isDisplayCover ? 'aspect-square grid-cols-1' : 'grid-cols-2'
           }`}
         >
           {!isDisplayCover && (
-            <div className="pointer-events-none absolute inset-y-[1.2%] left-1/2 z-30 w-[2.2%] -translate-x-1/2 bg-gradient-to-r from-black/16 via-black/6 to-white/18" />
+            <div className="pointer-events-none absolute inset-y-0 left-1/2 z-30 w-[2.2%] -translate-x-1/2 bg-gradient-to-r from-black/16 via-black/6 to-white/18" />
           )}
 
           {!isDisplayCover && <BookPage page={displayedSpread.left} side="left" eager={spreadIndex <= 1} />}
