@@ -44,6 +44,10 @@ export default function AccessTracker() {
       return;
     }
 
+    if (new URLSearchParams(location.search).has('LSCWP_CTRL')) {
+      return;
+    }
+
     const info = documentInfo(location.pathname);
     const payload = {
       ...info,
@@ -70,7 +74,7 @@ export default function AccessTracker() {
       body,
       keepalive: true,
     }).catch(() => {});
-  }, [location.pathname, trackedPath]);
+  }, [location.pathname, location.search, trackedPath]);
 
   return null;
 }

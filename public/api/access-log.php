@@ -136,12 +136,20 @@ function read_events(int $limit): array
 
     foreach ($lines as $line) {
         $event = json_decode($line, true);
-        if (is_array($event)) {
+        if (is_array($event) && !ignored_event($event)) {
             $events[] = $event;
         }
     }
 
     return array_reverse($events);
+}
+
+function ignored_event(array $event): bool
+{
+    $documentId = (string) ($event['documentId'] ?? '');
+    $path = (string) ($event['path'] ?? '');
+
+    return $documentId === 'teste_publicacao' || strpos($path, 'LSCWP_CTRL=before_optm') !== false;
 }
 
 function summarize(array $events): array
