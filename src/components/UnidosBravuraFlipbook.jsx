@@ -4,8 +4,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const TOTAL_PAGES = 62;
 const TURN_MS = 620;
 const TOTAL_SPREADS = Math.ceil((TOTAL_PAGES - 2) / 2) + 2;
+const BOOK_ASSET_VERSION = '20260916-volume-unico-62p';
 
-const pageSrc = (page) => `/assets/unidos-pela-bravura/pages/page-${String(page).padStart(2, '0')}.jpg`;
+const pageSrc = (page) =>
+  `/assets/unidos-pela-bravura/pages/page-${String(page).padStart(2, '0')}.jpg?v=${BOOK_ASSET_VERSION}`;
 
 function getSpread(spreadIndex) {
   if (spreadIndex === 0) {
