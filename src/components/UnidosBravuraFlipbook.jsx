@@ -162,6 +162,33 @@ function TurningPage({ direction, frontPage, backPage, pageSrc, title, imageSize
   );
 }
 
+function ReadingProgress({ currentPage, totalPages }) {
+  const progress = Math.min(Math.max((currentPage / totalPages) * 100, 0), 100);
+  const remainingPages = Math.max(totalPages - currentPage, 0);
+
+  return (
+    <div
+      className="pointer-events-none fixed inset-x-0 bottom-5 z-30 flex justify-center px-8"
+      aria-label={`Página ${currentPage} de ${totalPages}. Faltam ${remainingPages} páginas.`}
+    >
+      <div className="relative w-full max-w-[520px]">
+        <div className="h-[3px] overflow-hidden rounded-full bg-black/10">
+          <div
+            className="h-full rounded-full bg-[#1d1d1f]/45 transition-[width] duration-300 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div
+          className="absolute -top-7 -translate-x-1/2 rounded-full bg-white/80 px-2.5 py-1 text-[11px] font-medium leading-none text-[#1d1d1f]/70 shadow-[0_8px_24px_rgba(0,0,0,0.08)] ring-1 ring-black/5 backdrop-blur transition-[left] duration-300 ease-out"
+          style={{ left: `clamp(2rem, ${progress}%, calc(100% - 2rem))` }}
+        >
+          {currentPage}/{totalPages}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function UnidosBravuraFlipbook({
   assetBasePath = DEFAULT_BOOK.assetBasePath,
   assetVersion = DEFAULT_BOOK.assetVersion,
@@ -260,11 +287,13 @@ export default function UnidosBravuraFlipbook({
   const isTurningToCover = Boolean(turn && !turn.to.left);
   const canGoPrevious = spreadIndex > 0 && !turn;
   const canGoNext = spreadIndex < totalSpreadCount - 1 && !turn;
+  const currentPage = displayedSpread.right ?? displayedSpread.left ?? 1;
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f7f7f5] px-5 py-10 text-[#1d1d1f] sm:px-20">
       <SideButton direction="previous" disabled={!canGoPrevious} onClick={previousSpread} />
       <SideButton direction="next" disabled={!canGoNext} onClick={nextSpread} />
+      <ReadingProgress currentPage={currentPage} totalPages={totalPages} />
 
       <div
         className="relative mx-auto"
