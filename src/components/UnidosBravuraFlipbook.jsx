@@ -1,25 +1,31 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const TOTAL_PAGES = 62;
 const TURN_MS = 620;
-const TOTAL_SPREADS = Math.ceil((TOTAL_PAGES - 2) / 2) + 2;
-const BOOK_ASSET_VERSION = '20260916-volume-unico-62p';
 
-const pageSrc = (page) =>
-  `/assets/unidos-pela-bravura/pages/page-${String(page).padStart(2, '0')}.jpg?v=${BOOK_ASSET_VERSION}`;
+const DEFAULT_BOOK = {
+  assetBasePath: '/assets/unidos-pela-bravura/pages',
+  assetVersion: '20260916-volume-unico-62p',
+  imageSize: 1575,
+  title: 'Unidos pela Bravura',
+  totalPages: 62,
+};
 
-function getSpread(spreadIndex) {
+function totalSpreads(totalPages) {
+  return Math.ceil((totalPages - 2) / 2) + 2;
+}
+
+function getSpread(spreadIndex, totalPages) {
   if (spreadIndex === 0) {
     return { left: null, right: 1 };
   }
 
-  if (spreadIndex === TOTAL_SPREADS - 1) {
-    return { left: null, right: TOTAL_PAGES };
+  if (spreadIndex === totalSpreads(totalPages) - 1) {
+    return { left: null, right: totalPages };
   }
 
   const left = spreadIndex * 2;
-  const right = left + 1 < TOTAL_PAGES ? left + 1 : null;
+  const right = left + 1 < totalPages ? left + 1 : null;
 
   return { left, right };
 }
@@ -54,7 +60,7 @@ function getDisplaySpread(turn, fallbackSpread) {
   };
 }
 
-function PageImage({ page, eager = false }) {
+function PageImage({ page, pageSrc, title, imageSize, eager = false }) {
   if (!page) {
     return <div className="h-full w-full bg-[#f5f5f7]" aria-hidden="true" />;
   }
@@ -62,9 +68,9 @@ function PageImage({ page, eager = false }) {
   return (
     <img
       src={pageSrc(page)}
-      alt={`Página ${page} de Unidos pela Bravura`}
-      width="945"
-      height="945"
+      alt={`Página ${page} de ${title}`}
+      width={imageSize}
+      height={imageSize}
       draggable="false"
       loading={eager ? 'eager' : 'lazy'}
       className="h-full w-full select-none object-cover"
@@ -91,7 +97,7 @@ function SideButton({ direction, disabled, onClick }) {
   );
 }
 
-function BookPage({ page, side, eager = false }) {
+function BookPage({ page, side, pageSrc, title, imageSize, eager = false }) {
   const radius = side === 'single' ? 'rounded-[10px]' : side === 'left' ? 'rounded-l-[10px]' : 'rounded-r-[10px]';
   const shade =
     side === 'single'
@@ -102,12 +108,12 @@ function BookPage({ page, side, eager = false }) {
 
   return (
     <div className={`relative h-full overflow-hidden bg-white ${radius} ${shade}`}>
-      <PageImage page={page} eager={eager} />
+      <PageImage page={page} pageSrc={pageSrc} title={title} imageSize={imageSize} eager={eager} />
     </div>
   );
 }
 
-function TurningPage({ direction, frontPage, backPage, fullPage = false }) {
+function TurningPage({ direction, frontPage, backPage, pageSrc, title, imageSize, fullPage = false }) {
   const isNext = direction === 'next';
   const frontPlacement = fullPage
     ? 'inset-0 rounded-[10px]'
@@ -128,7 +134,7 @@ function TurningPage({ direction, frontPage, backPage, fullPage = false }) {
         className={`bravura-turn-front absolute z-40 overflow-hidden bg-white shadow-[0_18px_56px_rgba(0,0,0,0.18)] ${frontPlacement} ${frontOrigin}`}
         aria-hidden="true"
       >
-        <PageImage page={frontPage} />
+        <PageImage page={frontPage} pageSrc={pageSrc} title={title} imageSize={imageSize} />
         <div
           className={`pointer-events-none absolute inset-0 mix-blend-multiply ${
             isNext
@@ -142,7 +148,7 @@ function TurningPage({ direction, frontPage, backPage, fullPage = false }) {
           className={`bravura-turn-back absolute z-40 overflow-hidden bg-white shadow-[0_18px_56px_rgba(0,0,0,0.16)] ${backPlacement} ${backOrigin}`}
           aria-hidden="true"
         >
-          <PageImage page={backPage} />
+          <PageImage page={backPage} pageSrc={pageSrc} title={title} imageSize={imageSize} />
           <div
             className={`pointer-events-none absolute inset-0 mix-blend-multiply ${
               isNext
@@ -156,12 +162,23 @@ function TurningPage({ direction, frontPage, backPage, fullPage = false }) {
   );
 }
 
-export default function UnidosBravuraFlipbook() {
+export default function UnidosBravuraFlipbook({
+  assetBasePath = DEFAULT_BOOK.assetBasePath,
+  assetVersion = DEFAULT_BOOK.assetVersion,
+  imageSize = DEFAULT_BOOK.imageSize,
+  title = DEFAULT_BOOK.title,
+  totalPages = DEFAULT_BOOK.totalPages,
+} = {}) {
   const [spreadIndex, setSpreadIndex] = useState(0);
   const [turn, setTurn] = useState(null);
   const timeoutRef = useRef(null);
+  const totalSpreadCount = useMemo(() => totalSpreads(totalPages), [totalPages]);
+  const pageSrc = useCallback(
+    (page) => `${assetBasePath}/page-${String(page).padStart(2, '0')}.jpg?v=${assetVersion}`,
+    [assetBasePath, assetVersion],
+  );
 
-  const spread = useMemo(() => getSpread(spreadIndex), [spreadIndex]);
+  const spread = useMemo(() => getSpread(spreadIndex, totalPages), [spreadIndex, totalPages]);
 
   const clearTurnTimer = useCallback(() => {
     if (timeoutRef.current) {
@@ -172,7 +189,7 @@ export default function UnidosBravuraFlipbook() {
 
   const goToSpread = useCallback(
     (target, direction) => {
-      const safeTarget = Math.min(Math.max(target, 0), TOTAL_SPREADS - 1);
+      const safeTarget = Math.min(Math.max(target, 0), totalSpreadCount - 1);
 
       if (turn || safeTarget === spreadIndex) {
         return;
@@ -181,8 +198,8 @@ export default function UnidosBravuraFlipbook() {
       clearTurnTimer();
       setTurn({
         direction,
-        from: getSpread(spreadIndex),
-        to: getSpread(safeTarget),
+        from: getSpread(spreadIndex, totalPages),
+        to: getSpread(safeTarget, totalPages),
       });
 
       timeoutRef.current = window.setTimeout(() => {
@@ -191,7 +208,7 @@ export default function UnidosBravuraFlipbook() {
         timeoutRef.current = null;
       }, TURN_MS);
     },
-    [clearTurnTimer, spreadIndex, turn],
+    [clearTurnTimer, spreadIndex, totalPages, totalSpreadCount, turn],
   );
 
   const previousSpread = useCallback(() => {
@@ -225,14 +242,14 @@ export default function UnidosBravuraFlipbook() {
 
   useEffect(() => {
     [spreadIndex - 1, spreadIndex, spreadIndex + 1]
-      .filter((item) => item >= 0 && item < TOTAL_SPREADS)
-      .flatMap((item) => Object.values(getSpread(item)))
+      .filter((item) => item >= 0 && item < totalSpreadCount)
+      .flatMap((item) => Object.values(getSpread(item, totalPages)))
       .filter(Boolean)
       .forEach((page) => {
         const image = new Image();
         image.src = pageSrc(page);
       });
-  }, [spreadIndex]);
+  }, [pageSrc, spreadIndex, totalPages, totalSpreadCount]);
 
   useEffect(() => clearTurnTimer, [clearTurnTimer]);
 
@@ -242,7 +259,7 @@ export default function UnidosBravuraFlipbook() {
   const isDisplayCover = !displayedSpread.left;
   const isTurningToCover = Boolean(turn && !turn.to.left);
   const canGoPrevious = spreadIndex > 0 && !turn;
-  const canGoNext = spreadIndex < TOTAL_SPREADS - 1 && !turn;
+  const canGoNext = spreadIndex < totalSpreadCount - 1 && !turn;
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f7f7f5] px-5 py-10 text-[#1d1d1f] sm:px-20">
@@ -262,14 +279,33 @@ export default function UnidosBravuraFlipbook() {
             <div className="pointer-events-none absolute inset-y-0 left-1/2 z-30 w-[2.2%] -translate-x-1/2 bg-gradient-to-r from-black/16 via-black/6 to-white/18" />
           )}
 
-          {!isDisplayCover && <BookPage page={displayedSpread.left} side="left" eager={spreadIndex <= 1} />}
-          <BookPage page={displayedSpread.right} side={isDisplayCover ? 'single' : 'right'} eager={spreadIndex <= 1} />
+          {!isDisplayCover && (
+            <BookPage
+              page={displayedSpread.left}
+              side="left"
+              pageSrc={pageSrc}
+              title={title}
+              imageSize={imageSize}
+              eager={spreadIndex <= 1}
+            />
+          )}
+          <BookPage
+            page={displayedSpread.right}
+            side={isDisplayCover ? 'single' : 'right'}
+            pageSrc={pageSrc}
+            title={title}
+            imageSize={imageSize}
+            eager={spreadIndex <= 1}
+          />
 
           {turn?.direction === 'next' && turningSpread?.right && turn.to.left && (
             <TurningPage
               direction="next"
               frontPage={turningSpread.right}
               backPage={turn.to.left}
+              pageSrc={pageSrc}
+              title={title}
+              imageSize={imageSize}
               fullPage={isTurningFromCover}
             />
           )}
@@ -279,6 +315,9 @@ export default function UnidosBravuraFlipbook() {
               direction="previous"
               frontPage={turningSpread.left}
               backPage={turn.to.right}
+              pageSrc={pageSrc}
+              title={title}
+              imageSize={imageSize}
               fullPage={isTurningToCover}
             />
           )}

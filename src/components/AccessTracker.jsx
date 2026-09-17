@@ -6,6 +6,10 @@ const DOCUMENTS = {
     documentId: 'unidos_pela_bravura',
     documentTitle: 'Unidos pela Bravura',
   },
+  '/pre_validation_book': {
+    documentId: 'pre_validation_book',
+    documentTitle: 'Unidos pela Bravura - Pre-validacao',
+  },
 };
 
 function visitorId() {
