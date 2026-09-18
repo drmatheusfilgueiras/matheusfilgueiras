@@ -21,7 +21,7 @@ export default function PreValidationBookPage() {
       />
       <UnidosBravuraFlipbook
         assetBasePath="/assets/pre-validation-book/pages"
-        assetVersion="20260916-pre-validation-51p"
+        assetVersion="20260918-pre-validation-51p"
         imageSize={1575}
         title={title}
         totalPages={51}
