@@ -85,9 +85,7 @@ function FlowEditor({ config, updateConfig }) {
   const edges = config.flow?.edges || [];
   const viewportRef = useRef(null);
   const panRef = useRef(null);
-  const [selectedNodeId, setSelectedNodeId] = useState(nodes[0]?.id || '');
   const [isPanning, setIsPanning] = useState(false);
-  const selectedNode = nodes.find((node) => node.id === selectedNodeId) || nodes[0];
   const nodeMap = new Map(nodes.map((node) => [node.id, node]));
 
   const getNodeMessage = (node) => {
@@ -121,23 +119,21 @@ function FlowEditor({ config, updateConfig }) {
         title: 'Novo bloco',
         subtitle: 'Mensagem editável',
         responseKey: id,
-        x: 360,
-        y: 620,
+        x: 520,
+        y: 1220,
       });
     });
-    setSelectedNodeId(id);
   };
 
-  const removeNode = () => {
-    if (!selectedNode || selectedNode.id === 'start') return;
+  const removeNode = (nodeToRemove) => {
+    if (!nodeToRemove || nodeToRemove.id === 'start') return;
     updateConfig((next) => {
-      next.flow.nodes = next.flow.nodes.filter((node) => node.id !== selectedNode.id);
-      next.flow.edges = next.flow.edges.filter((edge) => edge.from !== selectedNode.id && edge.to !== selectedNode.id);
-      if (selectedNode.responseKey?.startsWith('custom_')) {
-        delete next.responses[selectedNode.responseKey];
+      next.flow.nodes = next.flow.nodes.filter((node) => node.id !== nodeToRemove.id);
+      next.flow.edges = next.flow.edges.filter((edge) => edge.from !== nodeToRemove.id && edge.to !== nodeToRemove.id);
+      if (nodeToRemove.responseKey?.startsWith('custom_')) {
+        delete next.responses[nodeToRemove.responseKey];
       }
     });
-    setSelectedNodeId('start');
   };
 
   const addEdge = (from, to) => {
@@ -200,11 +196,14 @@ function FlowEditor({ config, updateConfig }) {
 
   return (
     <Section title="Árvore visual do diálogo" description="Edite o fluxo como um mapa de automação: blocos, respostas, posições e conexões. Os blocos vinculados a respostas alteram o chat real.">
-      <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_24rem]">
+      <div className="grid gap-4">
         <div className="min-w-0">
           <div className="mb-3 flex flex-col gap-2 rounded-xl border border-black/10 bg-slate-50 px-4 py-3 text-sm text-slate-600 lg:flex-row lg:items-center lg:justify-between">
-            <span>Clique e arraste o fundo do canvas para navegar pelo fluxo. Clique em qualquer bloco para editar.</span>
-            <span className="font-semibold text-slate-900">Canvas: 2800 x 1100</span>
+            <span>Clique e arraste o fundo do canvas para navegar. Edite os textos diretamente dentro dos blocos.</span>
+            <button type="button" onClick={addNode} className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-slate-950 px-4 text-xs font-semibold text-white">
+              <Plus className="h-4 w-4" />
+              Novo bloco
+            </button>
           </div>
           <div
             ref={viewportRef}
@@ -215,11 +214,11 @@ function FlowEditor({ config, updateConfig }) {
             onPointerLeave={(event) => {
               if (panRef.current?.pointerId === event.pointerId) stopPan(event);
             }}
-            className={`h-[78vh] min-h-[42rem] overflow-auto rounded-xl border border-black/10 bg-[#f4f7ff] shadow-inner [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isPanning ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+            className={`h-[82vh] min-h-[48rem] overflow-auto rounded-xl border border-black/10 bg-[#f4f7ff] shadow-inner [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isPanning ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
             style={{ msOverflowStyle: 'none' }}
           >
           <div
-            className="relative h-[1100px] w-[2800px]"
+            className="relative h-[1600px] w-[3400px]"
             style={{
               backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.16) 1px, transparent 1px)',
               backgroundSize: '18px 18px',
@@ -230,10 +229,10 @@ function FlowEditor({ config, updateConfig }) {
                 const from = nodeMap.get(edge.from);
                 const to = nodeMap.get(edge.to);
                 if (!from || !to) return null;
-                const x1 = from.x + 240;
-                const y1 = from.y + 64;
+                const x1 = from.x + 360;
+                const y1 = from.y + 132;
                 const x2 = to.x;
-                const y2 = to.y + 64;
+                const y2 = to.y + 132;
                 const mid = Math.max(80, Math.abs(x2 - x1) * 0.42);
                 const path = `M ${x1} ${y1} C ${x1 + mid} ${y1}, ${x2 - mid} ${y2}, ${x2} ${y2}`;
 
@@ -253,113 +252,93 @@ function FlowEditor({ config, updateConfig }) {
             </svg>
 
             {nodes.map((node) => (
-              <button
+              <div
                 key={node.id}
-                type="button"
-                onClick={() => setSelectedNodeId(node.id)}
-                className={`absolute w-60 rounded-xl border-2 bg-white p-4 text-left shadow-[0_12px_32px_rgba(15,23,42,0.12)] transition hover:-translate-y-0.5 ${
+                className={`absolute w-[22.5rem] rounded-2xl border-2 bg-white p-4 text-left shadow-[0_16px_44px_rgba(15,23,42,0.14)] ${
                   nodeTypeStyles[node.type] || nodeTypeStyles.message
-                } ${selectedNode?.id === node.id ? 'ring-4 ring-[#4f7cff]/25' : ''}`}
+                }`}
                 style={{ left: node.x, top: node.y }}
               >
-                <div className="flex items-center gap-2">
-                  <GitBranch className="h-4 w-4 shrink-0" />
-                  <span className="text-xs font-bold uppercase tracking-[0.16em]">{node.type}</span>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <GitBranch className="h-4 w-4 shrink-0" />
+                    <select
+                      value={node.type}
+                      onChange={(event) => updateNode(node.id, { type: event.target.value })}
+                      className="rounded-md border border-black/10 bg-white/80 px-2 py-1 text-xs font-bold uppercase tracking-[0.12em] outline-none"
+                    >
+                      <option value="start">start</option>
+                      <option value="message">message</option>
+                      <option value="question">question</option>
+                      <option value="handoff">handoff</option>
+                      <option value="alert">alert</option>
+                    </select>
+                  </div>
+                  <button type="button" onClick={() => removeNode(node)} disabled={node.id === 'start'} className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black/10 bg-white/80 text-slate-500 hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-30">
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </div>
-                <h3 className="mt-3 text-lg font-semibold leading-tight">{node.title}</h3>
-                <p className="mt-1 text-xs opacity-70">{node.subtitle}</p>
-                <p className="mt-3 line-clamp-3 rounded-lg bg-white/70 p-2 text-xs leading-5 text-slate-700">{getNodeMessage(node)}</p>
-              </button>
+
+                <input
+                  value={node.title}
+                  onChange={(event) => updateNode(node.id, { title: event.target.value })}
+                  className="mt-4 w-full rounded-lg border border-black/10 bg-white/80 px-3 py-2 text-lg font-semibold leading-tight outline-none focus:border-[#0066cc]"
+                />
+                <input
+                  value={node.subtitle || ''}
+                  onChange={(event) => updateNode(node.id, { subtitle: event.target.value })}
+                  className="mt-2 w-full rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-xs text-slate-600 outline-none focus:border-[#0066cc]"
+                />
+                <textarea
+                  value={getNodeMessage(node)}
+                  onChange={(event) => updateNodeMessage(node, event.target.value)}
+                  rows={5}
+                  className="mt-3 w-full resize-none rounded-xl border border-black/10 bg-white/80 p-3 text-sm leading-6 text-slate-800 outline-none focus:border-[#0066cc]"
+                />
+
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                    X
+                    <input value={String(node.x)} onChange={(event) => updateNode(node.id, { x: Number(event.target.value) || 0 })} className="mt-1 h-8 w-full rounded-lg border border-black/10 bg-white/80 px-2 text-xs font-medium text-slate-900 outline-none" />
+                  </label>
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                    Y
+                    <input value={String(node.y)} onChange={(event) => updateNode(node.id, { y: Number(event.target.value) || 0 })} className="mt-1 h-8 w-full rounded-lg border border-black/10 bg-white/80 px-2 text-xs font-medium text-slate-900 outline-none" />
+                  </label>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-black/10 bg-white/65 p-3">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-600">Conexões</p>
+                    <button type="button" onClick={() => addEdge(node.id, nodes.find((item) => item.id !== node.id)?.id)} className="inline-flex h-7 items-center gap-1 rounded-md bg-slate-950 px-2 text-[0.68rem] font-semibold text-white">
+                      <Plus className="h-3 w-3" />
+                      saída
+                    </button>
+                  </div>
+                  <div className="grid gap-2">
+                    {edges.filter((edge) => edge.from === node.id).map((edge) => (
+                      <div key={edge.id} className="grid grid-cols-[1fr_1fr_auto] gap-1">
+                        <input value={edge.label || ''} onChange={(event) => updateEdge(edge.id, { label: event.target.value })} className="h-8 min-w-0 rounded-md border border-black/10 bg-white px-2 text-xs outline-none" />
+                        <select value={edge.to} onChange={(event) => updateEdge(edge.id, { to: event.target.value })} className="h-8 min-w-0 rounded-md border border-black/10 bg-white px-2 text-xs outline-none">
+                          {nodes.filter((item) => item.id !== node.id).map((item) => (
+                            <option key={item.id} value={item.id}>{item.title}</option>
+                          ))}
+                        </select>
+                        <button type="button" onClick={() => removeEdge(edge.id)} className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-black/10 bg-white text-slate-500 hover:text-rose-600">
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                    {!edges.some((edge) => edge.from === node.id) && (
+                      <p className="text-xs text-slate-500">Sem saída configurada.</p>
+                    )}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
         </div>
-
-        <aside className="rounded-xl border border-black/10 bg-white p-4 2xl:sticky 2xl:top-6 2xl:max-h-[calc(100vh-3rem)] 2xl:overflow-y-auto">
-          <div className="flex items-center justify-between gap-3">
-            <h3 className="text-base font-semibold">Editar bloco</h3>
-            <button type="button" onClick={addNode} className="inline-flex h-9 items-center gap-2 rounded-lg bg-slate-950 px-3 text-xs font-semibold text-white">
-              <Plus className="h-4 w-4" />
-              Bloco
-            </button>
-          </div>
-
-          {selectedNode ? (
-            <div className="mt-4 grid gap-4">
-              <Field label="Título">
-                <TextInput value={selectedNode.title} onChange={(value) => updateNode(selectedNode.id, { title: value })} />
-              </Field>
-              <Field label="Subtítulo">
-                <TextInput value={selectedNode.subtitle || ''} onChange={(value) => updateNode(selectedNode.id, { subtitle: value })} />
-              </Field>
-              <Field label="Tipo">
-                <select
-                  value={selectedNode.type}
-                  onChange={(event) => updateNode(selectedNode.id, { type: event.target.value })}
-                  className="h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm outline-none transition focus:border-[#0066cc] focus:ring-4 focus:ring-[#0066cc]/10"
-                >
-                  <option value="start">start</option>
-                  <option value="message">message</option>
-                  <option value="question">question</option>
-                  <option value="handoff">handoff</option>
-                  <option value="alert">alert</option>
-                </select>
-              </Field>
-              <div className="grid grid-cols-2 gap-3">
-                <Field label="X">
-                  <TextInput value={String(selectedNode.x)} onChange={(value) => updateNode(selectedNode.id, { x: Number(value) || 0 })} />
-                </Field>
-                <Field label="Y">
-                  <TextInput value={String(selectedNode.y)} onChange={(value) => updateNode(selectedNode.id, { y: Number(value) || 0 })} />
-                </Field>
-              </div>
-              <Field label="Mensagem do bloco" hint="Esta mensagem altera a resposta correspondente usada pelo chat.">
-                <TextArea value={getNodeMessage(selectedNode)} onChange={(value) => updateNodeMessage(selectedNode, value)} rows={5} />
-              </Field>
-
-              <div className="rounded-lg border border-black/10 p-3">
-                <p className="text-sm font-semibold">Conexões de saída</p>
-                <div className="mt-3 grid gap-2">
-                  {edges.filter((edge) => edge.from === selectedNode.id).map((edge) => (
-                    <div key={edge.id} className="grid gap-2 rounded-lg bg-slate-50 p-2">
-                      <TextInput value={edge.label || ''} onChange={(value) => updateEdge(edge.id, { label: value })} />
-                      <div className="flex gap-2">
-                        <select
-                          value={edge.to}
-                          onChange={(event) => updateEdge(edge.id, { to: event.target.value })}
-                          className="h-9 min-w-0 flex-1 rounded-lg border border-black/10 bg-white px-2 text-xs"
-                        >
-                          {nodes.filter((node) => node.id !== selectedNode.id).map((node) => (
-                            <option key={node.id} value={node.id}>{node.title}</option>
-                          ))}
-                        </select>
-                        <button type="button" onClick={() => removeEdge(edge.id)} className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-black/10 text-slate-500 hover:text-rose-600">
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  <button type="button" onClick={() => addEdge(selectedNode.id, nodes.find((node) => node.id !== selectedNode.id)?.id)} className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 text-xs font-semibold text-slate-600">
-                    <Plus className="h-4 w-4" />
-                    Nova conexão
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={removeNode}
-                disabled={selectedNode.id === 'start'}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-rose-200 text-sm font-semibold text-rose-700 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <Trash2 className="h-4 w-4" />
-                Remover bloco
-              </button>
-            </div>
-          ) : (
-            <p className="mt-4 text-sm text-slate-500">Selecione um bloco no canvas.</p>
-          )}
-        </aside>
       </div>
     </Section>
   );
