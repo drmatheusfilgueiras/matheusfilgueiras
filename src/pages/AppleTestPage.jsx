@@ -581,13 +581,15 @@ function AppleTestPage() {
           <div className="mx-auto grid min-h-[calc(100vh-3rem)] max-w-6xl items-center gap-10 py-10 lg:grid-cols-[0.96fr_1.04fr] lg:py-16">
             <Reveal>
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#0066cc]">CIRURGIÃO-DENTISTA · CRO/RJ 59298</p>
-              <h1 className="mt-5 text-[3.2rem] font-semibold leading-[0.96] tracking-[-0.065em] text-[#1d1d1f] sm:text-7xl lg:text-8xl">
-                Dentista por formação. Curioso por natureza.
+              <h1 className="mt-5 text-[3rem] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1d1d1f] sm:text-6xl lg:text-7xl">
+                Olá, sou o Matheus.
               </h1>
-              <p className="mt-7 max-w-2xl text-xl leading-relaxed tracking-[-0.02em] text-[#6e6e73] sm:text-2xl">
-                Entre odontologia, ciência, arte, design e tecnologia, encontrei diferentes maneiras de fazer aquilo de que mais gosto:
-              </p>
-              <p className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">transformar ideias em algo real.</p>
+              <div className="mt-7 max-w-2xl space-y-4 text-[1.08rem] leading-relaxed tracking-[-0.015em] text-[#515154] sm:text-xl">
+                <p>Sou cirurgião-dentista e mestrando em Odontologia. Essa provavelmente é a maneira mais simples de me apresentar.</p>
+                <p className="text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f] sm:text-3xl">Só não é a mais completa.</p>
+                <p>Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design, comunicação e tecnologia.</p>
+                <p>Grande parte do que aprendo fora da clínica acaba mudando a maneira como penso dentro dela.</p>
+              </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ScheduleButton onClick={() => setAppointmentOpen(true)}>Agendar consulta</ScheduleButton>
                 <a href="#projetos-apple" className="inline-flex min-h-[48px] items-center rounded-full border border-[#0066cc]/15 px-6 text-[0.95rem] font-semibold text-[#0066cc] transition-colors hover:border-[#0066cc]/35 hover:bg-[#0066cc]/5 hover:text-[#1d1d1f]">
