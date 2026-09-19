@@ -103,8 +103,11 @@ export default function LogPage() {
     setStatus('Carregando logs...');
 
     try {
-      const response = await fetch(`/api/access-log.php?limit=5000&key=${encodeURIComponent(accessKey)}`, {
-        headers: { Accept: 'application/json' },
+      const response = await fetch('/api/access-log.php?limit=5000', {
+        headers: {
+          Accept: 'application/json',
+          'X-Access-Log-Key': accessKey,
+        },
       });
       const payload = await response.json();
 

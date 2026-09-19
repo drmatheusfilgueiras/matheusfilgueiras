@@ -6,6 +6,11 @@ date_default_timezone_set('UTC');
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store, max-age=0');
 header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('Referrer-Policy: no-referrer');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()');
+header('Content-Security-Policy: default-src \'none\'; frame-ancestors \'none\'; base-uri \'none\'');
+header('Allow: GET, POST, OPTIONS');
 
 $accessKeyHash = getenv('ACCESS_LOG_KEY_HASH') ?: 'dd69f8786a282536c7fa6ca077d12622b82c3963df23a3f7297040fda68d89b4';
 
@@ -25,6 +30,25 @@ function first_header(array $names): string
     }
 
     return '';
+}
+
+function same_origin_request(): bool
+{
+    $host = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    $origin = first_header(['HTTP_ORIGIN']);
+
+    if ($origin !== '') {
+        $originHost = strtolower((string) (parse_url($origin, PHP_URL_HOST) ?: ''));
+        return $originHost === $host;
+    }
+
+    $referer = first_header(['HTTP_REFERER']);
+    if ($referer !== '') {
+        $refererHost = strtolower((string) (parse_url($referer, PHP_URL_HOST) ?: ''));
+        return $refererHost === $host;
+    }
+
+    return true;
 }
 
 function client_ip(): string
@@ -203,6 +227,10 @@ if ($method === 'OPTIONS') {
 }
 
 if ($method === 'POST') {
+    if (!same_origin_request()) {
+        respond(403, ['ok' => false, 'error' => 'Origem nao autorizada.']);
+    }
+
     $payload = request_payload();
     $ip = client_ip();
     $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
@@ -237,6 +265,7 @@ if ($method === 'POST') {
 
 if ($method === 'GET') {
     if (!is_authorized($accessKeyHash)) {
+        usleep(250000);
         respond(401, ['ok' => false, 'error' => 'Chave de acesso invalida.']);
     }
 
