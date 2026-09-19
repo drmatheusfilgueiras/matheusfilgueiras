@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, Instagram, Linkedin, Mail, Menu, X } from 'lucide-react';
+import QuickAssistant from '@/components/QuickAssistant';
 import Reveal from '@/components/Reveal';
 import Seo from '@/components/Seo';
 
@@ -874,6 +875,7 @@ function AppleTestPage() {
         </section>
       </main>
 
+      <QuickAssistant />
       <AppointmentModalApple open={appointmentOpen} onOpenChange={setAppointmentOpen} />
     </div>
   );

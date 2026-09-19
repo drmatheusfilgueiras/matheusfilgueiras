@@ -3,6 +3,7 @@ import { Link, Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import AccessTracker from './components/AccessTracker';
 import ScrollToTop from './components/ScrollToTop';
 import AppleTestPage from './pages/AppleTestPage';
+import ChatControlPage from './pages/ChatControlPage';
 import LogPage from './pages/LogPage';
 import PreValidationBookPage from './pages/PreValidationBookPage';
 import UnidosBravuraPage from './pages/UnidosBravuraPage';
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/unidos_pela_bravura" element={<UnidosBravuraPage />} />
                 <Route path="/pre_validation_book" element={<PreValidationBookPage />} />
                 <Route path="/log" element={<LogPage />} />
+                <Route path="/chat_control" element={<ChatControlPage />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
