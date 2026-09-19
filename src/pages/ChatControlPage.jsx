@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Download, GitBranch, KeyRound, MessageSquare, Plus, RefreshCw, RotateCcw, Save, Send, Trash2, Upload } from 'lucide-react';
 import {
@@ -83,7 +83,10 @@ const nodeTypeStyles = {
 function FlowEditor({ config, updateConfig }) {
   const nodes = config.flow?.nodes || [];
   const edges = config.flow?.edges || [];
+  const viewportRef = useRef(null);
+  const panRef = useRef(null);
   const [selectedNodeId, setSelectedNodeId] = useState(nodes[0]?.id || '');
+  const [isPanning, setIsPanning] = useState(false);
   const selectedNode = nodes.find((node) => node.id === selectedNodeId) || nodes[0];
   const nodeMap = new Map(nodes.map((node) => [node.id, node]));
 
@@ -161,15 +164,60 @@ function FlowEditor({ config, updateConfig }) {
     });
   };
 
+  const startPan = (event) => {
+    if (event.target.closest('button, input, textarea, select, label, a')) return;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    panRef.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      scrollLeft: viewport.scrollLeft,
+      scrollTop: viewport.scrollTop,
+    };
+    viewport.setPointerCapture(event.pointerId);
+    setIsPanning(true);
+  };
+
+  const movePan = (event) => {
+    const viewport = viewportRef.current;
+    const pan = panRef.current;
+    if (!viewport || !pan || pan.pointerId !== event.pointerId) return;
+
+    viewport.scrollLeft = pan.scrollLeft - (event.clientX - pan.x);
+    viewport.scrollTop = pan.scrollTop - (event.clientY - pan.y);
+  };
+
+  const stopPan = (event) => {
+    const viewport = viewportRef.current;
+    if (viewport && panRef.current?.pointerId === event.pointerId) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
+    panRef.current = null;
+    setIsPanning(false);
+  };
+
   return (
     <Section title="Árvore visual do diálogo" description="Edite o fluxo como um mapa de automação: blocos, respostas, posições e conexões. Os blocos vinculados a respostas alteram o chat real.">
       <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_24rem]">
         <div className="min-w-0">
           <div className="mb-3 flex flex-col gap-2 rounded-xl border border-black/10 bg-slate-50 px-4 py-3 text-sm text-slate-600 lg:flex-row lg:items-center lg:justify-between">
-            <span>Use a rolagem horizontal e vertical para navegar pelo fluxo. Clique em qualquer bloco para editar.</span>
+            <span>Clique e arraste o fundo do canvas para navegar pelo fluxo. Clique em qualquer bloco para editar.</span>
             <span className="font-semibold text-slate-900">Canvas: 2800 x 1100</span>
           </div>
-          <div className="h-[78vh] min-h-[42rem] overflow-auto rounded-xl border border-black/10 bg-[#f4f7ff] shadow-inner">
+          <div
+            ref={viewportRef}
+            onPointerDown={startPan}
+            onPointerMove={movePan}
+            onPointerUp={stopPan}
+            onPointerCancel={stopPan}
+            onPointerLeave={(event) => {
+              if (panRef.current?.pointerId === event.pointerId) stopPan(event);
+            }}
+            className={`h-[78vh] min-h-[42rem] overflow-auto rounded-xl border border-black/10 bg-[#f4f7ff] shadow-inner [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isPanning ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+            style={{ msOverflowStyle: 'none' }}
+          >
           <div
             className="relative h-[1100px] w-[2800px]"
             style={{
