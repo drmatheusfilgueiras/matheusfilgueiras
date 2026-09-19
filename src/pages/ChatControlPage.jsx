@@ -163,10 +163,15 @@ function FlowEditor({ config, updateConfig }) {
 
   return (
     <Section title="Árvore visual do diálogo" description="Edite o fluxo como um mapa de automação: blocos, respostas, posições e conexões. Os blocos vinculados a respostas alteram o chat real.">
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]">
-        <div className="overflow-auto rounded-xl border border-black/10 bg-[#f4f7ff]">
+      <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_24rem]">
+        <div className="min-w-0">
+          <div className="mb-3 flex flex-col gap-2 rounded-xl border border-black/10 bg-slate-50 px-4 py-3 text-sm text-slate-600 lg:flex-row lg:items-center lg:justify-between">
+            <span>Use a rolagem horizontal e vertical para navegar pelo fluxo. Clique em qualquer bloco para editar.</span>
+            <span className="font-semibold text-slate-900">Canvas: 2800 x 1100</span>
+          </div>
+          <div className="h-[78vh] min-h-[42rem] overflow-auto rounded-xl border border-black/10 bg-[#f4f7ff] shadow-inner">
           <div
-            className="relative h-[760px] w-[2300px]"
+            className="relative h-[1100px] w-[2800px]"
             style={{
               backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.16) 1px, transparent 1px)',
               backgroundSize: '18px 18px',
@@ -220,8 +225,9 @@ function FlowEditor({ config, updateConfig }) {
             ))}
           </div>
         </div>
+        </div>
 
-        <aside className="rounded-xl border border-black/10 bg-white p-4">
+        <aside className="rounded-xl border border-black/10 bg-white p-4 2xl:sticky 2xl:top-6 2xl:max-h-[calc(100vh-3rem)] 2xl:overflow-y-auto">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-base font-semibold">Editar bloco</h3>
             <button type="button" onClick={addNode} className="inline-flex h-9 items-center gap-2 rounded-lg bg-slate-950 px-3 text-xs font-semibold text-white">
@@ -516,7 +522,7 @@ export default function ChatControlPage() {
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>
 
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[96rem]">
         <header className="flex flex-col gap-4 border-b border-black/10 pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">Controle interno</p>
