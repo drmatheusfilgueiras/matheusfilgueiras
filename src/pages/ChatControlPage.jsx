@@ -195,11 +195,11 @@ function FlowEditor({ config, updateConfig }) {
   };
 
   return (
-    <Section title="Árvore visual do diálogo" description="Edite o fluxo como um mapa de automação: blocos, respostas, posições e conexões. Os blocos vinculados a respostas alteram o chat real.">
+    <Section title="Árvore visual do diálogo" description="Visualize e ajuste o fluxo principal. Cada bloco mostra apenas o essencial para manter a leitura clara.">
       <div className="grid gap-4">
         <div className="min-w-0">
           <div className="mb-3 flex flex-col gap-2 rounded-xl border border-black/10 bg-slate-50 px-4 py-3 text-sm text-slate-600 lg:flex-row lg:items-center lg:justify-between">
-            <span>Clique e arraste o fundo do canvas para navegar. Edite os textos diretamente dentro dos blocos.</span>
+            <span>Arraste o fundo para navegar. Edite título, mensagem e saídas diretamente nos blocos.</span>
             <button type="button" onClick={addNode} className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-slate-950 px-4 text-xs font-semibold text-white">
               <Plus className="h-4 w-4" />
               Novo bloco
@@ -229,10 +229,10 @@ function FlowEditor({ config, updateConfig }) {
                 const from = nodeMap.get(edge.from);
                 const to = nodeMap.get(edge.to);
                 if (!from || !to) return null;
-                const x1 = from.x + 360;
-                const y1 = from.y + 132;
+                const x1 = from.x + 320;
+                const y1 = from.y + 118;
                 const x2 = to.x;
-                const y2 = to.y + 132;
+                const y2 = to.y + 118;
                 const mid = Math.max(80, Math.abs(x2 - x1) * 0.42);
                 const path = `M ${x1} ${y1} C ${x1 + mid} ${y1}, ${x2 - mid} ${y2}, ${x2} ${y2}`;
 
@@ -254,7 +254,7 @@ function FlowEditor({ config, updateConfig }) {
             {nodes.map((node) => (
               <div
                 key={node.id}
-                className={`absolute w-[22.5rem] rounded-2xl border-2 bg-white p-4 text-left shadow-[0_16px_44px_rgba(15,23,42,0.14)] ${
+                className={`absolute w-80 rounded-2xl border-2 bg-white p-4 text-left shadow-[0_16px_44px_rgba(15,23,42,0.14)] ${
                   nodeTypeStyles[node.type] || nodeTypeStyles.message
                 }`}
                 style={{ left: node.x, top: node.y }}
@@ -282,49 +282,33 @@ function FlowEditor({ config, updateConfig }) {
                 <input
                   value={node.title}
                   onChange={(event) => updateNode(node.id, { title: event.target.value })}
-                  className="mt-4 w-full rounded-lg border border-black/10 bg-white/80 px-3 py-2 text-lg font-semibold leading-tight outline-none focus:border-[#0066cc]"
-                />
-                <input
-                  value={node.subtitle || ''}
-                  onChange={(event) => updateNode(node.id, { subtitle: event.target.value })}
-                  className="mt-2 w-full rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-xs text-slate-600 outline-none focus:border-[#0066cc]"
+                  className="mt-4 w-full rounded-lg border-0 bg-transparent px-0 py-1 text-xl font-semibold leading-tight outline-none focus:bg-white/70 focus:px-3"
                 />
                 <textarea
                   value={getNodeMessage(node)}
                   onChange={(event) => updateNodeMessage(node, event.target.value)}
-                  rows={5}
+                  rows={3}
                   className="mt-3 w-full resize-none rounded-xl border border-black/10 bg-white/80 p-3 text-sm leading-6 text-slate-800 outline-none focus:border-[#0066cc]"
                 />
 
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <label className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                    X
-                    <input value={String(node.x)} onChange={(event) => updateNode(node.id, { x: Number(event.target.value) || 0 })} className="mt-1 h-8 w-full rounded-lg border border-black/10 bg-white/80 px-2 text-xs font-medium text-slate-900 outline-none" />
-                  </label>
-                  <label className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                    Y
-                    <input value={String(node.y)} onChange={(event) => updateNode(node.id, { y: Number(event.target.value) || 0 })} className="mt-1 h-8 w-full rounded-lg border border-black/10 bg-white/80 px-2 text-xs font-medium text-slate-900 outline-none" />
-                  </label>
-                </div>
-
-                <div className="mt-4 rounded-xl border border-black/10 bg-white/65 p-3">
+                <div className="mt-4 border-t border-black/10 pt-3">
                   <div className="mb-2 flex items-center justify-between gap-2">
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-600">Conexões</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-600">Saídas</p>
                     <button type="button" onClick={() => addEdge(node.id, nodes.find((item) => item.id !== node.id)?.id)} className="inline-flex h-7 items-center gap-1 rounded-md bg-slate-950 px-2 text-[0.68rem] font-semibold text-white">
                       <Plus className="h-3 w-3" />
-                      saída
+                      opção
                     </button>
                   </div>
-                  <div className="grid gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {edges.filter((edge) => edge.from === node.id).map((edge) => (
-                      <div key={edge.id} className="grid grid-cols-[1fr_1fr_auto] gap-1">
-                        <input value={edge.label || ''} onChange={(event) => updateEdge(edge.id, { label: event.target.value })} className="h-8 min-w-0 rounded-md border border-black/10 bg-white px-2 text-xs outline-none" />
-                        <select value={edge.to} onChange={(event) => updateEdge(edge.id, { to: event.target.value })} className="h-8 min-w-0 rounded-md border border-black/10 bg-white px-2 text-xs outline-none">
+                      <div key={edge.id} className="group inline-flex max-w-full items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-1">
+                        <input value={edge.label || ''} onChange={(event) => updateEdge(edge.id, { label: event.target.value })} className="h-7 w-24 min-w-0 bg-transparent text-xs font-semibold outline-none" />
+                        <select value={edge.to} onChange={(event) => updateEdge(edge.id, { to: event.target.value })} className="h-7 max-w-28 rounded-full border border-black/10 bg-slate-50 px-2 text-xs outline-none">
                           {nodes.filter((item) => item.id !== node.id).map((item) => (
                             <option key={item.id} value={item.id}>{item.title}</option>
                           ))}
                         </select>
-                        <button type="button" onClick={() => removeEdge(edge.id)} className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-black/10 bg-white text-slate-500 hover:text-rose-600">
+                        <button type="button" onClick={() => removeEdge(edge.id)} className="inline-flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:bg-rose-50 hover:text-rose-600">
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
