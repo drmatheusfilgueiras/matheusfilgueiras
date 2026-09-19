@@ -1,9 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageCircle, Send, X } from 'lucide-react';
 import { loadChatFlowConfig } from '@/lib/chatFlowConfig';
 
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
+const CHAT_CONVERSATION_STORAGE_KEY = 'matheus_chat_conversation_id';
+const CHAT_VISITOR_STORAGE_KEY = 'matheus_chat_visitor_id';
+
+function getStoredVisitorId() {
+  const existing = window.localStorage.getItem(CHAT_VISITOR_STORAGE_KEY);
+  if (existing) return existing;
+
+  const generated = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  window.localStorage.setItem(CHAT_VISITOR_STORAGE_KEY, generated);
+  return generated;
+}
+
+function metadata() {
+  return {
+    visitorId: getStoredVisitorId(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+    language: navigator.language || '',
+    path: window.location.pathname,
+    href: window.location.href,
+  };
+}
+
+async function recordChatMessage({ conversationId, action, text, patientName }) {
+  try {
+    const response = await fetch('/api/chat-conversations.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        ...metadata(),
+        conversationId,
+        action,
+        text,
+        patientName,
+      }),
+    });
+
+    const payload = await response.json();
+    return payload?.ok ? payload : null;
+  } catch {
+    return null;
+  }
+}
 
 function fillTemplate(template, values) {
   return Object.entries(values).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value ?? ''), template);
@@ -132,6 +177,7 @@ export default function QuickAssistant() {
   const [messages, setMessages] = useState([{ from: 'assistant', text: config.initialMessage }]);
   const [draft, setDraft] = useState('');
   const [patientName, setPatientName] = useState('');
+  const [conversationId, setConversationId] = useState(() => window.localStorage.getItem(CHAT_CONVERSATION_STORAGE_KEY) || '');
   const [conversationContext, setConversationContext] = useState({
     stage: 'awaiting_name',
     reason: null,
@@ -143,6 +189,42 @@ export default function QuickAssistant() {
     lastIntent: null,
   });
   const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    if (!conversationId) return undefined;
+
+    const poll = async () => {
+      try {
+        const response = await fetch(`/api/chat-conversations.php?conversationId=${encodeURIComponent(conversationId)}`, {
+          headers: { Accept: 'application/json' },
+        });
+        const payload = await response.json();
+        const serverMessages = payload?.conversation?.messages || [];
+        const operatorMessages = serverMessages.filter((message) => message.sender === 'operator');
+
+        if (!operatorMessages.length) return;
+
+        setMessages((current) => {
+          const knownIds = new Set(current.map((message) => message.serverId).filter(Boolean));
+          const additions = operatorMessages
+            .filter((message) => !knownIds.has(message.id))
+            .map((message) => ({
+              from: 'assistant',
+              text: message.text,
+              serverId: message.id,
+            }));
+
+          return additions.length ? [...current, ...additions] : current;
+        });
+      } catch {
+        // Silent polling failure; the chat remains usable without live handoff.
+      }
+    };
+
+    poll();
+    const interval = window.setInterval(poll, 6000);
+    return () => window.clearInterval(interval);
+  }, [conversationId]);
 
   const sendMessage = (text) => {
     const trimmed = text.trim();
@@ -166,10 +248,33 @@ export default function QuickAssistant() {
     setDraft('');
     setIsOpen(true);
     setIsTyping(true);
+    const currentPatientName = nextName || patientName;
+    const userLog = recordChatMessage({
+      conversationId,
+      action: 'visitor_message',
+      text: trimmed,
+      patientName: currentPatientName,
+    }).then((payload) => {
+      if (payload?.conversationId && payload.conversationId !== conversationId) {
+        window.localStorage.setItem(CHAT_CONVERSATION_STORAGE_KEY, payload.conversationId);
+        setConversationId(payload.conversationId);
+      }
+
+      return payload?.conversationId || conversationId;
+    });
 
     window.setTimeout(() => {
       setMessages((current) => [...current, { from: 'assistant', text: response.reply }]);
       setIsTyping(false);
+      userLog.then((loggedConversationId) => {
+        if (!loggedConversationId) return;
+        recordChatMessage({
+          conversationId: loggedConversationId,
+          action: 'bot_message',
+          text: response.reply,
+          patientName: currentPatientName,
+        });
+      });
     }, getTypingDelay(response.reply, config));
   };
 
