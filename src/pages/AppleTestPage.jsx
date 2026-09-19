@@ -11,7 +11,6 @@ const SALUD_WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=22992096463&text
 const NATURALE_WHATSAPP_URL = 'https://api.whatsapp.com/send/?phone=5522998508639&text&type=phone_number&app_absent=0';
 const SEDACAO_URL = 'https://www.instagram.com/p/DbT4X1lhsaw/';
 const navLinks = [
-  ['Apresentação', '#apresentacao-apple'],
   ['Atendimento', '#atendimento-apple'],
   ['Caminho', '#caminho-apple'],
   ['Linguagens', '#linguagens-apple'],
@@ -606,29 +605,6 @@ function AppleTestPage() {
                   loading="eager"
                 />
               </figure>
-            </Reveal>
-          </div>
-        </section>
-
-        <section id="apresentacao-apple" className="bg-white px-5 py-14 sm:px-8 lg:py-20">
-          <div className="mx-auto grid max-w-6xl gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-            <Reveal className="overflow-hidden rounded-[24px] bg-[#f5f5f7]">
-              <img
-                src="/assets/photos/apresentacao-naturale.jpg"
-                alt="Matheus Filgueiras na Naturale Dental Studio"
-                className="h-[28rem] w-full object-cover object-[center_46%] lg:h-[34rem]"
-                loading="lazy"
-              />
-            </Reveal>
-            <Reveal delay={0.08} className="flex items-center rounded-[24px] bg-[#f5f5f7] p-7 sm:p-10 lg:p-12">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Apresentação</p>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">Dentista por formação. Curioso por natureza.</h2>
-                <div className="mt-6 space-y-4 text-[1.05rem] leading-relaxed tracking-[-0.015em] text-[#515154]">
-                  <p>Entre odontologia, ciência, arte, design e tecnologia, encontrei diferentes maneiras de fazer aquilo de que mais gosto.</p>
-                  <p className="text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">Transformar ideias em algo real.</p>
-                </div>
-              </div>
             </Reveal>
           </div>
         </section>
