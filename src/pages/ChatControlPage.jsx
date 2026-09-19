@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Download, KeyRound, MessageSquare, RefreshCw, RotateCcw, Save, Send, Upload } from 'lucide-react';
+import { Download, GitBranch, KeyRound, MessageSquare, Plus, RefreshCw, RotateCcw, Save, Send, Trash2, Upload } from 'lucide-react';
 import {
   CHAT_CONTROL_ACCESS_KEY,
   CHAT_CONTROL_KEY_STORAGE,
@@ -70,6 +70,245 @@ function formatDate(value) {
     timeStyle: 'short',
     timeZone: 'America/Sao_Paulo',
   }).format(new Date(value));
+}
+
+const nodeTypeStyles = {
+  start: 'border-emerald-500 bg-emerald-50 text-emerald-950',
+  message: 'border-sky-500 bg-sky-50 text-sky-950',
+  question: 'border-violet-500 bg-violet-50 text-violet-950',
+  handoff: 'border-slate-800 bg-slate-50 text-slate-950',
+  alert: 'border-rose-500 bg-rose-50 text-rose-950',
+};
+
+function FlowEditor({ config, updateConfig }) {
+  const nodes = config.flow?.nodes || [];
+  const edges = config.flow?.edges || [];
+  const [selectedNodeId, setSelectedNodeId] = useState(nodes[0]?.id || '');
+  const selectedNode = nodes.find((node) => node.id === selectedNodeId) || nodes[0];
+  const nodeMap = new Map(nodes.map((node) => [node.id, node]));
+
+  const getNodeMessage = (node) => {
+    if (!node) return '';
+    return node.responseKey === 'initialMessage' ? config.initialMessage : config.responses[node.responseKey] || '';
+  };
+
+  const updateNode = (nodeId, patch) => {
+    updateConfig((next) => {
+      next.flow.nodes = next.flow.nodes.map((node) => (node.id === nodeId ? { ...node, ...patch } : node));
+    });
+  };
+
+  const updateNodeMessage = (node, value) => {
+    updateConfig((next) => {
+      if (node.responseKey === 'initialMessage') {
+        next.initialMessage = value;
+      } else {
+        next.responses[node.responseKey] = value;
+      }
+    });
+  };
+
+  const addNode = () => {
+    const id = `custom_${Date.now()}`;
+    updateConfig((next) => {
+      next.responses[id] = 'Nova mensagem.';
+      next.flow.nodes.push({
+        id,
+        type: 'message',
+        title: 'Novo bloco',
+        subtitle: 'Mensagem editável',
+        responseKey: id,
+        x: 360,
+        y: 620,
+      });
+    });
+    setSelectedNodeId(id);
+  };
+
+  const removeNode = () => {
+    if (!selectedNode || selectedNode.id === 'start') return;
+    updateConfig((next) => {
+      next.flow.nodes = next.flow.nodes.filter((node) => node.id !== selectedNode.id);
+      next.flow.edges = next.flow.edges.filter((edge) => edge.from !== selectedNode.id && edge.to !== selectedNode.id);
+      if (selectedNode.responseKey?.startsWith('custom_')) {
+        delete next.responses[selectedNode.responseKey];
+      }
+    });
+    setSelectedNodeId('start');
+  };
+
+  const addEdge = (from, to) => {
+    if (!from || !to || from === to) return;
+    updateConfig((next) => {
+      next.flow.edges.push({
+        id: `edge_${Date.now()}`,
+        from,
+        to,
+        label: 'nova condição',
+      });
+    });
+  };
+
+  const updateEdge = (edgeId, patch) => {
+    updateConfig((next) => {
+      next.flow.edges = next.flow.edges.map((edge) => (edge.id === edgeId ? { ...edge, ...patch } : edge));
+    });
+  };
+
+  const removeEdge = (edgeId) => {
+    updateConfig((next) => {
+      next.flow.edges = next.flow.edges.filter((edge) => edge.id !== edgeId);
+    });
+  };
+
+  return (
+    <Section title="Árvore visual do diálogo" description="Edite o fluxo como um mapa de automação: blocos, respostas, posições e conexões. Os blocos vinculados a respostas alteram o chat real.">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="overflow-auto rounded-xl border border-black/10 bg-[#f4f7ff]">
+          <div
+            className="relative h-[760px] w-[2300px]"
+            style={{
+              backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.16) 1px, transparent 1px)',
+              backgroundSize: '18px 18px',
+            }}
+          >
+            <svg className="pointer-events-none absolute inset-0 h-full w-full">
+              {edges.map((edge) => {
+                const from = nodeMap.get(edge.from);
+                const to = nodeMap.get(edge.to);
+                if (!from || !to) return null;
+                const x1 = from.x + 240;
+                const y1 = from.y + 64;
+                const x2 = to.x;
+                const y2 = to.y + 64;
+                const mid = Math.max(80, Math.abs(x2 - x1) * 0.42);
+                const path = `M ${x1} ${y1} C ${x1 + mid} ${y1}, ${x2 - mid} ${y2}, ${x2} ${y2}`;
+
+                return (
+                  <g key={edge.id}>
+                    <path d={path} fill="none" stroke="#94a3b8" strokeWidth="3" />
+                    <circle cx={x1} cy={y1} r="7" fill="#4f7cff" />
+                    <circle cx={x2} cy={y2} r="7" fill="#4f7cff" />
+                    {edge.label && (
+                      <text x={(x1 + x2) / 2} y={(y1 + y2) / 2 - 10} fill="#475569" fontSize="12" fontWeight="600">
+                        {edge.label}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+
+            {nodes.map((node) => (
+              <button
+                key={node.id}
+                type="button"
+                onClick={() => setSelectedNodeId(node.id)}
+                className={`absolute w-60 rounded-xl border-2 bg-white p-4 text-left shadow-[0_12px_32px_rgba(15,23,42,0.12)] transition hover:-translate-y-0.5 ${
+                  nodeTypeStyles[node.type] || nodeTypeStyles.message
+                } ${selectedNode?.id === node.id ? 'ring-4 ring-[#4f7cff]/25' : ''}`}
+                style={{ left: node.x, top: node.y }}
+              >
+                <div className="flex items-center gap-2">
+                  <GitBranch className="h-4 w-4 shrink-0" />
+                  <span className="text-xs font-bold uppercase tracking-[0.16em]">{node.type}</span>
+                </div>
+                <h3 className="mt-3 text-lg font-semibold leading-tight">{node.title}</h3>
+                <p className="mt-1 text-xs opacity-70">{node.subtitle}</p>
+                <p className="mt-3 line-clamp-3 rounded-lg bg-white/70 p-2 text-xs leading-5 text-slate-700">{getNodeMessage(node)}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <aside className="rounded-xl border border-black/10 bg-white p-4">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-base font-semibold">Editar bloco</h3>
+            <button type="button" onClick={addNode} className="inline-flex h-9 items-center gap-2 rounded-lg bg-slate-950 px-3 text-xs font-semibold text-white">
+              <Plus className="h-4 w-4" />
+              Bloco
+            </button>
+          </div>
+
+          {selectedNode ? (
+            <div className="mt-4 grid gap-4">
+              <Field label="Título">
+                <TextInput value={selectedNode.title} onChange={(value) => updateNode(selectedNode.id, { title: value })} />
+              </Field>
+              <Field label="Subtítulo">
+                <TextInput value={selectedNode.subtitle || ''} onChange={(value) => updateNode(selectedNode.id, { subtitle: value })} />
+              </Field>
+              <Field label="Tipo">
+                <select
+                  value={selectedNode.type}
+                  onChange={(event) => updateNode(selectedNode.id, { type: event.target.value })}
+                  className="h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm outline-none transition focus:border-[#0066cc] focus:ring-4 focus:ring-[#0066cc]/10"
+                >
+                  <option value="start">start</option>
+                  <option value="message">message</option>
+                  <option value="question">question</option>
+                  <option value="handoff">handoff</option>
+                  <option value="alert">alert</option>
+                </select>
+              </Field>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="X">
+                  <TextInput value={String(selectedNode.x)} onChange={(value) => updateNode(selectedNode.id, { x: Number(value) || 0 })} />
+                </Field>
+                <Field label="Y">
+                  <TextInput value={String(selectedNode.y)} onChange={(value) => updateNode(selectedNode.id, { y: Number(value) || 0 })} />
+                </Field>
+              </div>
+              <Field label="Mensagem do bloco" hint="Esta mensagem altera a resposta correspondente usada pelo chat.">
+                <TextArea value={getNodeMessage(selectedNode)} onChange={(value) => updateNodeMessage(selectedNode, value)} rows={5} />
+              </Field>
+
+              <div className="rounded-lg border border-black/10 p-3">
+                <p className="text-sm font-semibold">Conexões de saída</p>
+                <div className="mt-3 grid gap-2">
+                  {edges.filter((edge) => edge.from === selectedNode.id).map((edge) => (
+                    <div key={edge.id} className="grid gap-2 rounded-lg bg-slate-50 p-2">
+                      <TextInput value={edge.label || ''} onChange={(value) => updateEdge(edge.id, { label: value })} />
+                      <div className="flex gap-2">
+                        <select
+                          value={edge.to}
+                          onChange={(event) => updateEdge(edge.id, { to: event.target.value })}
+                          className="h-9 min-w-0 flex-1 rounded-lg border border-black/10 bg-white px-2 text-xs"
+                        >
+                          {nodes.filter((node) => node.id !== selectedNode.id).map((node) => (
+                            <option key={node.id} value={node.id}>{node.title}</option>
+                          ))}
+                        </select>
+                        <button type="button" onClick={() => removeEdge(edge.id)} className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-black/10 text-slate-500 hover:text-rose-600">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <button type="button" onClick={() => addEdge(selectedNode.id, nodes.find((node) => node.id !== selectedNode.id)?.id)} className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 text-xs font-semibold text-slate-600">
+                    <Plus className="h-4 w-4" />
+                    Nova conexão
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={removeNode}
+                disabled={selectedNode.id === 'start'}
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-rose-200 text-sm font-semibold text-rose-700 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Trash2 className="h-4 w-4" />
+                Remover bloco
+              </button>
+            </div>
+          ) : (
+            <p className="mt-4 text-sm text-slate-500">Selecione um bloco no canvas.</p>
+          )}
+        </aside>
+      </div>
+    </Section>
+  );
 }
 
 export default function ChatControlPage() {
@@ -396,6 +635,8 @@ export default function ChatControlPage() {
               </div>
             </div>
           </Section>
+
+          <FlowEditor config={config} updateConfig={updateConfig} />
 
           <Section title="Início e atalhos" description="Controle a primeira impressão do chat e as opções rápidas depois que o paciente informa o nome.">
             <Field label="Mensagem inicial">

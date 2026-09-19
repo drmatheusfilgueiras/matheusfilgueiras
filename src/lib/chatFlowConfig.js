@@ -52,6 +52,36 @@ export const defaultChatFlowConfig = {
     readyForWhatsapp: 'Fechado. {dayLabel} de {period} parece um bom caminho. Para confirmar horário certinho, é melhor continuar pelo WhatsApp.',
     fallback: '{namePrefix}me conta um pouco melhor o que você precisa, que eu te ajudo a organizar o próximo passo.',
   },
+  flow: {
+    nodes: [
+      { id: 'start', type: 'start', title: 'Início', subtitle: 'Mensagem inicial', responseKey: 'initialMessage', x: 40, y: 120 },
+      { id: 'afterName', type: 'message', title: 'Após informar nome', subtitle: 'Primeira triagem', responseKey: 'afterName', x: 320, y: 120 },
+      { id: 'appointmentReason', type: 'question', title: 'Motivo da consulta', subtitle: 'Avaliação ou incômodo', responseKey: 'appointmentReason', x: 640, y: 80 },
+      { id: 'brokenToothPain', type: 'question', title: 'Dente quebrado', subtitle: 'Perguntar dor/sensibilidade', responseKey: 'brokenToothPain', x: 980, y: 20 },
+      { id: 'painSwelling', type: 'question', title: 'Dor', subtitle: 'Verificar inchaço', responseKey: 'painSwelling', x: 980, y: 190 },
+      { id: 'askDay', type: 'question', title: 'Escolher dia', subtitle: 'Quinta ou sábado', responseKey: 'askDay', x: 1320, y: 110 },
+      { id: 'askPeriod', type: 'question', title: 'Escolher período', subtitle: 'Manhã ou tarde', responseKey: 'askPeriod', x: 1640, y: 110 },
+      { id: 'readyForWhatsapp', type: 'handoff', title: 'Confirmar no WhatsApp', subtitle: 'Transferência', responseKey: 'readyForWhatsapp', x: 1960, y: 110 },
+      { id: 'price', type: 'message', title: 'Preço', subtitle: 'Resposta sobre valores', responseKey: 'price', x: 640, y: 310 },
+      { id: 'sedation', type: 'message', title: 'Sedação', subtitle: 'Explicação breve', responseKey: 'sedation', x: 980, y: 360 },
+      { id: 'fear', type: 'message', title: 'Medo/ansiedade', subtitle: 'Acolhimento', responseKey: 'fear', x: 980, y: 520 },
+      { id: 'critical', type: 'alert', title: 'Sinais críticos', subtitle: 'Urgência', responseKey: 'critical', x: 1320, y: 420 },
+    ],
+    edges: [
+      { id: 'e-start-afterName', from: 'start', to: 'afterName', label: 'nome informado' },
+      { id: 'e-afterName-appointmentReason', from: 'afterName', to: 'appointmentReason', label: 'quer agendar' },
+      { id: 'e-appointment-broken', from: 'appointmentReason', to: 'brokenToothPain', label: 'dente quebrado' },
+      { id: 'e-appointment-pain', from: 'appointmentReason', to: 'painSwelling', label: 'dor' },
+      { id: 'e-broken-day', from: 'brokenToothPain', to: 'askDay', label: 'dor avaliada' },
+      { id: 'e-pain-day', from: 'painSwelling', to: 'askDay', label: 'inchaço avaliado' },
+      { id: 'e-day-period', from: 'askDay', to: 'askPeriod', label: 'dia escolhido' },
+      { id: 'e-period-whatsapp', from: 'askPeriod', to: 'readyForWhatsapp', label: 'período escolhido' },
+      { id: 'e-afterName-price', from: 'afterName', to: 'price', label: 'preço' },
+      { id: 'e-afterName-sedation', from: 'afterName', to: 'sedation', label: 'sedação' },
+      { id: 'e-afterName-fear', from: 'afterName', to: 'fear', label: 'medo' },
+      { id: 'e-appointment-critical', from: 'appointmentReason', to: 'critical', label: 'alerta' },
+    ],
+  },
 };
 
 export function cloneChatFlowConfig(config = defaultChatFlowConfig) {
