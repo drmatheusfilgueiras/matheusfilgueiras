@@ -623,12 +623,10 @@ function AppleTestPage() {
             <Reveal delay={0.08} className="flex items-center rounded-[24px] bg-[#f5f5f7] p-7 sm:p-10 lg:p-12">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Apresentação</p>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">Olá, sou o Matheus.</h2>
+                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">Dentista por formação. Curioso por natureza.</h2>
                 <div className="mt-6 space-y-4 text-[1.05rem] leading-relaxed tracking-[-0.015em] text-[#515154]">
-                  <p>Sou cirurgião-dentista e mestrando em Odontologia. Essa provavelmente é a maneira mais simples de me apresentar.</p>
-                  <p className="text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">Só não é a mais completa.</p>
-                  <p>Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design, comunicação e tecnologia.</p>
-                  <p>Grande parte do que aprendo fora da clínica acaba mudando a maneira como penso dentro dela.</p>
+                  <p>Entre odontologia, ciência, arte, design e tecnologia, encontrei diferentes maneiras de fazer aquilo de que mais gosto.</p>
+                  <p className="text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f]">Transformar ideias em algo real.</p>
                 </div>
               </div>
             </Reveal>
