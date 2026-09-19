@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageCircle, Send, X } from 'lucide-react';
-import { loadChatFlowConfig } from '@/lib/chatFlowConfig';
+import { cloneChatFlowConfig, fetchChatFlowConfig, loadChatFlowConfig, saveChatFlowConfig } from '@/lib/chatFlowConfig';
 
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
 const CHAT_CONVERSATION_STORAGE_KEY = 'matheus_chat_conversation_id';
@@ -172,7 +172,7 @@ function getTypingDelay(reply, config) {
 }
 
 export default function QuickAssistant() {
-  const [config] = useState(() => loadChatFlowConfig());
+  const [config, setConfig] = useState(() => loadChatFlowConfig());
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([{ from: 'assistant', text: config.initialMessage }]);
   const [draft, setDraft] = useState('');
@@ -189,6 +189,28 @@ export default function QuickAssistant() {
     lastIntent: null,
   });
   const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetchChatFlowConfig()
+      .then((remoteConfig) => {
+        if (ignore || !remoteConfig) return;
+        const nextConfig = { ...cloneChatFlowConfig(), ...remoteConfig };
+        setConfig(nextConfig);
+        saveChatFlowConfig(nextConfig);
+        setMessages((current) => (current.length === 1 && current[0]?.text === config.initialMessage
+          ? [{ from: 'assistant', text: nextConfig.initialMessage }]
+          : current));
+      })
+      .catch(() => {
+        // Keep local/default config if the server config is unavailable.
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [config.initialMessage]);
 
   useEffect(() => {
     if (!conversationId) return undefined;

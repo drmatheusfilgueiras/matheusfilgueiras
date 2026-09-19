@@ -6,8 +6,10 @@ import {
   CHAT_CONTROL_KEY_STORAGE,
   cloneChatFlowConfig,
   defaultChatFlowConfig,
+  fetchChatFlowConfig,
   loadChatFlowConfig,
   saveChatFlowConfig,
+  saveChatFlowConfigRemote,
 } from '@/lib/chatFlowConfig';
 
 function splitLines(value) {
@@ -85,7 +87,9 @@ function FlowEditor({ config, updateConfig }) {
   const edges = config.flow?.edges || [];
   const viewportRef = useRef(null);
   const panRef = useRef(null);
+  const nodeDragRef = useRef(null);
   const [isPanning, setIsPanning] = useState(false);
+  const [draggingNodeId, setDraggingNodeId] = useState('');
   const nodeMap = new Map(nodes.map((node) => [node.id, node]));
 
   const getNodeMessage = (node) => {
@@ -158,6 +162,39 @@ function FlowEditor({ config, updateConfig }) {
     updateConfig((next) => {
       next.flow.edges = next.flow.edges.filter((edge) => edge.id !== edgeId);
     });
+  };
+
+  const startNodeDrag = (event, node) => {
+    if (event.target.closest('button, input, textarea, select, label, a')) return;
+    event.stopPropagation();
+    nodeDragRef.current = {
+      pointerId: event.pointerId,
+      nodeId: node.id,
+      x: event.clientX,
+      y: event.clientY,
+      nodeX: node.x,
+      nodeY: node.y,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setDraggingNodeId(node.id);
+  };
+
+  const moveNodeDrag = (event) => {
+    const drag = nodeDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+
+    updateNode(drag.nodeId, {
+      x: Math.max(0, Math.round(drag.nodeX + event.clientX - drag.x)),
+      y: Math.max(0, Math.round(drag.nodeY + event.clientY - drag.y)),
+    });
+  };
+
+  const stopNodeDrag = (event) => {
+    if (nodeDragRef.current?.pointerId === event.pointerId) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    nodeDragRef.current = null;
+    setDraggingNodeId('');
   };
 
   const startPan = (event) => {
@@ -254,9 +291,13 @@ function FlowEditor({ config, updateConfig }) {
             {nodes.map((node) => (
               <div
                 key={node.id}
+                onPointerDown={(event) => startNodeDrag(event, node)}
+                onPointerMove={moveNodeDrag}
+                onPointerUp={stopNodeDrag}
+                onPointerCancel={stopNodeDrag}
                 className={`absolute w-80 rounded-2xl border-2 bg-white p-4 text-left shadow-[0_16px_44px_rgba(15,23,42,0.14)] ${
                   nodeTypeStyles[node.type] || nodeTypeStyles.message
-                }`}
+                } ${draggingNodeId === node.id ? 'cursor-grabbing ring-4 ring-[#4f7cff]/20' : 'cursor-move'}`}
                 style={{ left: node.x, top: node.y }}
               >
                 <div className="flex items-center justify-between gap-3">
@@ -338,6 +379,7 @@ export default function ChatControlPage() {
   const [conversationStatus, setConversationStatus] = useState('As conversas aparecem aqui depois que alguém iniciar o chat.');
   const [conversationLoading, setConversationLoading] = useState(false);
   const [manualReply, setManualReply] = useState('');
+  const autoSaveReadyRef = useRef(false);
   const responseEntries = useMemo(() => Object.entries(config.responses), [config.responses]);
 
   const updateConfig = (updater) => {
@@ -357,6 +399,26 @@ export default function ChatControlPage() {
     window.sessionStorage.setItem(CHAT_CONTROL_KEY_STORAGE, accessKey);
     setAuthorized(true);
     setStatus('Acesso liberado.');
+  };
+
+  const loadRemoteConfig = async () => {
+    try {
+      const remoteConfig = await fetchChatFlowConfig();
+      if (remoteConfig) {
+        const nextConfig = { ...cloneChatFlowConfig(), ...remoteConfig };
+        setConfig(nextConfig);
+        saveChatFlowConfig(nextConfig);
+        setStatus('Fluxo carregado do servidor. Alterações serão salvas automaticamente.');
+      } else {
+        setStatus('Nenhum fluxo salvo no servidor ainda. Alterações serão salvas automaticamente.');
+      }
+    } catch {
+      setStatus('Nao foi possivel carregar o fluxo do servidor. Alterações locais continuam disponíveis.');
+    } finally {
+      window.setTimeout(() => {
+        autoSaveReadyRef.current = true;
+      }, 0);
+    }
   };
 
   const fetchConversations = async () => {
@@ -451,14 +513,36 @@ export default function ChatControlPage() {
 
   useEffect(() => {
     if (authorized) {
+      loadRemoteConfig();
       fetchConversations();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authorized]);
 
+  useEffect(() => {
+    if (!authorized || !autoSaveReadyRef.current) return undefined;
+
+    saveChatFlowConfig(config);
+    setStatus('Salvando alterações...');
+
+    const timeout = window.setTimeout(() => {
+      saveChatFlowConfigRemote(config, accessKey)
+        .then(() => {
+          setStatus('Alterações salvas automaticamente.');
+        })
+        .catch((error) => {
+          setStatus(error.message || 'Nao foi possivel salvar automaticamente.');
+        });
+    }, 700);
+
+    return () => window.clearTimeout(timeout);
+  }, [accessKey, authorized, config]);
+
   const save = () => {
     saveChatFlowConfig(config);
-    setStatus('Fluxo salvo. Recarregue a página inicial para testar com a nova configuração.');
+    saveChatFlowConfigRemote(config, accessKey)
+      .then(() => setStatus('Fluxo salvo no servidor.'))
+      .catch((error) => setStatus(error.message || 'Nao foi possivel salvar o fluxo.'));
   };
 
   const reset = () => {

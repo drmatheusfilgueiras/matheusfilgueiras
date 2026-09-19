@@ -111,3 +111,29 @@ export function loadChatFlowConfig() {
 export function saveChatFlowConfig(config) {
   window.localStorage.setItem(CHAT_FLOW_STORAGE_KEY, JSON.stringify(config));
 }
+
+export async function fetchChatFlowConfig() {
+  const response = await fetch('/api/chat-flow-config.php', {
+    headers: { Accept: 'application/json' },
+  });
+  const payload = await response.json();
+  return payload?.ok && payload.config ? payload.config : null;
+}
+
+export async function saveChatFlowConfigRemote(config, accessKey) {
+  const response = await fetch('/api/chat-flow-config.php', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-Chat-Control-Key': accessKey,
+    },
+    body: JSON.stringify({ config }),
+  });
+  const payload = await response.json();
+  if (!response.ok || !payload.ok) {
+    throw new Error(payload.error || 'Nao foi possivel salvar a configuracao.');
+  }
+
+  return payload;
+}
