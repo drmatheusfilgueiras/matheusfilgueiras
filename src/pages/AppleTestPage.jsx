@@ -116,7 +116,7 @@ const projetos = [
     texto: 'Uma pesquisa em Odontopediatria que se transformou em uma coleção de livros infantis para ajudar crianças a compreender e se preparar melhor para o atendimento odontológico.',
     destaque: 'Ciência, narrativa, ilustração e design reunidos em algo que uma criança pudesse segurar nas mãos.',
     cta: 'Conhecer o projeto',
-    href: 'https://www.amazon.com.br/Unidos-pela-Bravura-Matheus-Filgueiras/dp/6501438985',
+    href: '/unidos_pela_bravura',
     img: '/assets/projects/unidos-pela-bravura-wide.jpg',
   },
   {
@@ -763,7 +763,12 @@ function AppleTestPage() {
                       <p className="mt-5 text-2xl font-semibold tracking-[-0.035em] text-[#1d1d1f]">{item.sub}</p>
                       <p className="mt-5 text-lg leading-relaxed tracking-[-0.015em] text-[#515154]">{item.texto}</p>
                       <p className="mt-6 border-l-2 border-[#0066cc] pl-5 text-lg font-semibold leading-relaxed tracking-[-0.015em]">{item.destaque}</p>
-                      <a href={item.href} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]">
+                      <a
+                        href={item.href}
+                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                        rel={item.href.startsWith('http') ? 'noreferrer noopener' : undefined}
+                        className="mt-7 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]"
+                      >
                         {item.cta}
                         <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
                       </a>

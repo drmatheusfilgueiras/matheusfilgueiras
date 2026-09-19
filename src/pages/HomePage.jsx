@@ -73,7 +73,7 @@ const projetos = [{
   texto: 'Uma pesquisa em Odontopediatria que se transformou em uma coleção de livros infantis para ajudar crianças a compreender e se preparar melhor para o atendimento odontológico.',
   destaque: 'Ciência, narrativa, ilustração e design reunidos em algo que uma criança pudesse segurar nas mãos.',
   cta: 'Conhecer o projeto',
-  href: 'https://www.amazon.com.br/Unidos-pela-Bravura-Matheus-Filgueiras/dp/6501438985',
+  href: '/unidos_pela_bravura',
   img: IMG_PROJECTS.bravura
 }, {
   num: '02',
@@ -893,7 +893,12 @@ function HomePage() {
                                     {p.destaque && <p className="mt-5 border-l-2 border-primary/60 pl-5 text-[1.05rem] font-light leading-relaxed text-foreground">
                                             {p.destaque}
                                         </p>}
-                                    <a href={p.href} target="_blank" rel="noreferrer noopener" className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background">
+                                    <a
+                                        href={p.href}
+                                        target={p.href.startsWith('http') ? '_blank' : undefined}
+                                        rel={p.href.startsWith('http') ? 'noreferrer noopener' : undefined}
+                                        className="mt-7 inline-flex items-center gap-2 text-[0.78rem] uppercase tracking-[0.22em] text-primary transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                                    >
                                         {p.cta}
                                         <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
                                     </a>
