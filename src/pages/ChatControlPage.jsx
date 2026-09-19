@@ -333,6 +333,28 @@ function FlowEditor({ config, updateConfig }) {
                 />
 
                 <div className="mt-4 border-t border-black/10 pt-3">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-600">Entradas</p>
+                  <div className="flex flex-wrap gap-2">
+                    {edges.filter((edge) => edge.to === node.id).map((edge) => (
+                      <div key={edge.id} className="group inline-flex max-w-full items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-1">
+                        <select value={edge.from} onChange={(event) => updateEdge(edge.id, { from: event.target.value })} className="h-7 max-w-28 rounded-full border border-black/10 bg-slate-50 px-2 text-xs outline-none">
+                          {nodes.filter((item) => item.id !== node.id).map((item) => (
+                            <option key={item.id} value={item.id}>{item.title}</option>
+                          ))}
+                        </select>
+                        <input value={edge.label || ''} onChange={(event) => updateEdge(edge.id, { label: event.target.value })} className="h-7 w-24 min-w-0 bg-transparent text-xs font-semibold outline-none" />
+                        <button type="button" onClick={() => removeEdge(edge.id)} className="inline-flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:bg-rose-50 hover:text-rose-600">
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                    {!edges.some((edge) => edge.to === node.id) && (
+                      <p className="text-xs text-slate-500">Sem entrada configurada.</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-4 border-t border-black/10 pt-3">
                   <div className="mb-2 flex items-center justify-between gap-2">
                     <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-600">Saídas</p>
                     <button type="button" onClick={() => addEdge(node.id, nodes.find((item) => item.id !== node.id)?.id)} className="inline-flex h-7 items-center gap-1 rounded-md bg-slate-950 px-2 text-[0.68rem] font-semibold text-white">
