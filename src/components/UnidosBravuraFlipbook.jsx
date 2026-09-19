@@ -97,6 +97,30 @@ function SideButton({ direction, disabled, onClick }) {
   );
 }
 
+function BackToSiteButton() {
+  return (
+    <a
+      href="/"
+      aria-label="Voltar ao site"
+      className="fixed left-4 top-4 z-50 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/82 text-[#1d1d1f] shadow-[0_10px_30px_rgba(0,0,0,0.1)] ring-1 ring-black/10 backdrop-blur transition hover:scale-105 hover:text-[#0066cc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 sm:left-6 sm:top-6"
+    >
+      <ChevronLeft className="h-5 w-5" strokeWidth={1.9} />
+    </a>
+  );
+}
+
+function KeyboardCue() {
+  return (
+    <div
+      aria-label="Use as setas do teclado para navegar"
+      className="pointer-events-none fixed right-4 top-4 z-30 hidden items-center gap-1 rounded-full bg-white/70 px-2.5 py-2 text-[11px] font-semibold text-[#1d1d1f]/55 shadow-[0_10px_30px_rgba(0,0,0,0.08)] ring-1 ring-black/5 backdrop-blur sm:right-6 sm:top-6 sm:flex"
+    >
+      <span className="rounded-full bg-black/5 px-2 py-1">←</span>
+      <span className="rounded-full bg-black/5 px-2 py-1">→</span>
+    </div>
+  );
+}
+
 function BookPage({ page, side, pageSrc, title, imageSize, eager = false }) {
   const radius = side === 'single' ? 'rounded-[10px]' : side === 'left' ? 'rounded-l-[10px]' : 'rounded-r-[10px]';
   const shade =
@@ -291,6 +315,8 @@ export default function UnidosBravuraFlipbook({
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f7f7f5] px-5 py-10 text-[#1d1d1f] sm:px-20">
+      <BackToSiteButton />
+      <KeyboardCue />
       <SideButton direction="previous" disabled={!canGoPrevious} onClick={previousSpread} />
       <SideButton direction="next" disabled={!canGoNext} onClick={nextSpread} />
       <ReadingProgress currentPage={currentPage} totalPages={totalPages} />

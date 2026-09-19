@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, Instagram, Linkedin, Mail, X } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, FileText, Instagram, Linkedin, Mail, Menu, X } from 'lucide-react';
 import Reveal from '@/components/Reveal';
 import Seo from '@/components/Seo';
 
@@ -513,6 +513,7 @@ function AppleLanguagesSection() {
 
 function AppleTestPage() {
   const [appointmentOpen, setAppointmentOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerOnBlue, setHeaderOnBlue] = useState(false);
 
   useEffect(() => {
@@ -554,7 +555,7 @@ function AppleTestPage() {
       />
 
       <header className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl transition-colors duration-300 ${headerOnBlue ? 'border-white/15 bg-[#0066cc]/88' : 'border-black/10 bg-white/78'}`}>
-        <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-5">
+        <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-3 px-5">
           <a href="#inicio-apple" className={`shrink-0 text-base font-semibold tracking-[-0.01em] transition-colors ${headerOnBlue ? 'text-white' : 'text-[#1d1d1f]'}`}>
             Matheus Filgueiras
           </a>
@@ -567,21 +568,61 @@ function AppleTestPage() {
           </div>
           <button
             type="button"
-            onClick={() => setAppointmentOpen(true)}
-            className={`rounded-full px-5 py-2 text-[0.88rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 ${headerOnBlue ? 'bg-white text-[#0066cc]' : 'bg-[#0066cc] text-white'}`}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              setAppointmentOpen(true);
+            }}
+            className={`ml-auto rounded-full px-5 py-2 text-[0.88rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 md:ml-0 ${headerOnBlue ? 'bg-white text-[#0066cc]' : 'bg-[#0066cc] text-white'}`}
           >
             Agendar
           </button>
+          <button
+            type="button"
+            aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 md:hidden ${
+              headerOnBlue ? 'bg-white/12 text-white ring-white/24' : 'bg-white text-[#1d1d1f] ring-black/10'
+            }`}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" strokeWidth={1.8} /> : <Menu className="h-5 w-5" strokeWidth={1.8} />}
+          </button>
         </nav>
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.18 }}
+              className={`mx-5 mb-4 rounded-[22px] p-3 shadow-[0_18px_60px_rgba(0,0,0,0.12)] ring-1 md:hidden ${
+                headerOnBlue ? 'bg-white text-[#1d1d1f] ring-white/20' : 'bg-white/96 text-[#1d1d1f] ring-black/10'
+              }`}
+            >
+              <div className="grid grid-cols-2 gap-1">
+                {navLinks.map(([label, href]) => (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-[16px] px-4 py-3 text-sm font-semibold transition-colors hover:bg-[#0066cc]/7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/30"
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <main>
         <section id="inicio-apple" className="bg-[#fbfbfd] px-5 pt-24 sm:px-8">
-          <div className="mx-auto grid min-h-[calc(100vh-3rem)] max-w-6xl items-center gap-10 py-10 lg:grid-cols-[0.96fr_1.04fr] lg:py-16">
+          <div className="mx-auto grid min-h-[calc(100svh-2rem)] max-w-6xl items-center gap-8 py-8 sm:gap-10 sm:py-10 lg:min-h-[calc(100vh-3rem)] lg:grid-cols-[0.96fr_1.04fr] lg:py-16">
             <Reveal>
               <div className="lg:-mt-6">
                 <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#0066cc]">CIRURGIÃO-DENTISTA · CRO/RJ 59298</p>
-                <h1 className="mt-5 text-[3rem] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1d1d1f] sm:text-6xl lg:text-7xl">
+                <h1 className="mt-5 text-[2.75rem] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1d1d1f] sm:text-6xl lg:text-7xl">
                   Olá, sou o Matheus.
                 </h1>
                 <div className="mt-7 max-w-2xl space-y-4 text-[1.08rem] leading-relaxed tracking-[-0.015em] text-[#515154] sm:text-xl lg:space-y-3">
@@ -603,7 +644,7 @@ function AppleTestPage() {
                 <img
                   src="/assets/photos/retrato-editorial-hero.jpg"
                   alt="Matheus Filgueiras"
-                  className="h-[34rem] w-full object-cover object-[center_17%] sm:h-[42rem] lg:h-[45rem]"
+                  className="h-[24rem] w-full object-cover object-[center_17%] sm:h-[42rem] lg:h-[45rem]"
                   loading="eager"
                 />
               </figure>
@@ -611,7 +652,7 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <section className="bg-[#f5f5f7] px-5 py-16 sm:px-8 lg:py-24">
+        <section className="bg-[#f5f5f7] px-5 py-14 sm:px-8 lg:py-20">
           <div className="mx-auto max-w-6xl">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Sobre</p>
