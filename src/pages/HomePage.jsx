@@ -608,12 +608,6 @@ function HomePage() {
                                     Só não é a mais completa.
                                 </p>
                             </Reveal>
-                            <Reveal delay={0.15}>
-                                <p>
-                                    Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design,
-                                    comunicação e tecnologia.
-                                </p>
-                            </Reveal>
                             <Reveal delay={0.2}>
                                 <p>
                                     Durante algum tempo, achei que interesses tão diferentes precisavam ocupar lugares

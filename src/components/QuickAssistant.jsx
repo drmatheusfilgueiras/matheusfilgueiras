@@ -354,10 +354,9 @@ export default function QuickAssistant() {
             className="w-[22rem] max-w-full overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-[0_28px_90px_rgba(0,0,0,0.18)]"
           >
             <div className="flex items-center gap-3 border-b border-[#e8e8ed] bg-[#f5f5f7] p-4">
-              <img src="/assets/photos/retrato-editorial.jpg" alt="Matheus Filgueiras" className="h-11 w-11 rounded-full object-cover" loading="lazy" />
+              <img src="/assets/photos/retrato-editorial.jpg" alt="Matheus Filgueiras" className="h-11 w-11 rounded-full object-cover object-[50%_18%]" loading="lazy" />
               <div className="min-w-0 flex-1">
                 <p className="font-semibold tracking-[-0.02em] text-[#1d1d1f]">Converse comigo</p>
-                <p className="mt-0.5 text-xs font-medium text-[#6e6e73]">Resposta rápida de atendimento</p>
               </div>
               <button
                 type="button"
@@ -397,21 +396,6 @@ export default function QuickAssistant() {
             </div>
 
             <div className="border-t border-[#e8e8ed] p-4">
-              {patientName && (
-                <div className="flex flex-wrap gap-2 pb-3">
-                  {config.quickReplies.map((reply) => (
-                    <button
-                      key={reply}
-                      type="button"
-                      onClick={() => sendMessage(reply)}
-                      disabled={isTyping}
-                      className="rounded-full bg-[#f5f5f7] px-3 py-2 text-xs font-semibold text-[#424245] transition-colors hover:bg-[#e8e8ed] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35"
-                    >
-                      {reply}
-                    </button>
-                  ))}
-                </div>
-              )}
               <form
                 className="flex items-center gap-2"
                 onSubmit={(event) => {
@@ -443,15 +427,17 @@ export default function QuickAssistant() {
         )}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => setIsOpen((current) => !current)}
-        className="inline-flex h-14 items-center gap-3 rounded-full bg-[#1d1d1f] px-5 font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.24)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4"
-        aria-label={isOpen ? 'Fechar conversa' : 'Abrir conversa'}
-      >
-        <MessageCircle className="h-5 w-5" strokeWidth={2} />
-        <span className="hidden sm:inline">Converse comigo</span>
-      </button>
+      {!isOpen && (
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="inline-flex h-14 items-center gap-3 rounded-full bg-[#1d1d1f] px-5 font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.24)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4"
+          aria-label="Abrir conversa"
+        >
+          <MessageCircle className="h-5 w-5" strokeWidth={2} />
+          <span className="hidden sm:inline">Converse comigo</span>
+        </button>
+      )}
     </div>
   );
 }
