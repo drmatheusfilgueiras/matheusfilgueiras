@@ -629,10 +629,9 @@ function AppleTestPage() {
                 <div className="mt-7 max-w-2xl space-y-4 text-[1.08rem] leading-relaxed tracking-[-0.015em] text-[#515154] sm:text-xl lg:space-y-3">
                   <p>Sou cirurgião-dentista e mestrando em Odontologia. Essa provavelmente é a maneira mais simples de me apresentar.</p>
                   <p className="text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f] sm:text-3xl">Só não é a mais completa.</p>
-                  <p>Também desenho. Escrevo. Fotografo. Desenvolvo projetos. Gosto de design, comunicação e tecnologia.</p>
                   <p>Grande parte do que aprendo fora da clínica acaba mudando a maneira como penso dentro dela.</p>
                 </div>
-                <div className="mt-8 flex flex-wrap gap-3 lg:mt-6">
+                <div className="mt-7 flex flex-wrap gap-3 lg:mt-6">
                   <ScheduleButton onClick={() => setAppointmentOpen(true)}>Agendar consulta</ScheduleButton>
                   <a href="#projetos-apple" className="inline-flex min-h-[48px] items-center rounded-full border border-[#0066cc]/15 px-6 text-[0.95rem] font-semibold text-[#0066cc] transition-colors hover:border-[#0066cc]/35 hover:bg-[#0066cc]/5 hover:text-[#1d1d1f]">
                     Ver projetos
