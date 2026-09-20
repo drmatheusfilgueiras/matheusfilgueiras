@@ -762,7 +762,7 @@ export default function ChatControlPage() {
 
           <FlowEditor config={config} updateConfig={updateConfig} />
 
-          <Section title="IA do atendimento" description="Configure a camada de IA que responde como você. A chave da OpenAI deve ficar no servidor como OPENAI_API_KEY. Se a IA estiver desligada ou falhar, o fluxo por regras continua funcionando.">
+          <Section title="IA do atendimento" description="Configure a camada de IA que responde como você. Para Gemini, configure GEMINI_API_KEY no servidor. Se a IA estiver desligada ou falhar, o fluxo por regras continua funcionando.">
             <div className="grid gap-5">
               <label className="flex items-center justify-between gap-4 rounded-xl border border-black/10 bg-slate-50 p-4">
                 <span>
@@ -777,7 +777,21 @@ export default function ChatControlPage() {
                 />
               </label>
 
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid gap-4 md:grid-cols-4">
+                <Field label="Provedor">
+                  <select
+                    value={config.ai?.provider || 'gemini'}
+                    onChange={(event) => updateConfig((next) => {
+                      next.ai.provider = event.target.value;
+                      if (event.target.value === 'gemini' && next.ai.model?.startsWith('gpt-')) next.ai.model = 'gemini-3.6-flash';
+                      if (event.target.value === 'openai' && next.ai.model?.startsWith('gemini-')) next.ai.model = 'gpt-5.6-luna';
+                    })}
+                    className="h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm outline-none transition focus:border-[#0066cc] focus:ring-4 focus:ring-[#0066cc]/10"
+                  >
+                    <option value="gemini">Gemini</option>
+                    <option value="openai">OpenAI</option>
+                  </select>
+                </Field>
                 <Field label="Modelo">
                   <TextInput value={config.ai?.model || ''} onChange={(value) => updateConfig((next) => { next.ai.model = value; })} />
                 </Field>

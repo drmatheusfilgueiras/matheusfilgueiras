@@ -302,7 +302,7 @@ export default function QuickAssistant() {
     setIsOpen(true);
     setIsTyping(true);
     const currentPatientName = nextName || patientName;
-    const historyForAi = [...messages, { from: 'user', text: trimmed }];
+    const historyForAi = messages;
     const userLog = recordChatMessage({
       conversationId,
       action: 'visitor_message',

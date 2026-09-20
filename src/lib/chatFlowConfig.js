@@ -12,7 +12,8 @@ export const defaultChatFlowConfig = {
   },
   ai: {
     enabled: false,
-    model: 'gpt-5.6-luna',
+    provider: 'gemini',
+    model: 'gemini-3.6-flash',
     temperature: 0.35,
     maxOutputTokens: 420,
     fallbackToRules: true,
@@ -108,8 +109,7 @@ export function cloneChatFlowConfig(config = defaultChatFlowConfig) {
 
 export function mergeChatFlowConfig(config = {}) {
   const defaults = cloneChatFlowConfig();
-
-  return {
+  const merged = {
     ...defaults,
     ...config,
     typing: {
@@ -139,6 +139,16 @@ export function mergeChatFlowConfig(config = {}) {
       edges: config.flow?.edges || defaults.flow.edges,
     },
   };
+
+  if (merged.ai.provider === 'gemini' && merged.ai.model?.startsWith('gpt-')) {
+    merged.ai.model = defaults.ai.model;
+  }
+
+  if (merged.ai.provider === 'openai' && merged.ai.model?.startsWith('gemini-')) {
+    merged.ai.model = 'gpt-5.6-luna';
+  }
+
+  return merged;
 }
 
 export function loadChatFlowConfig() {
