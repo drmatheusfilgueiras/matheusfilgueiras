@@ -280,10 +280,18 @@ export default function QuickAssistant() {
 
     const poll = async () => {
       try {
-        const response = await fetch(`/api/chat-conversations.php?conversationId=${encodeURIComponent(conversationId)}`, {
+        const visitorId = getStoredVisitorId();
+        const response = await fetch(`/api/chat-conversations.php?conversationId=${encodeURIComponent(conversationId)}&visitorId=${encodeURIComponent(visitorId)}`, {
           headers: { Accept: 'application/json' },
         });
+        if (response.status === 403 || response.status === 404) {
+          window.localStorage.removeItem(CHAT_CONVERSATION_STORAGE_KEY);
+          setConversationId('');
+          return;
+        }
+
         const payload = await response.json();
+        if (!payload?.ok) return;
         const serverMessages = payload?.conversation?.messages || [];
         const operatorMessages = serverMessages.filter((message) => message.sender === 'operator');
 

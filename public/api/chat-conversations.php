@@ -142,6 +142,11 @@ function safe_id(string $value): string
     return preg_replace('/[^a-zA-Z0-9_-]/', '', $value) ?: '';
 }
 
+function visitor_hash(string $visitorId): string
+{
+    return substr(hash('sha256', $visitorId), 0, 16);
+}
+
 function new_id(): string
 {
     return bin2hex(random_bytes(16));
@@ -227,7 +232,7 @@ if ($method === 'POST') {
             'updatedAt' => $now,
             'status' => 'open',
             'patientName' => '',
-            'visitorId' => substr(hash('sha256', text_value($payload, 'visitorId', 120)), 0, 16),
+            'visitorId' => visitor_hash(text_value($payload, 'visitorId', 120)),
             'ipHash' => substr(hash('sha256', $ip . '|' . __FILE__), 0, 16),
             'ipMasked' => masked_ip($ip),
             'timezone' => text_value($payload, 'timezone', 80),
@@ -281,6 +286,11 @@ if ($method === 'GET') {
         }
 
         if (!is_authorized($accessKeyHash)) {
+            $requestVisitorId = text_value($_GET, 'visitorId', 120);
+            if ($requestVisitorId === '' || !hash_equals((string) ($conversation['visitorId'] ?? ''), visitor_hash($requestVisitorId))) {
+                respond(403, ['ok' => false, 'error' => 'Conversa nao autorizada para este visitante.']);
+            }
+
             $conversation['ipHash'] = '';
             $conversation['visitorId'] = '';
             $conversation['userAgent'] = '';
