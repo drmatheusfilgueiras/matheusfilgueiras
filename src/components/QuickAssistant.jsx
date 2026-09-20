@@ -241,7 +241,7 @@ export default function QuickAssistant() {
   const [messages, setMessages] = useState([{ from: 'assistant', text: config.initialMessage }]);
   const [draft, setDraft] = useState('');
   const [patientName, setPatientName] = useState('');
-  const [conversationId, setConversationId] = useState(() => window.localStorage.getItem(CHAT_CONVERSATION_STORAGE_KEY) || '');
+  const [conversationId, setConversationId] = useState('');
   const [conversationContext, setConversationContext] = useState({
     stage: 'awaiting_name',
     reason: null,
@@ -253,6 +253,10 @@ export default function QuickAssistant() {
     lastIntent: null,
   });
   const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    window.localStorage.removeItem(CHAT_CONVERSATION_STORAGE_KEY);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -360,7 +364,6 @@ export default function QuickAssistant() {
       patientName: currentPatientName,
     }).then((payload) => {
       if (payload?.conversationId && payload.conversationId !== conversationId) {
-        window.localStorage.setItem(CHAT_CONVERSATION_STORAGE_KEY, payload.conversationId);
         setConversationId(payload.conversationId);
       }
 
