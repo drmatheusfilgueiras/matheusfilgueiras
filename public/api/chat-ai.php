@@ -225,6 +225,20 @@ function call_openai(string $apiKey, string $model, string $instructions, array 
 
 function call_gemini(string $apiKey, string $model, string $instructions, array $history, string $message, float $temperature, int $maxOutputTokens): array
 {
+    $effectiveMaxOutputTokens = starts_with($model, 'gemini-3')
+        ? max($maxOutputTokens, 1536)
+        : $maxOutputTokens;
+    $generationConfig = [
+        'temperature' => max(0, min(1, $temperature)),
+        'maxOutputTokens' => $effectiveMaxOutputTokens,
+    ];
+
+    if (stripos($model, 'gemini-2.5-flash') !== false) {
+        $generationConfig['thinkingConfig'] = [
+            'thinkingBudget' => 0,
+        ];
+    }
+
     $contents = [];
     foreach ($history as $item) {
         $contents[] = [
@@ -243,10 +257,7 @@ function call_gemini(string $apiKey, string $model, string $instructions, array 
             'parts' => [['text' => $instructions]],
         ],
         'contents' => $contents,
-        'generationConfig' => [
-            'temperature' => max(0, min(1, $temperature)),
-            'maxOutputTokens' => $maxOutputTokens,
-        ],
+        'generationConfig' => $generationConfig,
     ]);
 
     if (!$result['ok']) {
@@ -311,7 +322,7 @@ $instructions = implode("\n\n", array_filter([
         'patientName' => $patientName,
         'conversationContext' => $context,
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
-    'Responda em português do Brasil. Entregue somente a mensagem que seria enviada ao paciente, sem aspas, sem markdown e sem explicações internas.',
+    'Responda em português do Brasil, em no máximo 45 palavras. Entregue somente a mensagem que seria enviada ao paciente, sem aspas, sem markdown e sem explicações internas.',
     'Nunca entregue uma frase incompleta. Toda resposta deve terminar com pontuação final e, quando a conversa ainda não estiver resolvida, com uma pergunta curta que conduza o próximo passo.',
 ]));
 
