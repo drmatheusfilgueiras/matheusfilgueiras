@@ -10,6 +10,24 @@ export const defaultChatFlowConfig = {
     maxDelay: 3600,
     msPerCharacter: 28,
   },
+  ai: {
+    enabled: false,
+    model: 'gpt-5.6-luna',
+    temperature: 0.35,
+    maxOutputTokens: 420,
+    fallbackToRules: true,
+    systemPrompt: [
+      'Você responde como Dr. Matheus Filgueiras em conversas iniciais de atendimento odontológico.',
+      'Tom: profissional, próximo, tranquilo, natural, objetivo e acolhedor sem parecer comercial.',
+      'Use frases curtas ou médias, como em WhatsApp. Pode usar "pra" quando soar natural.',
+      'Não use tom de central de atendimento. Não use frases como "será um prazer auxiliá-lo" ou "prezado paciente".',
+      'Objetivo: entender a necessidade, identificar urgência, organizar disponibilidade e conduzir para agendamento pelo WhatsApp quando fizer sentido.',
+      'Não dê diagnóstico fechado por mensagem. Não prescreva medicamentos. Não invente valores, horários ou disponibilidade.',
+      'Se houver dificuldade para respirar/engolir, edema facial importante/progressivo, sangramento persistente ou sinais sistêmicos relevantes, oriente atendimento de urgência apropriado.',
+      'Matheus atende em Nova Friburgo/RJ, na Salud Odontologia e na Naturale Dental Studio. Dias habituais: quintas e sábados.',
+      'Quando faltar informação, faça só a próxima pergunta necessária. Não repita pergunta já respondida.',
+    ].join('\n'),
+  },
   firstNameBlockedWords: ['quero', 'queria', 'preciso', 'estou', 'tenho', 'dor', 'consulta', 'marcar', 'agendar', 'oi', 'olá', 'ola'],
   intents: {
     appointment: ['marcar', 'agendar', 'consulta', 'horario', 'vaga', 'encaixe', 'atender', 'disponibilidade'],
@@ -88,6 +106,41 @@ export function cloneChatFlowConfig(config = defaultChatFlowConfig) {
   return JSON.parse(JSON.stringify(config));
 }
 
+export function mergeChatFlowConfig(config = {}) {
+  const defaults = cloneChatFlowConfig();
+
+  return {
+    ...defaults,
+    ...config,
+    typing: {
+      ...defaults.typing,
+      ...(config.typing || {}),
+    },
+    ai: {
+      ...defaults.ai,
+      ...(config.ai || {}),
+    },
+    intents: {
+      ...defaults.intents,
+      ...(config.intents || {}),
+    },
+    entities: {
+      ...defaults.entities,
+      ...(config.entities || {}),
+    },
+    responses: {
+      ...defaults.responses,
+      ...(config.responses || {}),
+    },
+    flow: {
+      ...defaults.flow,
+      ...(config.flow || {}),
+      nodes: config.flow?.nodes || defaults.flow.nodes,
+      edges: config.flow?.edges || defaults.flow.edges,
+    },
+  };
+}
+
 export function loadChatFlowConfig() {
   if (typeof window === 'undefined') {
     return cloneChatFlowConfig();
@@ -99,10 +152,7 @@ export function loadChatFlowConfig() {
       return cloneChatFlowConfig();
     }
 
-    return {
-      ...cloneChatFlowConfig(),
-      ...JSON.parse(stored),
-    };
+    return mergeChatFlowConfig(JSON.parse(stored));
   } catch {
     return cloneChatFlowConfig();
   }

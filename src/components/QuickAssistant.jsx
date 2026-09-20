@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageCircle, Send, X } from 'lucide-react';
-import { cloneChatFlowConfig, fetchChatFlowConfig, loadChatFlowConfig, saveChatFlowConfig } from '@/lib/chatFlowConfig';
+import { fetchChatFlowConfig, loadChatFlowConfig, mergeChatFlowConfig, saveChatFlowConfig } from '@/lib/chatFlowConfig';
 
 const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=5521975027590&text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Matheus%20Filgueiras';
 const CHAT_CONVERSATION_STORAGE_KEY = 'matheus_chat_conversation_id';
@@ -47,6 +47,36 @@ async function recordChatMessage({ conversationId, action, text, patientName }) 
     return payload?.ok ? payload : null;
   } catch {
     return null;
+  }
+}
+
+async function requestAiReply({ message, patientName, conversationContext, config, messages }) {
+  if (!config.ai?.enabled || !patientName) return null;
+
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 8500);
+  try {
+    const response = await fetch('/api/chat-ai.php', {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        message,
+        patientName,
+        context: conversationContext,
+        messages,
+        ai: config.ai,
+      }),
+    });
+    const payload = await response.json();
+    return payload?.ok && payload.reply ? payload.reply : null;
+  } catch {
+    return null;
+  } finally {
+    window.clearTimeout(timeout);
   }
 }
 
@@ -196,7 +226,7 @@ export default function QuickAssistant() {
     fetchChatFlowConfig()
       .then((remoteConfig) => {
         if (ignore || !remoteConfig) return;
-        const nextConfig = { ...cloneChatFlowConfig(), ...remoteConfig };
+        const nextConfig = mergeChatFlowConfig(remoteConfig);
         setConfig(nextConfig);
         saveChatFlowConfig(nextConfig);
         setMessages((current) => (current.length === 1 && current[0]?.text === config.initialMessage
@@ -248,11 +278,11 @@ export default function QuickAssistant() {
     return () => window.clearInterval(interval);
   }, [conversationId]);
 
-  const sendMessage = (text) => {
+  const sendMessage = async (text) => {
     const trimmed = text.trim();
     if (!trimmed || isTyping) return;
     const nextName = patientName || extractFirstName(trimmed, config);
-    const response = patientName
+    const ruleResponse = patientName
       ? buildAssistantReply(trimmed, patientName, conversationContext, config)
       : nextName
         ? {
@@ -263,14 +293,16 @@ export default function QuickAssistant() {
           context: conversationContext,
           reply: config.responses.askNameAgain,
         };
+    const nextContext = ruleResponse.context;
 
     setMessages((current) => [...current, { from: 'user', text: trimmed }]);
     if (!patientName && nextName) setPatientName(nextName);
-    setConversationContext(response.context);
+    setConversationContext(nextContext);
     setDraft('');
     setIsOpen(true);
     setIsTyping(true);
     const currentPatientName = nextName || patientName;
+    const historyForAi = [...messages, { from: 'user', text: trimmed }];
     const userLog = recordChatMessage({
       conversationId,
       action: 'visitor_message',
@@ -284,20 +316,30 @@ export default function QuickAssistant() {
 
       return payload?.conversationId || conversationId;
     });
+    const aiReplyPromise = requestAiReply({
+      message: trimmed,
+      patientName: currentPatientName,
+      conversationContext: nextContext,
+      config,
+      messages: historyForAi,
+    });
 
     window.setTimeout(() => {
-      setMessages((current) => [...current, { from: 'assistant', text: response.reply }]);
-      setIsTyping(false);
-      userLog.then((loggedConversationId) => {
-        if (!loggedConversationId) return;
-        recordChatMessage({
-          conversationId: loggedConversationId,
-          action: 'bot_message',
-          text: response.reply,
-          patientName: currentPatientName,
+      aiReplyPromise.then((aiReply) => {
+        const finalReply = aiReply || ruleResponse.reply;
+        setMessages((current) => [...current, { from: 'assistant', text: finalReply }]);
+        setIsTyping(false);
+        userLog.then((loggedConversationId) => {
+          if (!loggedConversationId) return;
+          recordChatMessage({
+            conversationId: loggedConversationId,
+            action: 'bot_message',
+            text: finalReply,
+            patientName: currentPatientName,
+          });
         });
       });
-    }, getTypingDelay(response.reply, config));
+    }, getTypingDelay(ruleResponse.reply, config));
   };
 
   return (

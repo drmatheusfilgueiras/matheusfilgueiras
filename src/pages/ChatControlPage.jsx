@@ -8,6 +8,7 @@ import {
   defaultChatFlowConfig,
   fetchChatFlowConfig,
   loadChatFlowConfig,
+  mergeChatFlowConfig,
   saveChatFlowConfig,
   saveChatFlowConfigRemote,
 } from '@/lib/chatFlowConfig';
@@ -427,7 +428,7 @@ export default function ChatControlPage() {
     try {
       const remoteConfig = await fetchChatFlowConfig();
       if (remoteConfig) {
-        const nextConfig = { ...cloneChatFlowConfig(), ...remoteConfig };
+        const nextConfig = mergeChatFlowConfig(remoteConfig);
         setConfig(nextConfig);
         saveChatFlowConfig(nextConfig);
         setStatus('Fluxo carregado do servidor. Alterações serão salvas automaticamente.');
@@ -590,7 +591,7 @@ export default function ChatControlPage() {
     reader.onload = () => {
       try {
         const parsed = JSON.parse(String(reader.result));
-        setConfig({ ...cloneChatFlowConfig(), ...parsed });
+        setConfig(mergeChatFlowConfig(parsed));
         setStatus('Arquivo importado. Revise e clique em salvar.');
       } catch {
         setStatus('Nao foi possivel importar este JSON.');
@@ -760,6 +761,39 @@ export default function ChatControlPage() {
           </Section>
 
           <FlowEditor config={config} updateConfig={updateConfig} />
+
+          <Section title="IA do atendimento" description="Configure a camada de IA que responde como você. A chave da OpenAI deve ficar no servidor como OPENAI_API_KEY. Se a IA estiver desligada ou falhar, o fluxo por regras continua funcionando.">
+            <div className="grid gap-5">
+              <label className="flex items-center justify-between gap-4 rounded-xl border border-black/10 bg-slate-50 p-4">
+                <span>
+                  <span className="block text-sm font-semibold text-slate-950">Usar IA nas respostas</span>
+                  <span className="mt-1 block text-xs leading-5 text-slate-500">Quando ligado, o chat tenta gerar uma resposta contextual antes de usar o fluxo por regras.</span>
+                </span>
+                <input
+                  type="checkbox"
+                  checked={Boolean(config.ai?.enabled)}
+                  onChange={(event) => updateConfig((next) => { next.ai.enabled = event.target.checked; })}
+                  className="h-5 w-5"
+                />
+              </label>
+
+              <div className="grid gap-4 md:grid-cols-3">
+                <Field label="Modelo">
+                  <TextInput value={config.ai?.model || ''} onChange={(value) => updateConfig((next) => { next.ai.model = value; })} />
+                </Field>
+                <Field label="Criatividade">
+                  <TextInput value={String(config.ai?.temperature ?? 0.35)} onChange={(value) => updateConfig((next) => { next.ai.temperature = Number(value) || 0; })} />
+                </Field>
+                <Field label="Máximo de tokens">
+                  <TextInput value={String(config.ai?.maxOutputTokens ?? 420)} onChange={(value) => updateConfig((next) => { next.ai.maxOutputTokens = Number(value) || 420; })} />
+                </Field>
+              </div>
+
+              <Field label="Prompt de treinamento" hint="Aqui fica a personalidade, limites clínicos, tom de voz e regras de segurança da IA.">
+                <TextArea value={config.ai?.systemPrompt || ''} onChange={(value) => updateConfig((next) => { next.ai.systemPrompt = value; })} rows={12} />
+              </Field>
+            </div>
+          </Section>
 
           <Section title="Início e atalhos" description="Controle a primeira impressão do chat e as opções rápidas depois que o paciente informa o nome.">
             <Field label="Mensagem inicial">
