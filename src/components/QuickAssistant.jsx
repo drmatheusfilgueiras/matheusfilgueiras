@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageCircle, Send, X } from 'lucide-react';
 import { fetchChatFlowConfig, loadChatFlowConfig, mergeChatFlowConfig, saveChatFlowConfig } from '@/lib/chatFlowConfig';
@@ -236,6 +236,7 @@ function getTypingDelay(reply, config) {
 
 export default function QuickAssistant() {
   const [config, setConfig] = useState(() => loadChatFlowConfig());
+  const messagesEndRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([{ from: 'assistant', text: config.initialMessage }]);
   const [draft, setDraft] = useState('');
@@ -252,6 +253,14 @@ export default function QuickAssistant() {
     lastIntent: null,
   });
   const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    window.requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    });
+  }, [isOpen, isTyping, messages]);
 
   useEffect(() => {
     let ignore = false;
@@ -434,6 +443,7 @@ export default function QuickAssistant() {
                   </div>
                 </div>
               )}
+              <div ref={messagesEndRef} aria-hidden="true" />
             </div>
 
             <div className="border-t border-[#e8e8ed] p-4">
