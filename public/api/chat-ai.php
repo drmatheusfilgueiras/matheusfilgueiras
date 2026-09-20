@@ -322,6 +322,15 @@ $history = compact_messages(is_array($payload['messages'] ?? null) ? $payload['m
 
 $instructions = implode("\n\n", array_filter([
     $systemPrompt,
+    implode("\n", [
+        'Agenda fixa do Dr. Matheus:',
+        '- Quintas na Salud Odontologia: 9h às 12h e 14h às 19h.',
+        '- Sábados na Salud Odontologia: 9h às 13h.',
+        '- Sextas na Naturale Dental Studio: 9h às 12h e 13h30 às 19h.',
+        'Se a pessoa quiser marcar horário, use esses períodos como referência.',
+        'Não diga "vou verificar a agenda", "te retorno" ou qualquer promessa de retorno futuro.',
+        'Você não tem acesso à agenda real em tempo real. Depois de identificar dia/período ou preferência, peça para a pessoa confirmar pelo WhatsApp ou informe que a confirmação final do horário acontece pelo WhatsApp.',
+    ]),
     'Contexto atual em JSON: ' . json_encode([
         'patientName' => $patientName,
         'conversationContext' => $context,

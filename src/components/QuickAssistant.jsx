@@ -98,6 +98,30 @@ function hasAny(text, terms = []) {
   return terms.some((term) => text.includes(normalizeMessage(term)));
 }
 
+function appointmentInfo(day) {
+  if (day === 'sexta') {
+    return {
+      dayLabel: 'Na sexta',
+      clinic: 'Naturale Dental Studio',
+      schedule: '9h às 12h e 13h30 às 19h',
+    };
+  }
+
+  if (day === 'sábado') {
+    return {
+      dayLabel: 'No sábado',
+      clinic: 'Salud Odontologia',
+      schedule: '9h às 13h',
+    };
+  }
+
+  return {
+    dayLabel: 'Na quinta',
+    clinic: 'Salud Odontologia',
+    schedule: '9h às 12h e 14h às 19h',
+  };
+}
+
 function extractFirstName(message, config) {
   const cleaned = message
     .replace(/^(meu nome é|meu nome e|sou|eu sou|me chamo|chamo|pode me chamar de)\s+/i, '')
@@ -134,7 +158,13 @@ function parseConversationInput(message, config) {
           : hasAny(text, config.entities.routine)
             ? 'avaliacao'
             : null,
-      preferredDay: hasAny(text, config.entities.thursday) ? 'quinta' : hasAny(text, config.entities.saturday) ? 'sábado' : null,
+      preferredDay: hasAny(text, config.entities.thursday)
+        ? 'quinta'
+        : hasAny(text, config.entities.friday)
+          ? 'sexta'
+          : hasAny(text, config.entities.saturday)
+            ? 'sábado'
+            : null,
       preferredPeriod: hasAny(text, config.entities.morning) ? 'manhã' : hasAny(text, config.entities.afternoon) ? 'tarde' : null,
       pain: hasNegativePain ? false : hasPain ? true : null,
       swelling: hasAny(text, config.entities.swelling) ? true : null,
@@ -167,11 +197,14 @@ function buildAssistantReply(message, patientName, context, config) {
 
   const nextContext = mergeConversationContext(context, parsed);
   const namePrefix = patientName ? `${patientName}, ` : '';
+  const info = appointmentInfo(nextContext.preferredDay);
   const values = {
     name: patientName,
     namePrefix,
     priorityPrefix: nextContext.urgent ? 'Vamos tentar organizar isso com prioridade.' : 'Perfeito.',
-    dayLabel: nextContext.preferredDay === 'sábado' ? 'No sábado' : 'Na quinta',
+    dayLabel: info.dayLabel,
+    clinic: info.clinic,
+    schedule: info.schedule,
     period: nextContext.preferredPeriod,
   };
   const respond = (stage, key, extraContext = {}) => ({
