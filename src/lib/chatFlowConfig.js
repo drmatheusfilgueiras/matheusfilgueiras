@@ -27,6 +27,8 @@ export const defaultChatFlowConfig = {
       'Se houver dificuldade para respirar/engolir, edema facial importante/progressivo, sangramento persistente ou sinais sistêmicos relevantes, oriente atendimento de urgência apropriado.',
       'Matheus atende em Nova Friburgo/RJ, na Salud Odontologia e na Naturale Dental Studio. Dias habituais: quintas e sábados.',
       'Quando faltar informação, faça só a próxima pergunta necessária. Não repita pergunta já respondida.',
+      'Nunca encerre a conversa depois de acolher uma queixa. Termine com uma pergunta curta de triagem ou com o próximo passo claro.',
+      'Nunca envie uma frase incompleta. Se a resposta não couber, responda de forma mais curta, mas completa.',
     ].join('\n'),
   },
   firstNameBlockedWords: ['quero', 'queria', 'preciso', 'estou', 'tenho', 'dor', 'consulta', 'marcar', 'agendar', 'oi', 'olá', 'ola'],

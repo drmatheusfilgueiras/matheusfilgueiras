@@ -76,6 +76,16 @@ function starts_with(string $value, string $prefix): bool
     return substr($value, 0, strlen($prefix)) === $prefix;
 }
 
+function complete_reply(string $reply): bool
+{
+    $reply = trim($reply);
+    if ($reply === '') {
+        return false;
+    }
+
+    return (bool) preg_match('/[.!?…)]$/u', $reply);
+}
+
 function compact_messages(array $messages): array
 {
     $items = array_slice($messages, -12);
@@ -131,6 +141,17 @@ function gemini_output_text(array $payload): string
     }
 
     return trim(implode("\n", $parts));
+}
+
+function gemini_finish_reason(array $payload): string
+{
+    foreach (($payload['candidates'] ?? []) as $candidate) {
+        if (isset($candidate['finishReason']) && is_string($candidate['finishReason'])) {
+            return $candidate['finishReason'];
+        }
+    }
+
+    return '';
 }
 
 function post_json(string $url, array $headers, array $body): array
@@ -197,8 +218,8 @@ function call_openai(string $apiKey, string $model, string $instructions, array 
     }
 
     $reply = openai_output_text($result['payload']);
-    return $reply === ''
-        ? ['ok' => false, 'status' => 502, 'error' => 'IA retornou resposta vazia.']
+    return !complete_reply($reply)
+        ? ['ok' => false, 'status' => 502, 'error' => 'IA retornou resposta incompleta.']
         : ['ok' => true, 'reply' => $reply];
 }
 
@@ -232,9 +253,13 @@ function call_gemini(string $apiKey, string $model, string $instructions, array 
         return $result;
     }
 
+    if (gemini_finish_reason($result['payload']) === 'MAX_TOKENS') {
+        return ['ok' => false, 'status' => 502, 'error' => 'IA interrompeu a resposta por limite de tokens.'];
+    }
+
     $reply = gemini_output_text($result['payload']);
-    return $reply === ''
-        ? ['ok' => false, 'status' => 502, 'error' => 'IA retornou resposta vazia.']
+    return !complete_reply($reply)
+        ? ['ok' => false, 'status' => 502, 'error' => 'IA retornou resposta incompleta.']
         : ['ok' => true, 'reply' => $reply];
 }
 
@@ -287,6 +312,7 @@ $instructions = implode("\n\n", array_filter([
         'conversationContext' => $context,
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
     'Responda em português do Brasil. Entregue somente a mensagem que seria enviada ao paciente, sem aspas, sem markdown e sem explicações internas.',
+    'Nunca entregue uma frase incompleta. Toda resposta deve terminar com pontuação final e, quando a conversa ainda não estiver resolvida, com uma pergunta curta que conduza o próximo passo.',
 ]));
 
 $apiKey = $provider === 'openai'
