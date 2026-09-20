@@ -111,6 +111,45 @@ function compact_messages(array $messages): array
     return $result;
 }
 
+function weekday_pt(DateTimeImmutable $date): string
+{
+    $weekdays = [
+        1 => 'segunda-feira',
+        2 => 'terça-feira',
+        3 => 'quarta-feira',
+        4 => 'quinta-feira',
+        5 => 'sexta-feira',
+        6 => 'sábado',
+        7 => 'domingo',
+    ];
+
+    return $weekdays[(int) $date->format('N')] ?? '';
+}
+
+function date_context(): array
+{
+    $timezone = new DateTimeZone('America/Sao_Paulo');
+    $today = new DateTimeImmutable('now', $timezone);
+    $tomorrow = $today->modify('+1 day');
+    $yesterday = $today->modify('-1 day');
+
+    return [
+        'timezone' => 'America/Sao_Paulo',
+        'today' => [
+            'date' => $today->format('Y-m-d'),
+            'weekday' => weekday_pt($today),
+        ],
+        'tomorrow' => [
+            'date' => $tomorrow->format('Y-m-d'),
+            'weekday' => weekday_pt($tomorrow),
+        ],
+        'yesterday' => [
+            'date' => $yesterday->format('Y-m-d'),
+            'weekday' => weekday_pt($yesterday),
+        ],
+    ];
+}
+
 function openai_output_text(array $payload): string
 {
     if (isset($payload['output_text']) && is_string($payload['output_text'])) {
@@ -322,12 +361,15 @@ $history = compact_messages(is_array($payload['messages'] ?? null) ? $payload['m
 
 $instructions = implode("\n\n", array_filter([
     $systemPrompt,
+    'Contexto temporal oficial em JSON: ' . json_encode(date_context(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
     implode("\n", [
         'Agenda fixa do Dr. Matheus:',
         '- Quintas na Salud Odontologia: 9h às 12h e 14h às 19h.',
         '- Sábados na Salud Odontologia: 9h às 13h.',
         '- Sextas na Naturale Dental Studio: 9h às 12h e 13h30 às 19h.',
         'Se a pessoa quiser marcar horário, use esses períodos como referência.',
+        'Nunca chute dia da semana. Para hoje, amanhã, ontem ou datas relativas, use exclusivamente o contexto temporal oficial acima.',
+        'Se a data pedida cair em segunda, terça, quarta ou domingo, informe que não é dia habitual de atendimento e ofereça quinta, sexta ou sábado conforme a agenda fixa.',
         'Não diga "vou verificar a agenda", "te retorno" ou qualquer promessa de retorno futuro.',
         'Você não tem acesso à agenda real em tempo real. Depois de identificar dia/período ou preferência, peça para a pessoa confirmar pelo WhatsApp ou informe que a confirmação final do horário acontece pelo WhatsApp.',
     ]),

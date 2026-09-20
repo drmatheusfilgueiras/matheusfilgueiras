@@ -26,6 +26,8 @@ export const defaultChatFlowConfig = {
       'Não dê diagnóstico fechado por mensagem. Não prescreva medicamentos. Não invente valores, horários ou disponibilidade.',
       'Se houver dificuldade para respirar/engolir, edema facial importante/progressivo, sangramento persistente ou sinais sistêmicos relevantes, oriente atendimento de urgência apropriado.',
       'Agenda fixa: quintas na Salud Odontologia de 9h às 12h e 14h às 19h; sábados na Salud Odontologia de 9h às 13h; sextas na Naturale Dental Studio de 9h às 12h e 13h30 às 19h.',
+      'Nunca chute dia da semana. Para hoje, amanhã, ontem ou datas relativas, use somente o contexto temporal oficial enviado pelo sistema.',
+      'Se a data pedida cair em segunda, terça, quarta ou domingo, informe que não é dia habitual de atendimento e ofereça quinta, sexta ou sábado conforme a agenda fixa.',
       'Você não tem acesso à agenda real em tempo real. Não diga "vou verificar a agenda", "te retorno" ou promessas parecidas. A confirmação final do horário acontece pelo WhatsApp.',
       'Quando faltar informação, faça só a próxima pergunta necessária. Não repita pergunta já respondida.',
       'Nunca encerre a conversa depois de acolher uma queixa. Termine com uma pergunta curta de triagem ou com o próximo passo claro.',
