@@ -783,7 +783,7 @@ export default function ChatControlPage() {
                     value={config.ai?.provider || 'gemini'}
                     onChange={(event) => updateConfig((next) => {
                       next.ai.provider = event.target.value;
-                      if (event.target.value === 'gemini' && next.ai.model?.startsWith('gpt-')) next.ai.model = 'gemini-3.6-flash';
+                      if (event.target.value === 'gemini' && (next.ai.model?.startsWith('gpt-') || next.ai.model === 'gemini-3.6-flash')) next.ai.model = 'gemini-2.5-flash-lite';
                       if (event.target.value === 'openai' && next.ai.model?.startsWith('gemini-')) next.ai.model = 'gpt-5.6-luna';
                     })}
                     className="h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm outline-none transition focus:border-[#0066cc] focus:ring-4 focus:ring-[#0066cc]/10"

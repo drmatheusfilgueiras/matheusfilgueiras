@@ -225,6 +225,10 @@ function call_openai(string $apiKey, string $model, string $instructions, array 
 
 function call_gemini(string $apiKey, string $model, string $instructions, array $history, string $message, float $temperature, int $maxOutputTokens): array
 {
+    if ($model === 'gemini-3.6-flash') {
+        $model = 'gemini-2.5-flash-lite';
+    }
+
     $effectiveMaxOutputTokens = starts_with($model, 'gemini-3')
         ? max($maxOutputTokens, 1536)
         : $maxOutputTokens;
@@ -298,13 +302,13 @@ if (!in_array($provider, ['gemini', 'openai'], true)) {
     $provider = 'gemini';
 }
 
-$defaultModel = $provider === 'openai' ? 'gpt-5.6-luna' : 'gemini-3.6-flash';
+$defaultModel = $provider === 'openai' ? 'gpt-5.6-luna' : 'gemini-2.5-flash-lite';
 $modelEnv = $provider === 'openai' ? getenv('OPENAI_CHAT_MODEL') : getenv('GEMINI_CHAT_MODEL');
 $configuredModel = trim((string) ($aiConfig['model'] ?? ''));
 $envModel = trim((string) ($modelEnv ?: ''));
 $model = $configuredModel !== '' ? $configuredModel : ($envModel !== '' ? $envModel : $defaultModel);
-if ($provider === 'gemini' && starts_with($model, 'gpt-')) {
-    $model = 'gemini-3.6-flash';
+if ($provider === 'gemini' && (starts_with($model, 'gpt-') || $model === 'gemini-3.6-flash')) {
+    $model = 'gemini-2.5-flash-lite';
 }
 if ($provider === 'openai' && starts_with($model, 'gemini-')) {
     $model = 'gpt-5.6-luna';

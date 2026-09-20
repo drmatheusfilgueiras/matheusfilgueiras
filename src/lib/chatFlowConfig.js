@@ -13,7 +13,7 @@ export const defaultChatFlowConfig = {
   ai: {
     enabled: false,
     provider: 'gemini',
-    model: 'gemini-3.6-flash',
+    model: 'gemini-2.5-flash-lite',
     temperature: 0.35,
     maxOutputTokens: 420,
     fallbackToRules: true,
@@ -142,7 +142,7 @@ export function mergeChatFlowConfig(config = {}) {
     },
   };
 
-  if (merged.ai.provider === 'gemini' && merged.ai.model?.startsWith('gpt-')) {
+  if (merged.ai.provider === 'gemini' && (merged.ai.model?.startsWith('gpt-') || merged.ai.model === 'gemini-3.6-flash')) {
     merged.ai.model = defaults.ai.model;
   }
 
