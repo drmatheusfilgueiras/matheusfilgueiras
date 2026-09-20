@@ -618,10 +618,10 @@ function AppleTestPage() {
       </header>
 
       <main>
-        <section id="inicio-apple" className="bg-[#fbfbfd] px-5 pt-20 sm:px-8 lg:pt-[5.5rem]">
-          <div className="mx-auto grid min-h-[calc(100svh-2rem)] max-w-6xl items-start gap-8 py-8 sm:gap-10 sm:py-10 lg:min-h-[calc(100vh-3rem)] lg:grid-cols-[0.96fr_1.04fr] lg:py-14">
+        <section id="inicio-apple" className="bg-[#fbfbfd] px-5 pt-24 sm:px-8">
+          <div className="mx-auto grid min-h-[calc(100svh-2rem)] max-w-6xl items-center gap-8 py-8 sm:gap-10 sm:py-10 lg:min-h-[calc(100vh-3rem)] lg:grid-cols-[0.96fr_1.04fr] lg:py-16">
             <Reveal>
-              <div className="lg:-mt-8">
+              <div className="lg:-mt-6">
                 <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#0066cc]">CIRURGIÃO-DENTISTA · CRO/RJ 59298</p>
                 <h1 className="mt-5 text-[2.75rem] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1d1d1f] sm:text-6xl lg:text-7xl">
                   Olá, sou o Matheus.
