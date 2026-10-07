@@ -52,7 +52,6 @@ const ARCHES = {
 const toothStates = {
   present: { label: 'Presente', className: 'border-slate-300 bg-white text-slate-900' },
   missing: { label: 'Ausente', className: 'border-slate-200 bg-slate-100 text-slate-400 opacity-70' },
-  planned: { label: 'Extração planejada', className: 'border-dashed border-amber-400 bg-amber-50 text-amber-800' },
 };
 
 const defaultLayers = {
@@ -99,7 +98,7 @@ function classNames(...items) {
 }
 
 function effectiveStatus(tooth) {
-  return tooth?.status === 'missing' || tooth?.status === 'planned' ? 'missing' : 'present';
+  return tooth?.status === 'missing' ? 'missing' : 'present';
 }
 
 function findSpaces(archType, arch) {
@@ -399,6 +398,120 @@ function Pill({ children, tone = 'slate' }) {
   return <span className={classNames('inline-flex rounded-full px-3 py-1 text-xs font-semibold', tones[tone])}>{children}</span>;
 }
 
+function ArchDiagram({ archType, arch, planning, selectedTooth, onToothClick }) {
+  const isUpper = archType === 'upper';
+  const teeth = ARCHES[archType].teeth;
+  const selectedKey = selectedTooth ? `${selectedTooth.archType}-${selectedTooth.number}` : '';
+
+  const positionFor = (index) => {
+    const t = index / (teeth.length - 1);
+    const dx = (t - 0.5) * 2;
+    const curve = 1 - dx * dx;
+    return {
+      x: 5 + t * 90,
+      y: isUpper ? 76 - curve * 52 : 24 + curve * 52,
+    };
+  };
+
+  return (
+    <div className="relative mx-auto h-[clamp(13rem,26vw,20rem)] w-full max-w-5xl">
+      <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          d={isUpper ? 'M 5 74 Q 50 13 95 74' : 'M 5 26 Q 50 87 95 26'}
+          fill="none"
+          stroke="rgba(0, 102, 204, 0.13)"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+        />
+        {arch.layers.connectors && arch.majorConnector && (
+          <path
+            d={isUpper ? 'M 22 64 Q 50 42 78 64' : 'M 22 36 Q 50 58 78 36'}
+            fill="none"
+            stroke="rgba(15, 23, 42, 0.55)"
+            strokeWidth="4"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        )}
+        {arch.layers.fulcrum && planning.hasExtension && planning.fulcrumCandidates.length >= 2 && (
+          <path
+            d={isUpper ? 'M 18 62 L 82 46' : 'M 18 38 L 82 54'}
+            fill="none"
+            stroke="rgba(244, 63, 94, 0.55)"
+            strokeDasharray="4 4"
+            strokeWidth="1.8"
+            vectorEffect="non-scaling-stroke"
+          />
+        )}
+      </svg>
+
+      {arch.layers.spaces && planning.spaces.map((space) => {
+        const first = positionFor(space.first);
+        const last = positionFor(space.last);
+        const midX = (first.x + last.x) / 2;
+        const midY = (first.y + last.y) / 2;
+        return (
+          <span
+            key={space.id}
+            className={classNames(
+              'pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed',
+              space.id === planning.kennedy.determiningSpaceId ? 'border-[#0066cc] bg-[#0066cc]/10' : 'border-amber-400 bg-amber-100/60',
+            )}
+            style={{
+              left: `${midX}%`,
+              top: `${midY}%`,
+              width: `clamp(3.2rem, ${Math.max(8, (space.last - space.first + 1) * 5.3)}vw, 13rem)`,
+              height: 'clamp(2.4rem, 4.8vw, 4.4rem)',
+            }}
+          />
+        );
+      })}
+
+      {teeth.map((number, index) => {
+        const position = positionFor(index);
+        const status = effectiveStatus(arch.teeth[number]);
+        const isAbutment = planning.abutmentNumbers.includes(number);
+        const hasRest = Boolean(arch.rests[number]);
+        const hasRetainer = Boolean(arch.retainers[number]);
+        const indirect = arch.indirectRetainers.includes(number);
+        const toothKey = `${archType}-${number}`;
+
+        return (
+          <button
+            key={number}
+            type="button"
+            onClick={() => onToothClick(archType, number)}
+            className={classNames(
+              'absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-[1.15rem] border-2 text-sm font-bold shadow-sm transition hover:-translate-y-[58%] hover:border-[#0066cc]',
+              toothStates[status].className,
+              selectedKey === toothKey && 'ring-4 ring-[#0066cc]/20',
+            )}
+            style={{
+              left: `${position.x}%`,
+              top: `${position.y}%`,
+              width: 'clamp(2rem, 2.8vw, 2.45rem)',
+              height: 'clamp(2.8rem, 3.9vw, 3.8rem)',
+            }}
+            aria-label={`Dente ${number} - ${toothStates[status].label}`}
+          >
+            {arch.layers.teeth && <Circle className="mb-0.5 h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.7} />}
+            <span>{number}</span>
+            {isAbutment && <span className="absolute -top-2 rounded-full bg-[#0066cc] px-2 py-0.5 text-[0.58rem] text-white">Pilar</span>}
+            {arch.layers.rests && hasRest && <span className="absolute bottom-1 left-1 h-2.5 w-2.5 rounded-full bg-emerald-500" title="Apoio" />}
+            {arch.layers.retainers && hasRetainer && <span className="absolute bottom-1 right-1 h-2.5 w-2.5 rounded-full bg-violet-500" title="Retentor" />}
+            {indirect && <span className="absolute -bottom-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[0.55rem] font-bold text-amber-950">RI</span>}
+          </button>
+        );
+      })}
+
+      <span className={classNames('absolute left-1/2 -translate-x-1/2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400', isUpper ? 'top-0' : 'bottom-0')}>
+        {ARCHES[archType].label}
+      </span>
+    </div>
+  );
+}
+
 function PprPlannerPage() {
   const [caseData, setCaseData] = useState(() => {
     try {
@@ -412,15 +525,20 @@ function PprPlannerPage() {
   const [selectedTooth, setSelectedTooth] = useState(null);
   const [showCaseSummary, setShowCaseSummary] = useState(false);
 
-  const archType = caseData.activeArch;
-  const arch = caseData[archType];
-  const archMeta = ARCHES[archType];
-  const planning = useMemo(() => derivePlanning(archType, arch), [arch, archType]);
-  const warnings = useMemo(() => auditArch(archType, arch, planning), [arch, archType, planning]);
-  const selectedSurvey = selectedTooth ? arch.survey[selectedTooth] || {} : {};
-  const selectedRest = selectedTooth ? arch.rests[selectedTooth] || '' : '';
-  const retainerOptions = selectedTooth
-    ? retainerScore({ planning, rest: selectedRest, survey: selectedSurvey, tooth: Number(selectedTooth) })
+  const planningByArch = useMemo(() => ({
+    upper: derivePlanning('upper', caseData.upper),
+    lower: derivePlanning('lower', caseData.lower),
+  }), [caseData.upper, caseData.lower]);
+  const focusArchType = selectedTooth?.archType || caseData.activeArch || 'upper';
+  const arch = caseData[focusArchType];
+  const archMeta = ARCHES[focusArchType];
+  const planning = planningByArch[focusArchType];
+  const warnings = useMemo(() => auditArch(focusArchType, arch, planning), [arch, focusArchType, planning]);
+  const selectedNumber = selectedTooth?.number || null;
+  const selectedSurvey = selectedNumber ? arch.survey[selectedNumber] || {} : {};
+  const selectedRest = selectedNumber ? arch.rests[selectedNumber] || '' : '';
+  const retainerOptions = selectedNumber
+    ? retainerScore({ planning, rest: selectedRest, survey: selectedSurvey, tooth: Number(selectedNumber) })
     : [];
 
   useEffect(() => {
@@ -433,36 +551,33 @@ function PprPlannerPage() {
     return () => window.clearTimeout(timeout);
   }, [caseData]);
 
-  const updateArch = (updater) => {
+  const updateArch = (targetArch, updater) => {
     setCaseData((current) => {
-      const nextArch = JSON.parse(JSON.stringify(current[current.activeArch]));
+      const nextArch = JSON.parse(JSON.stringify(current[targetArch]));
       updater(nextArch);
       nextArch.status = nextArch.status === 'not_started' ? 'in_progress' : nextArch.status;
       return {
         ...current,
-        [current.activeArch]: nextArch,
+        activeArch: targetArch,
+        [targetArch]: nextArch,
       };
     });
   };
 
-  const switchArch = (nextArch) => {
-    setSelectedTooth(null);
-    setCaseData((current) => ({ ...current, activeArch: nextArch }));
-  };
-
-  const cycleTooth = (number) => {
-    updateArch((draft) => {
-      const current = draft.teeth[number]?.status || 'present';
-      const next = current === 'present' ? 'missing' : current === 'missing' ? 'planned' : 'present';
+  const cycleTooth = (targetArch, number) => {
+    setSelectedTooth({ archType: targetArch, number });
+    updateArch(targetArch, (draft) => {
+      const current = effectiveStatus(draft.teeth[number]);
+      const next = current === 'present' ? 'missing' : 'present';
       draft.teeth[number] = { status: next };
       draft.step = Math.max(draft.step, 1);
       draft.finalized = false;
     });
   };
 
-  const setAllTeeth = (status) => {
-    updateArch((draft) => {
-      ARCHES[archType].teeth.forEach((number) => {
+  const setAllTeeth = (targetArch, status) => {
+    updateArch(targetArch, (draft) => {
+      ARCHES[targetArch].teeth.forEach((number) => {
         draft.teeth[number] = { status };
       });
       draft.step = status === 'present' ? 0 : draft.step;
@@ -471,34 +586,34 @@ function PprPlannerPage() {
   };
 
   const setStep = (index) => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.step = index;
     });
   };
 
   const setRest = (tooth, rest) => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.rests[tooth] = rest;
       draft.step = Math.max(draft.step, 5);
     });
   };
 
   const setSurvey = (tooth, key, value) => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.survey[tooth] = { ...(draft.survey[tooth] || {}), [key]: value };
       draft.step = Math.max(draft.step, 6);
     });
   };
 
   const setRetainer = (tooth, retainer) => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.retainers[tooth] = retainer;
       draft.step = Math.max(draft.step, 8);
     });
   };
 
   const toggleIndirect = (tooth) => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.indirectRetainers = draft.indirectRetainers.includes(tooth)
         ? draft.indirectRetainers.filter((item) => item !== tooth)
         : [...draft.indirectRetainers, tooth];
@@ -507,20 +622,20 @@ function PprPlannerPage() {
   };
 
   const setConnector = (connector) => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.majorConnector = connector;
       draft.step = Math.max(draft.step, 10);
     });
   };
 
   const toggleLayer = (layer) => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.layers[layer] = !draft.layers[layer];
     });
   };
 
   const finalizeArch = () => {
-    updateArch((draft) => {
+    updateArch(focusArchType, (draft) => {
       draft.finalized = true;
       draft.status = 'finalized';
       draft.step = STEPS.length - 1;
@@ -551,18 +666,16 @@ function PprPlannerPage() {
 
           <div className="flex flex-wrap items-center gap-2">
             {Object.entries(ARCHES).map(([key, item]) => (
-              <button
+              <div
                 key={key}
-                type="button"
-                onClick={() => switchArch(key)}
                 className={classNames(
-                  'rounded-full border px-4 py-2 text-left text-sm font-semibold transition',
-                  archType === key ? 'border-[#0066cc] bg-[#0066cc] text-white' : 'border-black/10 bg-white text-slate-700 hover:border-[#0066cc]/30',
+                  'rounded-full border px-4 py-2 text-left text-sm font-semibold',
+                  focusArchType === key ? 'border-[#0066cc] bg-[#0066cc] text-white' : 'border-black/10 bg-white text-slate-700',
                 )}
               >
                 <span className="block text-[0.66rem] uppercase tracking-[0.18em] opacity-70">{item.label}</span>
                 {statusLabel(caseData[key])}
-              </button>
+              </div>
             ))}
             <Pill tone="green">{saveState}</Pill>
             <button type="button" onClick={resetCase} className="inline-flex h-10 items-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-semibold text-slate-700 hover:bg-slate-50">
@@ -606,77 +719,42 @@ function PprPlannerPage() {
         <section className="min-w-0 rounded-2xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
           <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0066cc]">{archMeta.label}</p>
-              <h2 className="mt-1 text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">{planning.kennedy.label}</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">{planning.kennedy.explanation}</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0066cc]">Odontograma frontal</p>
+              <h2 className="mt-1 text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">Planejamento simultâneo das arcadas</h2>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Pill tone="blue">Superior: {planningByArch.upper.kennedy.label}</Pill>
+                <Pill tone="green">Inferior: {planningByArch.lower.kennedy.label}</Pill>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <button type="button" onClick={() => setAllTeeth('present')} className="rounded-full border border-black/10 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Todos presentes</button>
-              <button type="button" onClick={() => setAllTeeth('missing')} className="rounded-full border border-black/10 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Limpar seleção</button>
-              <button type="button" onClick={() => setAllTeeth('present')} className="rounded-full border border-black/10 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Restaurar arcada</button>
+            <div className="grid gap-2 sm:grid-cols-2 lg:min-w-[23rem]">
+              {Object.entries(ARCHES).map(([key, meta]) => (
+                <div key={key} className="rounded-2xl border border-black/10 bg-[#f8fafc] p-3">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">{meta.label}</p>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={() => setAllTeeth(key, 'present')} className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">Todos presentes</button>
+                    <button type="button" onClick={() => setAllTeeth(key, 'missing')} className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">Marcar ausentes</button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-black/10 bg-[#f5f7fb] p-4">
-            <div className="relative mx-auto max-w-5xl">
-              {arch.layers.spaces && planning.spaces.map((space) => (
-                <div
-                  key={space.id}
-                  className={classNames(
-                    'absolute top-[42%] h-16 rounded-full border-2 border-dashed',
-                    space.id === planning.kennedy.determiningSpaceId ? 'border-[#0066cc] bg-[#0066cc]/10' : 'border-amber-400 bg-amber-100/50',
-                  )}
-                  style={{
-                    left: `${Math.max(0, (space.first / 16) * 100)}%`,
-                    width: `${Math.max(7, ((space.last - space.first + 1) / 16) * 100)}%`,
-                  }}
-                />
-              ))}
-
-              {arch.layers.connectors && arch.majorConnector && (
-                <div className="absolute left-[18%] right-[18%] top-[51%] h-3 rounded-full bg-slate-700/70" />
-              )}
-
-              {arch.layers.fulcrum && planning.hasExtension && planning.fulcrumCandidates.length >= 2 && (
-                <div className="absolute left-[16%] right-[16%] top-[35%] h-px rotate-[-7deg] border-t-2 border-dashed border-rose-400" />
-              )}
-
-              <div className="relative grid grid-cols-8 gap-3 py-12 sm:grid-cols-[repeat(16,minmax(0,1fr))]">
-                {ARCHES[archType].teeth.map((number) => {
-                  const status = arch.teeth[number]?.status || 'present';
-                  const isAbutment = planning.abutmentNumbers.includes(number);
-                  const hasRest = Boolean(arch.rests[number]);
-                  const hasRetainer = Boolean(arch.retainers[number]);
-                  const indirect = arch.indirectRetainers.includes(number);
-
-                  return (
-                    <button
-                      key={number}
-                      type="button"
-                      onClick={() => {
-                        setSelectedTooth(number);
-                        cycleTooth(number);
-                      }}
-                      onContextMenu={(event) => {
-                        event.preventDefault();
-                        setSelectedTooth(number);
-                      }}
-                      className={classNames(
-                        'relative flex aspect-[0.76] min-h-[4.5rem] flex-col items-center justify-center rounded-[18px] border-2 text-sm font-bold shadow-sm transition hover:-translate-y-1',
-                        toothStates[status].className,
-                        selectedTooth === number && 'ring-4 ring-[#0066cc]/20',
-                      )}
-                    >
-                      {arch.layers.teeth && <Circle className="mb-1 h-6 w-6" strokeWidth={1.7} />}
-                      <span>{number}</span>
-                      {isAbutment && <span className="absolute -top-2 rounded-full bg-[#0066cc] px-2 py-0.5 text-[0.62rem] text-white">Pilar</span>}
-                      {arch.layers.rests && hasRest && <span className="absolute bottom-1 left-1 h-3 w-3 rounded-full bg-emerald-500" title="Apoio" />}
-                      {arch.layers.retainers && hasRetainer && <span className="absolute bottom-1 right-1 h-3 w-3 rounded-full bg-violet-500" title="Retentor" />}
-                      {indirect && <span className="absolute -bottom-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[0.58rem] font-bold text-amber-950">RI</span>}
-                    </button>
-                  );
-                })}
-              </div>
+          <div className="overflow-hidden rounded-2xl border border-black/10 bg-[#f5f7fb] px-3 py-6 sm:px-5 lg:px-8">
+            <div className="relative mx-auto flex max-w-6xl flex-col gap-2">
+              <ArchDiagram
+                archType="upper"
+                arch={caseData.upper}
+                planning={planningByArch.upper}
+                selectedTooth={selectedTooth}
+                onToothClick={cycleTooth}
+              />
+              <ArchDiagram
+                archType="lower"
+                arch={caseData.lower}
+                planning={planningByArch.lower}
+                selectedTooth={selectedTooth}
+                onToothClick={cycleTooth}
+              />
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
@@ -699,7 +777,7 @@ function PprPlannerPage() {
                   </div>
                   <p className="mt-1 text-xs leading-5 text-slate-500">Limites: {space.mesialLimit || 'sem'} / {space.distalLimit || 'sem'}</p>
                 </div>
-              )) : <p className="text-sm text-slate-500">Clique nos dentes para marcar ausências ou extrações planejadas.</p>}
+              )) : <p className="text-sm text-slate-500">Clique nos dentes para marcar ausências.</p>}
             </InfoCard>
 
             <InfoCard title="Biomecânica" icon={<Stethoscope className="h-4 w-4" />}>
@@ -724,37 +802,38 @@ function PprPlannerPage() {
           <div className="mb-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Painel da etapa</p>
             <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em]">{STEPS[arch.step]}</h2>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#0066cc]">{archMeta.label}</p>
           </div>
 
           <div className="space-y-4">
             <InfoCard title="Dente selecionado" compact>
-              {selectedTooth ? (
+              {selectedNumber ? (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-3xl font-semibold tracking-[-0.05em]">{selectedTooth}</p>
-                    <Pill tone={planning.abutmentNumbers.includes(selectedTooth) ? 'blue' : 'slate'}>
-                      {planning.abutmentNumbers.includes(selectedTooth) ? 'Pilar sugerido' : toothStates[arch.teeth[selectedTooth]?.status || 'present'].label}
+                    <p className="text-3xl font-semibold tracking-[-0.05em]">{selectedNumber}</p>
+                    <Pill tone={planning.abutmentNumbers.includes(selectedNumber) ? 'blue' : 'slate'}>
+                      {planning.abutmentNumbers.includes(selectedNumber) ? 'Pilar sugerido' : toothStates[effectiveStatus(arch.teeth[selectedNumber])].label}
                     </Pill>
                   </div>
 
-                  {planning.abutmentNumbers.includes(selectedTooth) && (
+                  {planning.abutmentNumbers.includes(selectedNumber) && (
                     <>
                       <label className="block text-sm font-semibold text-slate-700">
                         Apoio
-                        <select value={arch.rests[selectedTooth] || defaultRestFor(planning.spaces[0] || {}, selectedTooth)} onChange={(event) => setRest(selectedTooth, event.target.value)} className="mt-2 h-10 w-full rounded-xl border border-black/10 bg-white px-3 text-sm outline-none focus:border-[#0066cc]">
-                          {restOptionsFor(selectedTooth).map((rest) => <option key={rest} value={rest}>{rest}</option>)}
+                        <select value={arch.rests[selectedNumber] || defaultRestFor(planning.spaces[0] || {}, selectedNumber)} onChange={(event) => setRest(selectedNumber, event.target.value)} className="mt-2 h-10 w-full rounded-xl border border-black/10 bg-white px-3 text-sm outline-none focus:border-[#0066cc]">
+                          {restOptionsFor(selectedNumber).map((rest) => <option key={rest} value={rest}>{rest}</option>)}
                         </select>
                       </label>
 
-                      <SurveyField label="Área retentiva" value={selectedSurvey.undercut || 'vestibular'} onChange={(value) => setSurvey(selectedTooth, 'undercut', value)} options={['vestibular', 'lingual/palatina', 'mesial', 'distal']} />
-                      <SurveyField label="Vestíbulo" value={selectedSurvey.vestibule || 'adequado'} onChange={(value) => setSurvey(selectedTooth, 'vestibule', value)} options={['adequado', 'reduzido']} />
-                      <SurveyField label="Interferência tecidual" value={selectedSurvey.tissueInterference || 'não'} onChange={(value) => setSurvey(selectedTooth, 'tissueInterference', value)} options={['não', 'sim']} />
+                      <SurveyField label="Área retentiva" value={selectedSurvey.undercut || 'vestibular'} onChange={(value) => setSurvey(selectedNumber, 'undercut', value)} options={['vestibular', 'lingual/palatina', 'mesial', 'distal']} />
+                      <SurveyField label="Vestíbulo" value={selectedSurvey.vestibule || 'adequado'} onChange={(value) => setSurvey(selectedNumber, 'vestibule', value)} options={['adequado', 'reduzido']} />
+                      <SurveyField label="Interferência tecidual" value={selectedSurvey.tissueInterference || 'não'} onChange={(value) => setSurvey(selectedNumber, 'tissueInterference', value)} options={['não', 'sim']} />
 
                       <div>
                         <p className="mb-2 text-sm font-semibold text-slate-700">Retentores compatíveis</p>
                         <div className="space-y-2">
                           {retainerOptions.slice(0, 4).map((retainer) => (
-                            <button key={retainer.name} type="button" onClick={() => setRetainer(selectedTooth, retainer.name)} className={classNames('w-full rounded-xl border p-3 text-left transition hover:border-[#0066cc]/40', arch.retainers[selectedTooth] === retainer.name ? 'border-[#0066cc] bg-[#eaf4ff]' : 'border-black/10 bg-white')}>
+                            <button key={retainer.name} type="button" onClick={() => setRetainer(selectedNumber, retainer.name)} className={classNames('w-full rounded-xl border p-3 text-left transition hover:border-[#0066cc]/40', arch.retainers[selectedNumber] === retainer.name ? 'border-[#0066cc] bg-[#eaf4ff]' : 'border-black/10 bg-white')}>
                               <div className="flex items-center justify-between gap-2">
                                 <span className="font-semibold">{retainer.name}</span>
                                 <Pill tone={retainer.category === 'Recomendado' ? 'green' : retainer.category === 'Compatível' ? 'blue' : retainer.category === 'Possível com ressalvas' ? 'amber' : 'red'}>{retainer.category}</Pill>
@@ -786,7 +865,7 @@ function PprPlannerPage() {
             )}
 
             <InfoCard title="Conector maior" compact>
-              <p className="mb-3 text-sm leading-6 text-slate-600">Sugestão inicial: {defaultConnector(archType, planning)}.</p>
+              <p className="mb-3 text-sm leading-6 text-slate-600">Sugestão inicial: {defaultConnector(focusArchType, planning)}.</p>
               <div className="space-y-2">
                 {archMeta.connectorOptions.map((connector) => (
                   <button key={connector} type="button" onClick={() => setConnector(connector)} className={classNames('flex w-full items-center justify-between rounded-xl border px-3 py-2 text-left text-sm font-semibold transition', arch.majorConnector === connector ? 'border-[#0066cc] bg-[#eaf4ff] text-[#0066cc]' : 'border-black/10 text-slate-700 hover:bg-slate-50')}>
