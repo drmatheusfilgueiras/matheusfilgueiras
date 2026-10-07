@@ -4,7 +4,6 @@ import {
   AlertTriangle,
   Check,
   ChevronRight,
-  Circle,
   CircleHelp,
   Eye,
   EyeOff,
@@ -50,8 +49,9 @@ const ARCHES = {
 };
 
 const toothStates = {
-  present: { label: 'Presente', className: 'border-slate-300 bg-white text-slate-900' },
-  missing: { label: 'Ausente', className: 'border-slate-200 bg-slate-100 text-slate-400 opacity-70' },
+  present: { label: 'Presente', className: 'border-slate-200 bg-white text-slate-900' },
+  missing: { label: 'Ausente', className: 'border-slate-200 bg-white/70 text-slate-400 opacity-55 grayscale' },
+  planned: { label: 'Extração planejada', className: 'border-amber-400 bg-amber-50/80 text-amber-800 shadow-amber-200/60' },
 };
 
 const defaultLayers = {
@@ -98,7 +98,11 @@ function classNames(...items) {
 }
 
 function effectiveStatus(tooth) {
-  return tooth?.status === 'missing' ? 'missing' : 'present';
+  return tooth?.status === 'missing' || tooth?.status === 'planned' ? 'missing' : 'present';
+}
+
+function visualStatus(tooth) {
+  return tooth?.status === 'missing' || tooth?.status === 'planned' ? tooth.status : 'present';
 }
 
 function findSpaces(archType, arch) {
@@ -398,6 +402,14 @@ function Pill({ children, tone = 'slate' }) {
   return <span className={classNames('inline-flex rounded-full px-3 py-1 text-xs font-semibold', tones[tone])}>{children}</span>;
 }
 
+function toothScale(number, archType) {
+  const digit = number % 10;
+  if ([1, 2].includes(digit)) return archType === 'lower' ? 0.72 : 0.82;
+  if (digit === 3) return archType === 'lower' ? 0.86 : 0.94;
+  if ([4, 5].includes(digit)) return archType === 'lower' ? 0.92 : 1;
+  return archType === 'lower' ? 1.05 : 1.12;
+}
+
 function ArchDiagram({ archType, arch, planning, selectedTooth, onToothClick }) {
   const isUpper = archType === 'upper';
   const teeth = ARCHES[archType].teeth;
@@ -406,18 +418,19 @@ function ArchDiagram({ archType, arch, planning, selectedTooth, onToothClick }) 
   const positionFor = (index) => {
     const t = index / (teeth.length - 1);
     const dx = (t - 0.5) * 2;
-    const curve = 1 - dx * dx;
+    const curve = Math.sqrt(Math.max(0, 1 - dx * dx));
     return {
-      x: 5 + t * 90,
-      y: isUpper ? 76 - curve * 52 : 24 + curve * 52,
+      x: 15 + t * 70,
+      y: isUpper ? 72 - curve * 49 : 28 + curve * 49,
+      rotation: dx * (isUpper ? 27 : -27),
     };
   };
 
   return (
-    <div className="relative mx-auto h-[clamp(13rem,26vw,20rem)] w-full max-w-5xl">
+    <div className="relative mx-auto h-[clamp(11rem,21vw,17rem)] w-full max-w-4xl">
       <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <path
-          d={isUpper ? 'M 5 74 Q 50 13 95 74' : 'M 5 26 Q 50 87 95 26'}
+          d={isUpper ? 'M 15 72 Q 50 18 85 72' : 'M 15 28 Q 50 82 85 28'}
           fill="none"
           stroke="rgba(0, 102, 204, 0.13)"
           strokeWidth="1.2"
@@ -426,7 +439,7 @@ function ArchDiagram({ archType, arch, planning, selectedTooth, onToothClick }) 
         />
         {arch.layers.connectors && arch.majorConnector && (
           <path
-            d={isUpper ? 'M 22 64 Q 50 42 78 64' : 'M 22 36 Q 50 58 78 36'}
+            d={isUpper ? 'M 27 61 Q 50 42 73 61' : 'M 27 39 Q 50 58 73 39'}
             fill="none"
             stroke="rgba(15, 23, 42, 0.55)"
             strokeWidth="4"
@@ -470,12 +483,13 @@ function ArchDiagram({ archType, arch, planning, selectedTooth, onToothClick }) 
 
       {teeth.map((number, index) => {
         const position = positionFor(index);
-        const status = effectiveStatus(arch.teeth[number]);
+        const status = visualStatus(arch.teeth[number]);
         const isAbutment = planning.abutmentNumbers.includes(number);
         const hasRest = Boolean(arch.rests[number]);
         const hasRetainer = Boolean(arch.retainers[number]);
         const indirect = arch.indirectRetainers.includes(number);
         const toothKey = `${archType}-${number}`;
+        const scale = toothScale(number, archType);
 
         return (
           <button
@@ -483,23 +497,39 @@ function ArchDiagram({ archType, arch, planning, selectedTooth, onToothClick }) 
             type="button"
             onClick={() => onToothClick(archType, number)}
             className={classNames(
-              'absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-[1.15rem] border-2 text-sm font-bold shadow-sm transition hover:-translate-y-[58%] hover:border-[#0066cc]',
+              'group absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-[1.15rem] border text-sm font-bold shadow-sm transition hover:border-[#0066cc] hover:shadow-md',
               toothStates[status].className,
               selectedKey === toothKey && 'ring-4 ring-[#0066cc]/20',
             )}
             style={{
               left: `${position.x}%`,
               top: `${position.y}%`,
-              width: 'clamp(2rem, 2.8vw, 2.45rem)',
-              height: 'clamp(2.8rem, 3.9vw, 3.8rem)',
+              width: 'clamp(2.25rem, 3.3vw, 3.2rem)',
+              height: 'clamp(3.25rem, 4.8vw, 4.65rem)',
             }}
             aria-label={`Dente ${number} - ${toothStates[status].label}`}
+            title={`Dente ${number} - ${toothStates[status].label}`}
           >
-            {arch.layers.teeth && <Circle className="mb-0.5 h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.7} />}
-            <span>{number}</span>
+            {arch.layers.teeth && (
+              <span
+                className="flex h-[82%] w-full items-center justify-center"
+                style={{ transform: `rotate(${position.rotation}deg) scale(${scale})` }}
+              >
+                <img
+                  src={`/assets/teeth/${number}.png`}
+                  alt={`Dente ${number}`}
+                  className="max-h-full max-w-full object-contain drop-shadow-sm"
+                  draggable="false"
+                />
+              </span>
+            )}
+            <span className="absolute -bottom-4 rounded-full bg-white/80 px-1.5 py-0.5 text-[0.58rem] font-semibold leading-none text-slate-400 opacity-75 transition group-hover:text-[#0066cc] group-hover:opacity-100">
+              {number}
+            </span>
             {isAbutment && <span className="absolute -top-2 rounded-full bg-[#0066cc] px-2 py-0.5 text-[0.58rem] text-white">Pilar</span>}
             {arch.layers.rests && hasRest && <span className="absolute bottom-1 left-1 h-2.5 w-2.5 rounded-full bg-emerald-500" title="Apoio" />}
             {arch.layers.retainers && hasRetainer && <span className="absolute bottom-1 right-1 h-2.5 w-2.5 rounded-full bg-violet-500" title="Retentor" />}
+            {status === 'planned' && <span className="absolute left-1/2 top-1 h-1.5 w-8 -translate-x-1/2 rounded-full bg-amber-400/90" title="Extração planejada" />}
             {indirect && <span className="absolute -bottom-2 rounded-full bg-amber-400 px-1.5 py-0.5 text-[0.55rem] font-bold text-amber-950">RI</span>}
           </button>
         );
@@ -567,8 +597,8 @@ function PprPlannerPage() {
   const cycleTooth = (targetArch, number) => {
     setSelectedTooth({ archType: targetArch, number });
     updateArch(targetArch, (draft) => {
-      const current = effectiveStatus(draft.teeth[number]);
-      const next = current === 'present' ? 'missing' : 'present';
+      const current = visualStatus(draft.teeth[number]);
+      const next = current === 'present' ? 'missing' : current === 'missing' ? 'planned' : 'present';
       draft.teeth[number] = { status: next };
       draft.step = Math.max(draft.step, 1);
       draft.finalized = false;
@@ -739,8 +769,8 @@ function PprPlannerPage() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-black/10 bg-[#f5f7fb] px-3 py-6 sm:px-5 lg:px-8">
-            <div className="relative mx-auto flex max-w-6xl flex-col gap-2">
+          <div className="overflow-hidden rounded-2xl border border-black/10 bg-[#f5f7fb] px-3 py-8 sm:px-5 lg:px-8">
+            <div className="relative mx-auto flex max-w-5xl flex-col gap-2">
               <ArchDiagram
                 archType="upper"
                 arch={caseData.upper}
@@ -777,7 +807,7 @@ function PprPlannerPage() {
                   </div>
                   <p className="mt-1 text-xs leading-5 text-slate-500">Limites: {space.mesialLimit || 'sem'} / {space.distalLimit || 'sem'}</p>
                 </div>
-              )) : <p className="text-sm text-slate-500">Clique nos dentes para marcar ausências.</p>}
+              )) : <p className="text-sm text-slate-500">Clique nos dentes para marcar ausências ou extrações planejadas.</p>}
             </InfoCard>
 
             <InfoCard title="Biomecânica" icon={<Stethoscope className="h-4 w-4" />}>
@@ -812,7 +842,7 @@ function PprPlannerPage() {
                   <div className="flex items-center justify-between">
                     <p className="text-3xl font-semibold tracking-[-0.05em]">{selectedNumber}</p>
                     <Pill tone={planning.abutmentNumbers.includes(selectedNumber) ? 'blue' : 'slate'}>
-                      {planning.abutmentNumbers.includes(selectedNumber) ? 'Pilar sugerido' : toothStates[effectiveStatus(arch.teeth[selectedNumber])].label}
+                      {planning.abutmentNumbers.includes(selectedNumber) ? 'Pilar sugerido' : toothStates[visualStatus(arch.teeth[selectedNumber])].label}
                     </Pill>
                   </div>
 
