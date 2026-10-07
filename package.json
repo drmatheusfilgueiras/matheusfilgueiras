@@ -8,7 +8,8 @@
 		"build": "vite build",
 		"preview": "vite preview --host 127.0.0.1 --port 3000",
 		"lint": "eslint .",
-		"lint:warn": "eslint ."
+		"lint:warn": "eslint .",
+		"test:ppr": "node --test tests/ppr-rules.test.js"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
