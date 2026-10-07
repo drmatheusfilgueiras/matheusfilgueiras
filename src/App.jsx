@@ -5,6 +5,7 @@ import ScrollToTop from './components/ScrollToTop';
 import AppleTestPage from './pages/AppleTestPage';
 import ChatControlPage from './pages/ChatControlPage';
 import LogPage from './pages/LogPage';
+import PprPlannerPage from './pages/PprPlannerPage';
 import PreValidationBookPage from './pages/PreValidationBookPage';
 import UnidosBravuraPage from './pages/UnidosBravuraPage';
 
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/teste-apple" element={<AppleTestPage />} />
                 <Route path="/unidos_pela_bravura" element={<UnidosBravuraPage />} />
                 <Route path="/pre_validation_book" element={<PreValidationBookPage />} />
+                <Route path="/ppr" element={<PprPlannerPage />} />
                 <Route path="/log" element={<LogPage />} />
                 <Route path="/chat_control" element={<ChatControlPage />} />
                 <Route path="*" element={<NotFoundPage />} />
