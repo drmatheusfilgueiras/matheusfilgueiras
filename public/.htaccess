@@ -1,16 +1,43 @@
+ErrorDocument 404 /404.html
+
+<IfModule mod_mime.c>
+  AddType text/markdown .md
+  AddType application/json .json
+</IfModule>
+
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
   Header set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://images.hostinger.com; connect-src 'self'; upgrade-insecure-requests"
+  <Files "index.html">
+    Header always set Link "</llms.txt>; rel=\"describedby\"; type=\"text/plain\", </index.md>; rel=\"alternate\"; type=\"text/markdown\""
+  </Files>
 </IfModule>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+
+  # Content negotiation: a small Markdown view for agents that request it.
+  RewriteCond %{HTTP:Accept} text/markdown [NC]
+  RewriteRule ^$ index.md [L]
+
+  RewriteCond %{HTTP:Accept} text/markdown [NC]
+  RewriteRule ^(sobre|contato|privacidade|termos|unidos_pela_bravura)/?$ $1.md [L]
+
+  # Pre-rendered public pages, while React remains responsible for interactions.
+  RewriteRule ^(sobre|contato|privacidade|termos|unidos_pela_bravura|pre_validation_book)/?$ $1.html [L]
+
+  # Application-only tools retain the SPA entry point.
+  RewriteRule ^(ppr|log|chat_control|teste-apple)/?$ index.html [L]
+
+  # Existing assets and API endpoints must retain their normal status and MIME.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # An absent URL must not be treated as a valid homepage.
+  RewriteRule ^ - [R=404,L]
 </IfModule>
