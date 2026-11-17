@@ -18,6 +18,7 @@ export default function UnidosBravuraPage() {
         description="Leitura interativa em formato flipbook do livro Unidos pela Bravura."
         image="/assets/unidos-pela-bravura/pages/page-01.jpg"
         siteName="Matheus Filgueiras"
+        url="https://matheusfilgueiras.com/unidos_pela_bravura"
       />
       <UnidosBravuraFlipbook />
     </>
