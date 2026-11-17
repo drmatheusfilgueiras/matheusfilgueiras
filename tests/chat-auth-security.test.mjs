@@ -34,6 +34,7 @@ test('PHP endpoints validate server-side sessions without source-controlled fall
   assert.match(auth, /CHAT_CONTROL_KEY_HASH/);
   assert.match(auth, /\.chat-control-key-hash/);
   assert.match(auth, /session_regenerate_id\(true\)/);
+  assert.match(auth, /chat_admin_key_fingerprint/);
   for (const path of ['public/api/chat-flow-config.php', 'public/api/chat-conversations.php']) {
     const source = await content(path);
     assert.match(source, /chat_admin_is_authorized\(\)/);
