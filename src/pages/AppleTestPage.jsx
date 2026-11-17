@@ -112,8 +112,8 @@ const projetos = [
     sub: 'Um interesse que também se tornou material de ensino.',
     texto: 'O planejamento estético digital aproxima Odontologia e desenho. Comecei explorando formas visuais de organizar referências e apresentar propostas de tratamento.',
     detalhe: 'Desenvolvi um e-book e um workshop sobre planejamento estético digital 2D. Procuro explicar o conteúdo de forma acessível, sem perder os critérios clínicos.',
-    cta: null,
-    href: null,
+    cta: 'Ler o e-book',
+    href: 'https://app.uff.br/riuff/handle/1/45081',
     img: '/assets/intersecao/no-computador.jpg',
   },
 ];
