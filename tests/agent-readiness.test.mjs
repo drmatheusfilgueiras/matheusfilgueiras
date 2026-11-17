@@ -19,6 +19,13 @@ test('Public pages are pre-rendered with semantic content and canonical URLs', a
   }
 });
 
+test('Digital planning e-book card links to the UFF repository', async () => {
+  const html = await read('dist/index.html');
+  assert.ok(html.includes('href="https://app.uff.br/riuff/handle/1/45081"'), 'E-book UFF repository link missing from rendered HTML');
+  assert.match(html, /Ler o e-book/);
+  assert.match(html, /noopener/);
+});
+
 test('Home HTML carries public project narratives in the initial response', async () => {
   const html = await read('dist/index.html');
   for (const phrase of ['Unidos pela Bravura', 'Pesquisa de mestrado', 'Planejamento Estético Digital', 'Matheus Filgueiras']) {
