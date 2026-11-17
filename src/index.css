@@ -322,3 +322,109 @@ body {
   z-index: -1;
   transform: skewX(-12deg);
 }
+
+
+/* Microinterações editoriais do portfólio.
+   Movimentos mínimos, apenas em dispositivos com hover preciso e sem redução de movimento. */
+.apple-test .editorial-nav-link {
+  position: relative;
+}
+
+.apple-test .editorial-nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.42rem;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0.5);
+  transform-origin: center;
+}
+
+.apple-test .editorial-nav-link:focus-visible::after {
+  opacity: 0.8;
+  transform: scaleX(1);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .apple-test .editorial-nav-link::after {
+    transition: opacity 220ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .apple-test .editorial-nav-link:hover::after {
+    opacity: 0.7;
+    transform: scaleX(1);
+  }
+
+  .apple-test .editorial-project-card,
+  .apple-test .editorial-contact-card {
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 320ms ease;
+  }
+
+  .apple-test .editorial-project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 38px rgba(29, 29, 31, 0.075);
+  }
+
+  .apple-test .editorial-project-image {
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .apple-test .editorial-project-card:hover .editorial-project-image {
+    transform: scale(1.014);
+  }
+
+  .apple-test .editorial-gallery-card {
+    transition: box-shadow 320ms ease;
+  }
+
+  .apple-test .editorial-gallery-card:hover {
+    box-shadow: 0 10px 30px rgba(29, 29, 31, 0.06);
+  }
+
+  .apple-test .editorial-gallery-image {
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .apple-test .editorial-gallery-card:hover .editorial-gallery-image {
+    transform: scale(1.018);
+  }
+
+  .apple-test .editorial-service-card {
+    transition: background-color 260ms ease;
+  }
+
+  .apple-test .editorial-service-card:hover {
+    background-color: rgba(255, 255, 255, 0.145);
+  }
+
+  .apple-test .editorial-inline-link .editorial-link-arrow {
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .apple-test .editorial-inline-link:hover .editorial-link-arrow,
+  .apple-test .editorial-inline-link:focus-visible .editorial-link-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .apple-test .editorial-contact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 36, 96, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apple-test .editorial-nav-link::after,
+  .apple-test .editorial-project-card,
+  .apple-test .editorial-project-image,
+  .apple-test .editorial-gallery-card,
+  .apple-test .editorial-gallery-image,
+  .apple-test .editorial-service-card,
+  .apple-test .editorial-inline-link .editorial-link-arrow,
+  .apple-test .editorial-contact-card {
+    transition: none !important;
+  }
+}
