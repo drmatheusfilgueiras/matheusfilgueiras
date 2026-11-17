@@ -58,5 +58,5 @@ Faça o deploy da branch `main` do repositório `drmatheusfilgueiras/matheusfilg
 - A chave em texto puro nunca é compilada no JavaScript e não é enviada novamente após o login.
 - O arquivo privado permanece fora da raiz pública; não faça backup dele em repositórios públicos.
 - Não coloque o hash em `.htaccess` ou em código versionado.
-- É possível trocar a chave a qualquer momento substituindo o hash no servidor. Sessões previamente autenticadas continuam válidas até seu vencimento; para revogação imediata, invalide as sessões PHP da hospedagem ou adote controle de versão de sessão.
+- É possível trocar a chave a qualquer momento substituindo o hash no servidor. A sessão administrativa fica vinculada ao hash ativo e as sessões antigas serão rejeitadas depois da rotação da chave.
 - O acesso administrativo requer HTTPS, cookies e sessões PHP.
