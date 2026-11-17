@@ -27,6 +27,17 @@ test('Home HTML carries public project narratives in the initial response', asyn
   assert.match(html, /"@type":"Person"|&quot;@type&quot;:&quot;Person&quot;/);
 });
 
+test('Institutional links and professional Organization appear in initial homepage HTML', async () => {
+  const html = await read('dist/index.html');
+  const beforeAboutSection = html.slice(0, html.indexOf('id="sobre-apple"'));
+  for (const path of ['/sobre', '/contato', '/privacidade', '/termos']) {
+    assert.ok(beforeAboutSection.includes('href="' + path + '"'), 'Missing institutional link in first screen: ' + path);
+  }
+  assert.match(html, /"@type":"Organization"|&quot;@type&quot;:&quot;Organization&quot;/);
+  assert.match(html, /"@type":"Person"|&quot;@type&quot;:&quot;Person&quot;/);
+  assert.ok(html.includes('Matheus Filgueiras'));
+});
+
 test('AI discovery endpoints and 404 file are real files', async () => {
   const llms = await read('dist/llms.txt');
   assert.match(llms, /^# Matheus Filgueiras/m);
@@ -36,6 +47,13 @@ test('AI discovery endpoints and 404 file are real files', async () => {
   assert.match(robots, /Content-Signal: search=yes, ai-train=no/);
   const card = JSON.parse(await read('dist/.well-known/mcp/server-card.json'));
   assert.ok(card.remotes[0].url.endsWith('/api/mcp.php'));
+  assert.equal(card.protocolVersion, '2025-06-18');
+  assert.equal(card.serverInfo.name, card.name);
+  assert.equal(card.serverInfo.version, card.version);
+  assert.equal(card.transport.endpoint, '/api/mcp.php');
+  assert.deepEqual(card.capabilities, { tools: { listChanged: false } });
+  assert.equal(card.authentication.required, false);
+  assert.equal(card.tools, 'dynamic');
   assert.ok((await stat(new URL('../dist/api/mcp.php', import.meta.url))).size > 1000);
   const nf = await read('dist/404.html');
   assert.match(nf, /Página não encontrada/);
