@@ -18,6 +18,7 @@ export default function PreValidationBookPage() {
         description={description}
         image="/assets/pre-validation-book/pages/page-01.jpg"
         siteName="Matheus Filgueiras"
+        url="https://matheusfilgueiras.com/pre_validation_book"
       />
       <UnidosBravuraFlipbook
         assetBasePath="/assets/pre-validation-book/pages"
