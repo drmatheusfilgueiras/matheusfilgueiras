@@ -7,6 +7,7 @@ export default function UnidosBravuraPage() {
   return (
     <>
       <h1 className="sr-only">Unidos pela Bravura</h1>
+      <p className="sr-only">Livro infantil que apresenta experiências de crianças no atendimento odontológico e propõe uma conversa sobre medo e ansiedade. A leitura interativa utiliza imagens e navegação por páginas.</p>
       <Helmet>
         <title>Unidos pela Bravura | Matheus Filgueiras</title>
         <meta
