@@ -689,12 +689,14 @@ function AppleTestPage() {
               {projetos.map((item, index) => (
                 <Reveal key={item.titulo} delay={index * 0.05}>
                   <article className="editorial-project-card grid overflow-hidden rounded-[24px] bg-[#f5f5f7] lg:grid-cols-2">
-                    <img
-                      src={item.img}
-                      alt={item.titulo}
-                      className={`editorial-project-image h-full min-h-[20rem] w-full object-cover ${index % 2 === 1 ? 'lg:order-2' : ''}`}
-                      loading="lazy"
-                    />
+                    <div className={`min-h-[20rem] overflow-hidden ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                      <img
+                        src={item.img}
+                        alt={item.titulo}
+                        className="editorial-project-image h-full min-h-[20rem] w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
                     <div className={`p-8 sm:p-12 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0066cc]">{item.tags}</p>
                       <h3 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">{item.titulo}</h3>
