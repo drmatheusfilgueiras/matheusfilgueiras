@@ -66,8 +66,15 @@ function chat_admin_is_authorized(): bool
     }
     chat_admin_start_session();
     $authenticatedAt = $_SESSION['chat_admin_authenticated_at'] ?? 0;
-    if (!is_int($authenticatedAt) || time() - $authenticatedAt > CHAT_ADMIN_SESSION_TTL) {
-        unset($_SESSION['chat_admin_authenticated_at']);
+    $sessionFingerprint = $_SESSION['chat_admin_key_fingerprint'] ?? '';
+    $currentHash = chat_admin_expected_hash();
+    $expectedFingerprint = $currentHash === '' ? '' : hash('sha256', $currentHash);
+    if (!is_int($authenticatedAt)
+        || time() - $authenticatedAt > CHAT_ADMIN_SESSION_TTL
+        || !is_string($sessionFingerprint)
+        || $expectedFingerprint === ''
+        || !hash_equals($expectedFingerprint, $sessionFingerprint)) {
+        unset($_SESSION['chat_admin_authenticated_at'], $_SESSION['chat_admin_key_fingerprint']);
         return false;
     }
     return true;
@@ -78,6 +85,7 @@ function chat_admin_authorize_session(): void
     chat_admin_start_session();
     session_regenerate_id(true);
     $_SESSION['chat_admin_authenticated_at'] = time();
+    $_SESSION['chat_admin_key_fingerprint'] = hash('sha256', chat_admin_expected_hash());
 }
 
 function chat_admin_logout(): void
