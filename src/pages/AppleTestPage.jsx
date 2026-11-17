@@ -13,29 +13,11 @@ const NATURALE_WHATSAPP_URL = 'https://api.whatsapp.com/send/?phone=552299850863
 const SEDACAO_URL = 'https://www.instagram.com/p/DbT4X1lhsaw/';
 const navLinks = [
   ['Atendimento', '#atendimento-apple'],
-  ['Caminho', '#caminho-apple'],
-  ['Linguagens', '#linguagens-apple'],
+  ['Sobre', '#sobre-apple'],
+  ['Interesses', '#interesses-apple'],
   ['Histórias', '#historias-apple'],
   ['Projetos', '#projetos-apple'],
   ['Contato', '#contato-apple'],
-];
-
-const caminho = [
-  {
-    titulo: 'Odontologia',
-    lugar: 'Universidade Federal Fluminense',
-    texto: 'Foi onde minha trajetória profissional começou, e onde descobri uma área que mistura ciência, habilidade manual, planejamento, estética e cuidado.',
-  },
-  {
-    titulo: 'Pesquisa',
-    lugar: 'Mestrado em Odontologia · UFF',
-    texto: 'Hoje continuo minha formação investigando materiais, impressão 3D e novas tecnologias aplicadas à Odontologia. A pesquisa acrescentou uma pergunta que passou a acompanhar quase tudo o que faço: por que fazemos dessa maneira?',
-  },
-  {
-    titulo: 'Extensão, ensino e projetos',
-    lugar: 'Ligas acadêmicas e iniciativas',
-    texto: 'Ao longo dessa trajetória, participei da construção de ligas acadêmicas, projetos de extensão, atividades científicas e iniciativas que me aproximaram também do ensino e da comunicação.',
-  },
 ];
 
 const atendimento = [
@@ -57,32 +39,32 @@ const linguagens = [
   {
     titulo: 'Odontologia',
     img: '/assets/photos/linguagem-odontologia.jpg',
-    texto: 'Clínica, planejamento e odontologia digital. O ponto em que conhecimento técnico, tecnologia e sensibilidade precisam trabalhar juntos.',
+    texto: 'Atendo pacientes e desenvolvo planejamentos clínicos, incluindo recursos digitais quando eles fazem sentido para cada caso.',
   },
   {
     titulo: 'Ciência',
     img: '/assets/photos/linguagem-ciencia.jpg',
-    texto: 'Pesquisa, escrita acadêmica, experimentação e comunicação científica para formular perguntas melhores e decidir com mais critério.',
+    texto: 'No mestrado, passo parte da rotina no laboratório, estudando materiais usados na Odontologia. A pesquisa me faz observar questões que nem sempre aparecem no consultório.',
   },
   {
     titulo: 'Desenho',
     img: '/assets/photos/linguagem-desenho.jpg',
-    texto: 'O desenho treina olhar, proporção e observação, e atravessa a forma como planejo, explico e tomo decisões clínicas.',
+    texto: 'Gosto de desenhar dentro e fora da Odontologia. Esse interesse também aparece quando estudo proporções e desenvolvo planejamentos estéticos.',
   },
   {
     titulo: 'Escrita',
     img: '/assets/photos/linguagem-escrita.jpg',
-    texto: 'Artigos, histórias e roteiros. Escrever organiza pensamentos e traduz temas complexos para quem precisa compreender.',
+    texto: 'Escrevo textos acadêmicos e materiais educativos, mas também gosto de trabalhar com histórias. Unidos pela Bravura foi uma oportunidade de explorar essas duas formas de escrita.',
   },
   {
     titulo: 'Design',
     img: '/assets/photos/linguagem-design-laptop-20260819.jpg',
-    texto: 'Identidades visuais, apresentações, fotografia, conteúdo e experiência como modos de organizar informação e comunicação.',
+    texto: 'Gosto de fotografia, de criar identidades visuais e de pensar na apresentação dos materiais que produzo. São atividades em que posso explorar o lado visual das minhas ideias.',
   },
   {
     titulo: 'Tecnologia',
     img: '/assets/photos/linguagem-tecnologia.jpg',
-    texto: 'Fluxos digitais, impressão 3D, inteligência artificial, interfaces e novos projetos quando ampliam possibilidades clínicas e humanas.',
+    texto: 'Tenho interesse por impressão 3D, ferramentas digitais e desenvolvimento de interfaces. Muitas ideias começam com alguma coisa que gostaria de resolver, aprender ou testar.',
   },
 ];
 
@@ -96,13 +78,13 @@ const intersecao = [
 const historias = [
   {
     titulo: 'Clareamento de consultório',
-    texto: 'Um tratamento planejado para devolver luminosidade ao sorriso de forma gradual, respeitando as características naturais dos dentes e buscando um resultado harmônico, sem excessos.',
+    texto: 'O clareamento foi realizado em consultório. As fotografias permitem comparar o aspecto inicial dos dentes com o resultado registrado após o tratamento.',
     antes: '/assets/cases/clareamento-antes.jpg',
     depois: '/assets/cases/clareamento-depois.jpg',
   },
   {
     titulo: 'Planejamento Reabilitador',
-    texto: 'Um planejamento pensado para melhorar função, estética e proporções do sorriso antes de qualquer intervenção, permitindo visualizar o resultado e conduzir cada etapa com mais previsibilidade.',
+    texto: 'O planejamento digital permite estudar proporções dentárias e discutir possibilidades de reabilitação antes da execução. As imagens apresentam uma comparação utilizada nessa etapa de planejamento.',
     antes: '/assets/cases/planejamento-reabilitador-antes.jpg',
     depois: '/assets/cases/planejamento-reabilitador-depois.jpg',
   },
@@ -165,8 +147,6 @@ const feedbacks = [
     texto: 'O planejamento foi apresentado com calma e segurança, sem pressa.',
   },
 ];
-
-const sobreRotator = ['Pesquisador.', 'Autor.', 'Desenhista.', 'Criador.', 'Comunicador.', 'Curioso.'];
 
 const socialLinks = [
   {
@@ -413,53 +393,20 @@ function ScheduleButton({ children, dark = false, onClick }) {
   );
 }
 
-function SobreAppleRotator() {
-  const [index, setIndex] = useState(0);
-  const word = sobreRotator[index];
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setIndex((current) => (current + 1) % sobreRotator.length);
-    }, 1800);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="min-h-[8.5rem]">
-      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/60">Eu sou dentista. E também...</p>
-      <div className="relative mt-5 min-h-[4.8rem] overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={word}
-            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -24, filter: 'blur(8px)' }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className={`text-5xl font-semibold tracking-[-0.06em] sm:text-6xl ${word === 'Matheus.' ? 'italic' : ''}`}
-          >
-            {word}
-          </motion.p>
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-
 function AppleLanguagesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = linguagens[activeIndex];
 
   return (
-    <section id="linguagens-apple" className="bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:py-28">
+    <section id="interesses-apple" className="bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Linguagens</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Interesses</p>
           <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-            Diferentes formas de criar.
+            Outros interesses.
           </h2>
           <p className="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.02em] text-[#515154]">
-            Cada uma treina uma atenção diferente: olhar, escutar, perguntar, organizar e explicar melhor o que precisa ser compreendido.
+            Além da clínica e da universidade, dedico parte do meu tempo ao desenho, à fotografia, à escrita e a outros projetos. Alguns desses interesses se aproximam da Odontologia; outros fazem parte da minha rotina simplesmente porque gosto deles.
           </p>
         </Reveal>
 
@@ -498,7 +445,7 @@ function AppleLanguagesSection() {
                 >
                   <img src={active.img} alt={active.titulo} className="aspect-[16/7] w-full object-cover" loading="lazy" />
                   <div className="p-6 sm:p-7">
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#0066cc]">Linguagem ativa</p>
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#0066cc]">Um dos meus interesses</p>
                     <h3 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-[#1d1d1f] sm:text-4xl">{active.titulo}</h3>
                     <p className="mt-4 text-base leading-relaxed tracking-[-0.015em] text-[#515154] sm:text-lg">{active.texto}</p>
                   </div>
@@ -546,12 +493,12 @@ function AppleTestPage() {
         <title>Matheus Filgueiras · Cirurgião-dentista</title>
         <meta
           name="description"
-          content="Site oficial de Matheus Filgueiras, cirurgião-dentista em Nova Friburgo/RJ, com atuação em clínica, ciência, design e tecnologia."
+          content="Site pessoal e profissional de Matheus Filgueiras, cirurgião-dentista e mestrando pela UFF, com projetos em pesquisa, ensino, desenho e tecnologia."
         />
       </Helmet>
       <Seo
         title="Matheus Filgueiras · Cirurgião-dentista"
-        description="Site oficial de Matheus Filgueiras, cirurgião-dentista em Nova Friburgo/RJ, com atuação em clínica, ciência, design e tecnologia."
+        description="Site pessoal e profissional de Matheus Filgueiras, cirurgião-dentista e mestrando pela UFF, com projetos em pesquisa, ensino, desenho e tecnologia."
         siteName="Matheus Filgueiras"
       />
 
@@ -627,9 +574,8 @@ function AppleTestPage() {
                   Olá, sou o Matheus.
                 </h1>
                 <div className="mt-7 max-w-2xl space-y-4 text-[1.08rem] leading-relaxed tracking-[-0.015em] text-[#515154] sm:text-xl lg:space-y-3">
-                  <p>Sou cirurgião-dentista e mestrando em Odontologia. Essa provavelmente é a maneira mais simples de me apresentar.</p>
-                  <p className="text-2xl font-semibold tracking-[-0.03em] text-[#1d1d1f] sm:text-3xl">Só não é a mais completa.</p>
-                  <p>Grande parte do que aprendo fora da clínica acaba mudando a maneira como penso dentro dela.</p>
+                  <p>Sou cirurgião-dentista e mestrando em Odontologia pela UFF. Atendo em Nova Friburgo e também me dedico à pesquisa e ao ensino.</p>
+                  <p>Gosto de desenhar, fotografar, escrever e explorar outros assuntos. Aqui, compartilho alguns dos projetos que desenvolvo e um pouco dos meus interesses.</p>
                 </div>
                 <div className="mt-7 flex flex-wrap gap-3 lg:mt-6">
                   <ScheduleButton onClick={() => setAppointmentOpen(true)}>Agendar consulta</ScheduleButton>
@@ -652,24 +598,23 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <section className="bg-[#f5f5f7] px-5 py-14 sm:px-8 lg:py-20">
+        <section id="sobre-apple" className="bg-[#f5f5f7] px-5 py-16 sm:px-8 lg:py-24">
           <div className="mx-auto max-w-6xl">
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Sobre</p>
-              <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                <span className="block">Eu nunca soube</span>
-                <span className="block">ser uma coisa só.</span>
-              </h2>
+              <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">Um pouco sobre mim.</h2>
             </Reveal>
             <div className="mt-10 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-              <Reveal className="flex items-center rounded-[24px] bg-white p-7 sm:p-9">
-                <p className="text-[1.08rem] leading-relaxed tracking-[-0.02em] text-[#515154] sm:text-xl">
-                  Minha formação começou na Odontologia, mas minha curiosidade sempre encontrou outros caminhos. Hoje, não vejo esses interesses como trajetórias separadas. São diferentes maneiras de observar, pensar e criar, e todas acabam encontrando espaço na forma como exerço a Odontologia.
-                </p>
+              <Reveal className="flex items-center rounded-[24px] bg-white p-7 sm:p-10">
+                <div className="space-y-5 text-[1.08rem] leading-relaxed text-[#515154] sm:text-xl">
+                  <p>Sou formado em Odontologia pela Universidade Federal Fluminense, em Nova Friburgo. Durante a graduação, participei de atividades de pesquisa, extensão e ensino, experiências que me aproximaram de diferentes maneiras de trabalhar com a profissão.</p>
+                  <p>Hoje, divido minha rotina entre os atendimentos clínicos, o mestrado e a elaboração de materiais educativos. Gosto de perceber como os assuntos que estudo e as experiências da prática influenciam os projetos que desenvolvo.</p>
+                </div>
               </Reveal>
-              <Reveal delay={0.08} className="rounded-[24px] bg-[#0066cc] p-7 text-white sm:p-9">
-                <SobreAppleRotator />
-                <p className="mt-5 text-xl leading-relaxed text-white/72">Talvez eu não precise ser uma coisa só.</p>
+              <Reveal delay={0.08} className="rounded-[24px] bg-[#0066cc] p-7 text-white sm:p-10">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/65">Fora da clínica</p>
+                <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">Desenho, fotografia e outras ideias.</h3>
+                <p className="mt-6 text-lg leading-relaxed text-white/85">Tenho interesse por desenho, fotografia, design e tecnologia há bastante tempo. Gosto de encontrar relações entre áreas diferentes, mas nem tudo precisa ter uma aplicação profissional. Algumas atividades continuo fazendo pelo prazer de aprender e criar.</p>
               </Reveal>
             </div>
           </div>
@@ -680,10 +625,10 @@ function AppleTestPage() {
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">Atendimento clínico</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                Cuidado, técnica e planejamento.
+                Como trabalho na clínica.
               </h2>
               <p className="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.02em] text-white/68">
-                Cada atendimento começa entendendo a pessoa antes de decidir o procedimento. A primeira consulta é o espaço para conversar, avaliar necessidades e construir um planejamento individualizado.
+                Cada paciente chega com uma história e uma necessidade diferente. Por isso, procuro ouvir, avaliar e explicar as possibilidades antes de definir um plano de tratamento. Gosto de apresentar as opções com clareza para que as decisões sejam tomadas em conjunto.
               </p>
             </Reveal>
             <div className="mt-12 grid gap-3 md:grid-cols-3">
@@ -700,36 +645,14 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <section id="caminho-apple" className="bg-white px-5 py-16 sm:px-8 lg:py-20">
-          <div className="mx-auto max-w-6xl">
-            <Reveal>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Caminho</p>
-              <h2 className="mt-4 text-5xl font-semibold tracking-[-0.06em] sm:text-7xl">O caminho até aqui.</h2>
-            </Reveal>
-            <div className="mt-10 divide-y divide-[#d2d2d7] border-y border-[#d2d2d7]">
-              {caminho.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.04}>
-                  <article className="grid gap-5 py-8 md:grid-cols-[0.38fr_0.62fr]">
-                    <div>
-                      <p className="text-sm font-semibold text-[#0066cc]">{item.lugar}</p>
-                      <h3 className="mt-2 text-3xl font-semibold tracking-[-0.04em]">{item.titulo}</h3>
-                    </div>
-                    <p className="text-lg leading-relaxed tracking-[-0.015em] text-[#515154]">{item.texto}</p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <AppleLanguagesSection />
 
         <section data-blue-section="true" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/60">Uma pequena interseção</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/60">Desenho e Odontologia</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                Também desenho sorrisos.
+                O desenho também aparece no meu trabalho.
               </h2>
             </Reveal>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -748,7 +671,7 @@ function AppleTestPage() {
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Histórias clínicas</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                Entre o planejamento e o resultado.
+                Alguns casos clínicos.
               </h2>
             </Reveal>
             <ClinicalGalleryApple />
@@ -805,10 +728,10 @@ function AppleTestPage() {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Sedação consciente</p>
                 <h2 className="mt-4 text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                  Nem todo mundo se sente à vontade no dentista.
+                  Para quem sente medo do atendimento.
                 </h2>
                 <p className="mt-7 text-xl leading-relaxed tracking-[-0.02em] text-[#6e6e73]">
-                  A sedação consciente pode tornar essa experiência mais tranquila, confortável e acolhedora.
+                  A sedação consciente com óxido nitroso pode ajudar a reduzir a ansiedade durante determinados procedimentos. A indicação depende da avaliação individual.
                 </p>
                 <div className="mt-8 grid gap-4 text-lg text-[#515154]">
                   <p><strong className="text-[#1d1d1f]">Ansiedade.</strong> Para quem sente medo, desconforto ou dificuldade em relaxar durante o atendimento.</p>
@@ -832,10 +755,10 @@ function AppleTestPage() {
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">Contato</p>
               <h2 className="mt-4 text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                Escolha onde deseja ser atendido.
+                Vamos conversar?
               </h2>
               <p className="mt-7 max-w-xl text-xl leading-relaxed tracking-[-0.02em] text-white/68">
-                Atendo em Nova Friburgo/RJ. Selecione uma unidade para iniciar o agendamento pelo WhatsApp e direcionar sua consulta para o local mais adequado.
+                Atendo em Nova Friburgo, na Salud Odontologia e na Naturale Dental Studio. Para agendar uma consulta, escolha uma das unidades abaixo. Você também pode entrar em contato pelos meus canais profissionais.
               </p>
             </Reveal>
             <Reveal delay={0.08} className="grid gap-3 sm:grid-cols-2">
