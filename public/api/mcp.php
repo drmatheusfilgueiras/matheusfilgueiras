@@ -109,7 +109,7 @@ switch ($method) {
                 echo json_encode(['jsonrpc' => '2.0', 'id' => $id, 'error' => ['code' => -32602, 'message' => 'Unknown tool']], JSON_UNESCAPED_UNICODE);
                 exit;
         }
-        $result = ['content' => [['type' => 'text', 'text' => json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)]]], 'isError' => false];
+        $result = ['content' => [['type' => 'text', 'text' => json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)]], 'isError' => false];
         break;
     default:
         echo json_encode(['jsonrpc' => '2.0', 'id' => $id, 'error' => ['code' => -32601, 'message' => 'Method not found']], JSON_UNESCAPED_UNICODE);
