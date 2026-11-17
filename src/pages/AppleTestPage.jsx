@@ -69,10 +69,10 @@ const linguagens = [
 ];
 
 const intersecao = [
-  ['Alguns no papel.', '/assets/intersecao/no-papel.jpg'],
-  ['Outros no computador.', '/assets/intersecao/no-computador.jpg'],
-  ['Alguns através de uma restauração.', '/assets/intersecao/restauracao.jpg'],
-  ['Outros através de um projeto que começa com uma tela em branco.', '/assets/intersecao/quadro-branco.gif'],
+  ['No papel.', '/assets/intersecao/no-papel.jpg'],
+  ['No computador.', '/assets/intersecao/no-computador.jpg'],
+  ['Na clínica, em uma restauração.', '/assets/intersecao/restauracao.jpg'],
+  ['E em projetos que começam com uma tela em branco.', '/assets/intersecao/quadro-branco.gif'],
 ];
 
 const historias = [
@@ -93,40 +93,47 @@ const historias = [
 const projetos = [
   {
     titulo: 'Unidos pela Bravura',
-    tags: 'Odontologia · Ciência · Escrita · Ilustração',
-    sub: 'Quando uma pesquisa virou história.',
-    texto: 'Uma pesquisa em Odontopediatria que se transformou em uma coleção de livros infantis para ajudar crianças a compreender e se preparar melhor para o atendimento odontológico.',
-    destaque: 'Ciência, narrativa, ilustração e design reunidos em algo que uma criança pudesse segurar nas mãos.',
-    cta: 'Conhecer o projeto',
+    tags: 'Odontopediatria · Escrita · Ilustração',
+    sub: 'Um livro para conversar sobre o medo de ir ao dentista.',
+    texto: 'O projeto começou com uma pesquisa sobre o medo e a ansiedade das crianças no atendimento odontológico. A proposta foi transformar esse conhecimento em uma história que elas pudessem ler e conversar sobre com seus responsáveis.',
+    detalhe: 'No livro, Jairo conhece outras crianças, cada uma com uma experiência diferente no consultório. Participei da escrita, das ilustrações e da diagramação, procurando aproximar o conteúdo científico de situações que fazem parte da infância.',
+    cta: 'Ler o livro',
     href: '/unidos_pela_bravura',
     img: '/assets/projects/unidos-pela-bravura-wide.jpg',
   },
   {
-    titulo: 'Pesquisa em Odontologia Digital',
-    tags: 'Ciência · Materiais · Impressão 3D',
-    sub: 'O que acontece depois que apertamos imprimir?',
-    texto: 'Minha pesquisa de mestrado investiga materiais utilizados na impressão 3D em Odontologia, aproximando resinas, processos de pós-cura e laboratório da realidade biológica.',
-    destaque: 'Um encontro entre Odontologia, ciência e tecnologia.',
-    cta: 'Conhecer a pesquisa',
+    titulo: 'Pesquisa de mestrado',
+    tags: 'UFF · Pesquisa · Impressão 3D',
+    sub: 'Estudando os materiais usados na impressão 3D.',
+    texto: 'Minha pesquisa de mestrado investiga a citotoxicidade de resinas utilizadas na impressão 3D de próteses totais. Busco compreender melhor o comportamento biológico desses materiais e a influência das etapas de processamento.',
+    detalhe: 'O estudo envolve ensaios laboratoriais e ainda está em andamento. No link abaixo, compartilho uma revisão da literatura relacionada ao tema, não os resultados finais da minha pesquisa.',
+    cta: 'Ler a revisão da literatura',
     href: 'https://drive.google.com/file/d/1E6mpmWfzIINpfhY_fl_9ORLJiXTamUrb/view?usp=sharing',
     img: '/assets/projects/pesquisa-digital-wide.jpg',
   },
   {
+    titulo: 'Planejamento Estético Digital',
+    tags: 'Odontologia · Desenho · Ensino',
+    sub: 'Um interesse que também se tornou material de ensino.',
+    texto: 'O planejamento estético digital reúne duas áreas pelas quais me interesso: a Odontologia e o desenho. Comecei explorando maneiras de organizar referências e apresentar propostas de tratamento de forma visual.',
+    detalhe: 'Mais recentemente, desenvolvi um e-book sobre planejamento estético digital 2D e preparei um workshop com atividades práticas. Procuro explicar o assunto de maneira acessível, sem deixar de lado os critérios e as limitações da aplicação clínica.',
+    cta: null,
+    href: null,
+    img: '/assets/intersecao/no-computador.jpg',
+  },
+];
+
+const projetosComplementares = [
+  {
     titulo: 'SedaFlow',
-    tags: 'Odontologia · Produto · Design · Tecnologia',
-    sub: 'E se um fluxo clínico pudesse ser repensado?',
-    texto: 'SedaFlow nasceu para organizar e simplificar processos relacionados à sedação consciente em Odontologia, reunindo experiência clínica, design de interface e tecnologia.',
-    destaque: 'Necessidades clínicas transformadas em decisões de produto.',
+    texto: 'Um software que comecei a desenvolver a partir de necessidades da rotina de sedação consciente. A proposta é organizar registros e etapas do atendimento em uma interface pensada para o uso clínico.',
     cta: 'Conhecer o projeto',
     href: 'https://sedaflow.com.br/',
     img: '/assets/projects/sedaflow-wide.jpg',
   },
   {
-    titulo: 'Comunicação visual',
-    tags: 'Design · Fotografia · Ciência',
-    sub: 'Nem toda pesquisa precisa parecer uma pesquisa.',
-    texto: 'Apresentações, ilustrações, fotografias, vídeos e identidades visuais passaram a fazer parte da maneira como preparo e apresento projetos.',
-    destaque: 'Porque comunicar também faz parte do método.',
+    titulo: 'Design e comunicação visual',
+    texto: 'Também desenvolvo trabalhos de identidade visual, fotografia, ilustração e apresentação de conteúdos. São atividades que fazem parte dos meus interesses e dos materiais que produzo.',
     cta: 'Ver trabalhos',
     href: 'https://www.behance.net/matheuscarvalh32',
     img: '/assets/projects/comunicacao-visual-brand-20260819.jpg',
@@ -620,27 +627,69 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <section id="atendimento-apple" data-blue-section="true" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
+        <section id="projetos-apple" className="bg-white px-5 py-20 sm:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">Atendimento clínico</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Projetos</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                Como trabalho na clínica.
+                Projetos e pesquisas.
               </h2>
-              <p className="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.02em] text-white/68">
-                Cada paciente chega com uma história e uma necessidade diferente. Por isso, procuro ouvir, avaliar e explicar as possibilidades antes de definir um plano de tratamento. Gosto de apresentar as opções com clareza para que as decisões sejam tomadas em conjunto.
+              <p className="mt-7 max-w-3xl text-xl leading-relaxed text-[#515154]">
+                Reuni aqui alguns trabalhos que desenvolvi nos últimos anos. Há pesquisas, livros e materiais de ensino, cada um com uma história e um processo de criação diferentes.
               </p>
             </Reveal>
-            <div className="mt-12 grid gap-3 md:grid-cols-3">
-              {atendimento.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.05} className="rounded-[24px] bg-white/[0.1] p-7 ring-1 ring-white/14">
-                  <h3 className="text-2xl font-semibold tracking-[-0.03em]">{item.titulo}</h3>
-                  <p className="mt-4 leading-relaxed text-white/76">{item.texto}</p>
+            <div className="mt-12 grid gap-6">
+              {projetos.map((item, index) => (
+                <Reveal key={item.titulo} delay={index * 0.05}>
+                  <article className="grid overflow-hidden rounded-[24px] bg-[#f5f5f7] lg:grid-cols-2">
+                    <img
+                      src={item.img}
+                      alt={item.titulo}
+                      className={`h-full min-h-[20rem] w-full object-cover ${index % 2 === 1 ? 'lg:order-2' : ''}`}
+                      loading="lazy"
+                    />
+                    <div className={`p-8 sm:p-12 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0066cc]">{item.tags}</p>
+                      <h3 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">{item.titulo}</h3>
+                      <p className="mt-5 text-xl font-semibold tracking-[-0.025em] text-[#1d1d1f]">{item.sub}</p>
+                      <p className="mt-5 text-[1.06rem] leading-relaxed text-[#515154]">{item.texto}</p>
+                      <p className="mt-4 text-[1.06rem] leading-relaxed text-[#515154]">{item.detalhe}</p>
+                      {item.href && (
+                        <a
+                          href={item.href}
+                          target={item.href.startsWith('http') ? '_blank' : undefined}
+                          rel={item.href.startsWith('http') ? 'noreferrer noopener' : undefined}
+                          className="mt-7 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]"
+                        >
+                          {item.cta}
+                          <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
+                        </a>
+                      )}
+                    </div>
+                  </article>
                 </Reveal>
               ))}
             </div>
-            <div className="mt-10">
-              <ScheduleButton onClick={() => setAppointmentOpen(true)} dark>Agendar consulta</ScheduleButton>
+            <Reveal>
+              <h3 className="mt-16 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">Outros trabalhos</h3>
+              <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[#515154]">
+                Também desenvolvo projetos de tecnologia e comunicação visual. Estes são dois exemplos que continuam fazendo parte do meu trabalho.
+              </p>
+            </Reveal>
+            <div className="mt-8 grid gap-5 md:grid-cols-2">
+              {projetosComplementares.map((item, index) => (
+                <Reveal key={item.titulo} delay={index * 0.05} className="overflow-hidden rounded-[24px] bg-[#f5f5f7]">
+                  <img src={item.img} alt={item.titulo} className="aspect-[16/9] w-full object-cover" loading="lazy" />
+                  <div className="p-7 sm:p-9">
+                    <h4 className="text-3xl font-semibold tracking-[-0.04em]">{item.titulo}</h4>
+                    <p className="mt-4 text-lg leading-relaxed text-[#515154]">{item.texto}</p>
+                    <a href={item.href} target="_blank" rel="noreferrer noopener" className="mt-6 inline-flex items-center font-semibold text-[#0066cc] hover:text-[#1d1d1f]">
+                      {item.cta}
+                      <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
+                    </a>
+                  </div>
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
@@ -666,6 +715,31 @@ function AppleTestPage() {
           </div>
         </section>
 
+        <section id="atendimento-apple" data-blue-section="true" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
+          <div className="mx-auto max-w-6xl">
+            <Reveal>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">Atendimento clínico</p>
+              <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
+                Como trabalho na clínica.
+              </h2>
+              <p className="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.02em] text-white/68">
+                Cada paciente chega com uma história e uma necessidade diferente. Por isso, procuro ouvir, avaliar e explicar as possibilidades antes de definir um plano de tratamento. Gosto de apresentar as opções com clareza para que as decisões sejam tomadas em conjunto.
+              </p>
+            </Reveal>
+            <div className="mt-12 grid gap-3 md:grid-cols-3">
+              {atendimento.map((item, index) => (
+                <Reveal key={item.titulo} delay={index * 0.05} className="rounded-[24px] bg-white/[0.1] p-7 ring-1 ring-white/14">
+                  <h3 className="text-2xl font-semibold tracking-[-0.03em]">{item.titulo}</h3>
+                  <p className="mt-4 leading-relaxed text-white/76">{item.texto}</p>
+                </Reveal>
+              ))}
+            </div>
+            <div className="mt-10">
+              <ScheduleButton onClick={() => setAppointmentOpen(true)} dark>Agendar consulta</ScheduleButton>
+            </div>
+          </div>
+        </section>
+
         <section id="historias-apple" className="bg-white px-5 py-20 sm:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal>
@@ -680,48 +754,6 @@ function AppleTestPage() {
 
         <FeedbackApple />
 
-        <section id="projetos-apple" className="bg-white px-5 py-20 sm:px-8 lg:py-28">
-          <div className="mx-auto max-w-6xl">
-            <Reveal>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Ideias que ganharam forma</p>
-              <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                <span className="block">Projetos que atravessam</span>
-                <span className="block">a clínica.</span>
-              </h2>
-            </Reveal>
-            <div className="mt-12 grid gap-5">
-              {projetos.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.05}>
-                  <article className="grid overflow-hidden rounded-[24px] bg-[#f5f5f7] lg:grid-cols-2">
-                    <img
-                      src={item.img}
-                      alt={item.titulo}
-                      className={`h-full min-h-[20rem] w-full object-cover ${index % 2 === 1 ? 'lg:order-2' : ''}`}
-                      loading="lazy"
-                    />
-                    <div className={`p-8 sm:p-12 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0066cc]">{item.tags}</p>
-                      <h3 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">{item.titulo}</h3>
-                      <p className="mt-5 text-2xl font-semibold tracking-[-0.035em] text-[#1d1d1f]">{item.sub}</p>
-                      <p className="mt-5 text-lg leading-relaxed tracking-[-0.015em] text-[#515154]">{item.texto}</p>
-                      <p className="mt-6 border-l-2 border-[#0066cc] pl-5 text-lg font-semibold leading-relaxed tracking-[-0.015em]">{item.destaque}</p>
-                      <a
-                        href={item.href}
-                        target={item.href.startsWith('http') ? '_blank' : undefined}
-                        rel={item.href.startsWith('http') ? 'noreferrer noopener' : undefined}
-                        className="mt-7 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]"
-                      >
-                        {item.cta}
-                        <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
-                      </a>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:py-28">
           <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.92fr_1.08fr]">
             <Reveal className="flex items-center rounded-[24px] bg-white p-8 sm:p-12">
@@ -734,9 +766,9 @@ function AppleTestPage() {
                   A sedação consciente com óxido nitroso pode ajudar a reduzir a ansiedade durante determinados procedimentos. A indicação depende da avaliação individual.
                 </p>
                 <div className="mt-8 grid gap-4 text-lg text-[#515154]">
-                  <p><strong className="text-[#1d1d1f]">Ansiedade.</strong> Para quem sente medo, desconforto ou dificuldade em relaxar durante o atendimento.</p>
-                  <p><strong className="text-[#1d1d1f]">Procedimentos longos.</strong> Uma possibilidade para tornar consultas mais extensas mais confortáveis.</p>
-                  <p><strong className="text-[#1d1d1f]">Sedação consciente.</strong> Você permanece consciente e responsivo durante todo o atendimento.</p>
+                  <p><strong className="text-[#1d1d1f]">Ansiedade.</strong> Pode ser considerada para pacientes que apresentam medo ou dificuldade de relaxar durante a consulta.</p>
+                  <p><strong className="text-[#1d1d1f]">Procedimentos prolongados.</strong> Em algumas situações, pode contribuir para o conforto durante consultas mais longas.</p>
+                  <p><strong className="text-[#1d1d1f]">Durante o atendimento.</strong> O paciente permanece consciente e pode conversar com a equipe.</p>
                 </div>
                 <a href={SEDACAO_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]">
                   Saiba mais sobre sedação
