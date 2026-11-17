@@ -214,11 +214,11 @@ function FeedbackApple() {
   const feedback = feedbacks[index];
 
   return (
-    <section className="bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:py-28">
+    <div className="mt-16 border-t border-[#d2d2d7] pt-14 lg:mt-20 lg:pt-20">
       <div className="mx-auto max-w-5xl text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Feedback</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Relatos sobre o atendimento</p>
         <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] text-[#1d1d1f] sm:text-6xl">
-          Depois da consulta.
+          O que os pacientes relatam.
         </h2>
         <div className="relative mx-auto mt-12 max-w-3xl rounded-[24px] bg-white p-8 shadow-[0_18px_60px_rgba(0,0,0,0.08)] sm:p-12">
           <p className="absolute left-7 top-5 text-7xl leading-none text-[#0066cc]/20 sm:left-10 sm:top-8">“</p>
@@ -240,7 +240,7 @@ function FeedbackApple() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -494,6 +494,20 @@ function AppleLanguagesSection() {
             </div>
           </Reveal>
         </div>
+        <div className="mt-16 border-t border-[#d2d2d7] pt-10 lg:mt-20">
+          <Reveal>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Do desenho ao planejamento</p>
+            <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">Alguns trabalhos em imagens.</h3>
+          </Reveal>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {intersecao.map(([texto, img], index) => (
+              <Reveal key={texto} delay={index * 0.04} className="overflow-hidden rounded-[24px] bg-white ring-1 ring-black/5">
+                <img src={img} alt={texto} className="aspect-[16/10] w-full object-cover" loading="lazy" />
+                <p className="min-h-[4.5rem] p-5 text-base font-medium leading-snug text-[#515154]">{texto}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -728,25 +742,6 @@ function AppleTestPage() {
 
         <AppleLanguagesSection />
 
-        <section className="bg-[#fbfbfd] px-5 py-20 text-[#1d1d1f] sm:px-8 lg:py-28">
-          <div className="mx-auto max-w-6xl">
-            <Reveal>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Desenho e Odontologia</p>
-              <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                O desenho também aparece no meu trabalho.
-              </h2>
-            </Reveal>
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {intersecao.map(([texto, img], index) => (
-                <Reveal key={texto} delay={index * 0.04} className="overflow-hidden rounded-[24px] bg-[#f5f5f7] ring-1 ring-black/5">
-                  <img src={img} alt={texto} className="aspect-[16/10] w-full object-cover" loading="lazy" />
-                  <p className="min-h-[5.5rem] p-5 text-lg font-medium leading-snug tracking-[-0.02em] text-[#515154]">{texto}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section id="atendimento-apple" data-blue-section="true" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal>
@@ -784,7 +779,6 @@ function AppleTestPage() {
           </div>
         </section>
 
-        <FeedbackApple />
 
         <section className="bg-[#f5f5f7] px-5 py-20 sm:px-8 lg:py-28">
           <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.92fr_1.08fr]">
@@ -812,6 +806,7 @@ function AppleTestPage() {
               <img src="/assets/photos/sedacao-consciente.jpg" alt="Matheus preparando equipamento de sedação consciente" className="h-full min-h-[34rem] w-full object-cover object-center" loading="lazy" />
             </Reveal>
           </div>
+          <FeedbackApple />
         </section>
 
         <section id="contato-apple" data-blue-section="true" className="flex min-h-screen items-center bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-24">
