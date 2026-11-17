@@ -67,3 +67,25 @@ test('HTTP routes are configured for real 404 and Markdown negotiation', async (
   assert.match(htaccess, /HTTP:Accept.*text\/markdown/);
   assert.match(htaccess, /Header always set Link/);
 });
+
+test('Institutional pages keep the primary site visual design and navigation', async () => {
+  for (const name of ['sobre', 'contato', 'privacidade', 'termos']) {
+    const html = await read('dist/' + name + '.html');
+    assert.match(html, /class="apple-test min-h-screen/, name + ' must use the main typography and design');
+    assert.match(html, /bg-\[#0066cc\]/, name + ' must retain the site blue');
+    assert.match(html, /aria-label="Navegação principal"/, name + ' must have a main navigation');
+    assert.match(html, /href="\/\#projetos-apple"/, name + ' must link to the main portfolio');
+    assert.match(html, /aria-label="Links institucionais"/, name + ' must have footer navigation');
+    assert.match(html, /href="\/llms\.txt"/, name + ' must keep the technical link');
+    assert.match(html, /Converse comigo/, name + ' must retain the floating contact assistant');
+    assert.equal((html.match(/<h1\b/g) || []).length, 1, name + ' must have one h1');
+  }
+  const contact = await read('dist/contato.html');
+  assert.match(contact, /Salud Odontologia/);
+  assert.match(contact, /Naturale Dental Studio/);
+  assert.match(contact, /matheusfilgueiras\.dr@gmail\.com/);
+  const about = await read('dist/sobre.html');
+  assert.match(about, /retrato-editorial-hero\.jpg/);
+  const llms = await read('dist/llms.txt');
+  assert.match(llms, /^# Matheus Filgueiras/m);
+});
