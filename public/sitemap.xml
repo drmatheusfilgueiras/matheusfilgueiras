@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://matheusfilgueiras.com/</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1</priority>
-  </url>
-  <url>
-    <loc>https://matheusfilgueiras.com/unidos_pela_bravura</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://matheusfilgueiras.com/pre_validation_book</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+  <url><loc>https://matheusfilgueiras.com/</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://matheusfilgueiras.com/sobre</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://matheusfilgueiras.com/contato</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://matheusfilgueiras.com/privacidade</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://matheusfilgueiras.com/termos</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://matheusfilgueiras.com/unidos_pela_bravura</loc><lastmod>2026-11-17</lastmod></url>
 </urlset>
