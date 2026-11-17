@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json",
+  "name": "matheusfilgueiras.com/public-portfolio",
+  "version": "1.0.0",
+  "description": "Consulta pública e somente leitura aos projetos e canais profissionais do portfólio.",
+  "title": "Matheus Filgueiras — Portfolio MCP",
+  "websiteUrl": "https://matheusfilgueiras.com/",
+  "repository": {
+    "url": "https://github.com/drmatheusfilgueiras/matheusfilgueiras",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://matheusfilgueiras.com/api/mcp.php",
+      "supportedProtocolVersions": [
+        "2025-06-18"
+      ]
+    }
+  ]
+}
