@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/_chat-auth.php';
+
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store, max-age=0');
 header('X-Content-Type-Options: nosniff');
@@ -8,8 +10,7 @@ header('X-Frame-Options: DENY');
 header('Referrer-Policy: no-referrer');
 header('Allow: GET, POST, OPTIONS');
 
-$accessKeyHash = getenv('CHAT_CONTROL_KEY_HASH') ?: 'dd69f8786a282536c7fa6ca077d12622b82c3963df23a3f7297040fda68d89b4';
-
+// Privileged operations now use a server-validated HttpOnly session.
 function respond(int $status, array $payload): void
 {
     http_response_code($status);
@@ -47,14 +48,9 @@ function same_origin_request(): bool
     return true;
 }
 
-function is_authorized(string $accessKeyHash): bool
+function is_authorized(): bool
 {
-    $key = $_GET['key'] ?? first_header(['HTTP_X_CHAT_CONTROL_KEY']);
-    if (!is_string($key) || $key === '') {
-        return false;
-    }
-
-    return hash_equals($accessKeyHash, hash('sha256', $key));
+    return chat_admin_is_authorized();
 }
 
 function data_dir(): string
@@ -121,7 +117,7 @@ if ($method === 'POST') {
         respond(403, ['ok' => false, 'error' => 'Origem nao autorizada.']);
     }
 
-    if (!is_authorized($accessKeyHash)) {
+    if (!is_authorized()) {
         usleep(250000);
         respond(401, ['ok' => false, 'error' => 'Chave de acesso invalida.']);
     }
