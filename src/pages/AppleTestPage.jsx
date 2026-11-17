@@ -295,7 +295,7 @@ function ClinicalGalleryApple() {
       <button
         type="button"
         onClick={() => scrollGallery(-1)}
-        className="absolute left-0 top-1/2 hidden h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#1d1d1f] shadow-[0_12px_34px_rgba(0,0,0,0.14)] backdrop-blur transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 lg:flex"
+        className="absolute left-0 top-1/2 hidden h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#1d1d1f] shadow-[0_12px_34px_rgba(0,0,0,0.14)] backdrop-blur transition-transform hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 lg:flex"
         aria-label="Ver caso anterior"
       >
         <ChevronLeft className="h-5 w-5" strokeWidth={2} />
@@ -303,7 +303,7 @@ function ClinicalGalleryApple() {
       <button
         type="button"
         onClick={() => scrollGallery(1)}
-        className="absolute right-0 top-1/2 hidden h-12 w-12 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-white/90 text-[#1d1d1f] shadow-[0_12px_34px_rgba(0,0,0,0.14)] backdrop-blur transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 lg:flex"
+        className="absolute right-0 top-1/2 hidden h-12 w-12 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-white/90 text-[#1d1d1f] shadow-[0_12px_34px_rgba(0,0,0,0.14)] backdrop-blur transition-transform hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 lg:flex"
         aria-label="Ver próximo caso"
       >
         <ChevronRight className="h-5 w-5" strokeWidth={2} />
@@ -387,7 +387,7 @@ function ScheduleButton({ children, dark = false, onClick }) {
       type="button"
       onClick={onClick}
       aria-label={typeof children === 'string' ? children : 'Abrir opções de agendamento'}
-      className={`inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-[1rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 active:scale-[0.98] ${
+      className={`inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-[1rem] font-semibold transition-transform hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/35 focus-visible:ring-offset-4 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none ${
         dark ? 'bg-white text-[#1d1d1f]' : 'bg-[#0066cc] text-white'
       }`}
     >
@@ -459,6 +459,7 @@ function AppleLanguagesSection() {
                 <button
                   key={item.titulo}
                   type="button"
+                  aria-pressed={isActive}
                   onMouseEnter={() => setActiveIndex(index)}
                   onFocus={() => setActiveIndex(index)}
                   onClick={() => setActiveIndex(index)}
@@ -501,8 +502,8 @@ function AppleLanguagesSection() {
           </Reveal>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {intersecao.map(([texto, img], index) => (
-              <Reveal key={texto} delay={index * 0.04} className="overflow-hidden rounded-[24px] bg-white ring-1 ring-black/5">
-                <img src={img} alt={texto} className="aspect-[16/10] w-full object-cover" loading="lazy" />
+              <Reveal key={texto} delay={index * 0.04} className="editorial-gallery-card overflow-hidden rounded-[24px] bg-white ring-1 ring-black/5">
+                <img src={img} alt={texto} className="editorial-gallery-image aspect-[16/10] w-full object-cover" loading="lazy" />
                 <p className="min-h-[4.5rem] p-5 text-base font-medium leading-snug text-[#515154]">{texto}</p>
               </Reveal>
             ))}
@@ -563,7 +564,7 @@ function AppleTestPage() {
           </a>
           <div className={`hidden items-center gap-7 text-[0.9rem] font-medium transition-colors md:flex ${headerOnBlue ? 'text-white/82' : 'text-[#424245]'}`}>
             {navLinks.map(([label, href]) => (
-              <a key={href} href={href} className={`transition-colors ${headerOnBlue ? 'hover:text-white' : 'hover:text-[#0066cc]'}`}>
+              <a key={href} href={href} className={`editorial-nav-link transition-colors ${headerOnBlue ? 'hover:text-white' : 'hover:text-[#0066cc]'}`}>
                 {label}
               </a>
             ))}
@@ -687,13 +688,15 @@ function AppleTestPage() {
             <div className="mt-12 grid gap-6">
               {projetos.map((item, index) => (
                 <Reveal key={item.titulo} delay={index * 0.05}>
-                  <article className="grid overflow-hidden rounded-[24px] bg-[#f5f5f7] lg:grid-cols-2">
-                    <img
-                      src={item.img}
-                      alt={item.titulo}
-                      className={`h-full min-h-[20rem] w-full object-cover ${index % 2 === 1 ? 'lg:order-2' : ''}`}
-                      loading="lazy"
-                    />
+                  <article className="editorial-project-card grid overflow-hidden rounded-[24px] bg-[#f5f5f7] lg:grid-cols-2">
+                    <div className={`min-h-[20rem] overflow-hidden ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                      <img
+                        src={item.img}
+                        alt={item.titulo}
+                        className="editorial-project-image h-full min-h-[20rem] w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
                     <div className={`p-8 sm:p-12 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0066cc]">{item.tags}</p>
                       <h3 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">{item.titulo}</h3>
@@ -705,10 +708,10 @@ function AppleTestPage() {
                           href={item.href}
                           target={item.href.startsWith('http') ? '_blank' : undefined}
                           rel={item.href.startsWith('http') ? 'noreferrer noopener' : undefined}
-                          className="mt-7 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]"
+                          className="editorial-inline-link mt-7 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/50 focus-visible:ring-offset-4"
                         >
                           {item.cta}
-                          <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
+                          <ArrowUpRight className="editorial-link-arrow ml-2 h-4 w-4" strokeWidth={1.8} />
                         </a>
                       )}
                     </div>
@@ -724,14 +727,14 @@ function AppleTestPage() {
             </Reveal>
             <div className="mt-8 grid gap-5 md:grid-cols-2">
               {projetosComplementares.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.05} className="overflow-hidden rounded-[24px] bg-[#f5f5f7]">
-                  <img src={item.img} alt={item.titulo} className="aspect-[16/9] w-full object-cover" loading="lazy" />
+                <Reveal key={item.titulo} delay={index * 0.05} className="editorial-project-card overflow-hidden rounded-[24px] bg-[#f5f5f7]">
+                  <img src={item.img} alt={item.titulo} className="editorial-project-image aspect-[16/9] w-full object-cover" loading="lazy" />
                   <div className="p-7 sm:p-9">
                     <h4 className="text-3xl font-semibold tracking-[-0.04em]">{item.titulo}</h4>
                     <p className="mt-4 text-lg leading-relaxed text-[#515154]">{item.texto}</p>
-                    <a href={item.href} target="_blank" rel="noreferrer noopener" className="mt-6 inline-flex items-center font-semibold text-[#0066cc] hover:text-[#1d1d1f]">
+                    <a href={item.href} target="_blank" rel="noreferrer noopener" className="editorial-inline-link mt-6 inline-flex items-center font-semibold text-[#0066cc] hover:text-[#1d1d1f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/50 focus-visible:ring-offset-4">
                       {item.cta}
-                      <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
+                      <ArrowUpRight className="editorial-link-arrow ml-2 h-4 w-4" strokeWidth={1.8} />
                     </a>
                   </div>
                 </Reveal>
@@ -755,7 +758,7 @@ function AppleTestPage() {
             </Reveal>
             <div className="mt-12 grid gap-3 md:grid-cols-3">
               {atendimento.map((item, index) => (
-                <Reveal key={item.titulo} delay={index * 0.05} className="rounded-[24px] bg-white/[0.1] p-7 ring-1 ring-white/14">
+                <Reveal key={item.titulo} delay={index * 0.05} className="editorial-service-card rounded-[24px] bg-white/[0.1] p-7 ring-1 ring-white/14">
                   <h3 className="text-2xl font-semibold tracking-[-0.03em]">{item.titulo}</h3>
                   <p className="mt-4 leading-relaxed text-white/76">{item.texto}</p>
                 </Reveal>
@@ -796,9 +799,9 @@ function AppleTestPage() {
                   <p><strong className="text-[#1d1d1f]">Procedimentos prolongados.</strong> Pode oferecer mais conforto durante consultas prolongadas, quando indicada.</p>
                   <p><strong className="text-[#1d1d1f]">Durante o atendimento.</strong> O paciente permanece consciente e pode conversar com a equipe.</p>
                 </div>
-                <a href={SEDACAO_URL} target="_blank" rel="noreferrer noopener" className="mt-8 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f]">
+                <a href={SEDACAO_URL} target="_blank" rel="noreferrer noopener" className="editorial-inline-link mt-8 inline-flex items-center text-[0.98rem] font-semibold text-[#0066cc] transition-colors hover:text-[#1d1d1f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066cc]/50 focus-visible:ring-offset-4">
                   Saiba mais sobre sedação
-                  <ArrowUpRight className="ml-2 h-4 w-4" strokeWidth={1.8} />
+                  <ArrowUpRight className="editorial-link-arrow ml-2 h-4 w-4" strokeWidth={1.8} />
                 </a>
               </div>
             </Reveal>
@@ -821,12 +824,12 @@ function AppleTestPage() {
               </p>
             </Reveal>
             <Reveal delay={0.08} className="grid gap-3 sm:grid-cols-2">
-              <a href={SALUD_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
+              <a href={SALUD_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="editorial-contact-card rounded-[24px] bg-white p-7 text-[#1d1d1f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">Marque sua consulta</p>
                 <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em]">Salud Odontologia</h3>
                 <p className="mt-4 text-[#0066cc]">Agendar pelo WhatsApp ↗</p>
               </a>
-              <a href={NATURALE_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="rounded-[24px] bg-white p-7 text-[#1d1d1f] transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
+              <a href={NATURALE_WHATSAPP_URL} target="_blank" rel="noreferrer noopener" className="editorial-contact-card rounded-[24px] bg-white p-7 text-[#1d1d1f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6e6e73]">Marque sua consulta</p>
                 <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em]">Naturale Dental Studio</h3>
                 <p className="mt-4 text-[#0066cc]">Agendar pelo WhatsApp ↗</p>
