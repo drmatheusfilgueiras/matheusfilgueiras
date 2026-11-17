@@ -27,11 +27,13 @@ test('Home HTML carries public project narratives in the initial response', asyn
   assert.match(html, /"@type":"Person"|&quot;@type&quot;:&quot;Person&quot;/);
 });
 
-test('Institutional links and professional Organization appear in initial homepage HTML', async () => {
+test('Institutional links remain in footer only, with structured identity in homepage HTML', async () => {
   const html = await read('dist/index.html');
-  const beforeAboutSection = html.slice(0, html.indexOf('id="sobre-apple"'));
+  const hero = html.slice(0, html.indexOf('id="sobre-apple"'));
+  const footer = html.slice(html.indexOf('aria-label="Informações institucionais"'));
   for (const path of ['/sobre', '/contato', '/privacidade', '/termos']) {
-    assert.ok(beforeAboutSection.includes('href="' + path + '"'), 'Missing institutional link in first screen: ' + path);
+    assert.ok(!hero.includes('href="' + path + '"'), 'Institutional link must not appear in hero: ' + path);
+    assert.ok(footer.includes('href="' + path + '"'), 'Missing institutional link in footer: ' + path);
   }
   assert.match(html, /"@type":"Organization"|&quot;@type&quot;:&quot;Organization&quot;/);
   assert.match(html, /"@type":"Person"|&quot;@type&quot;:&quot;Person&quot;/);
