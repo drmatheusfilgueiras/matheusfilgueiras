@@ -1,0 +1,27 @@
+name: Verify agent readiness
+
+on:
+  push:
+    branches:
+      - "agent-readiness-*"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Pre-render site
+        run: npm run build
+      - name: Check public HTML and agent resources
+        run: npm run test:agent
+      - name: Check PHP syntax
+        run: php -l public/api/mcp.php

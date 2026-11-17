@@ -12,7 +12,9 @@ const Reveal = ({ children, delay = 0, y = 24, className = '', as = 'div', once 
     return (
         <MotionTag
             className={className}
-            initial={{ opacity: 0, y: reduceMotion ? 0 : y }}
+            initial={typeof window === 'undefined' || typeof document !== 'undefined' && document.getElementById('root')?.hasAttribute('data-prerendered')
+                ? false
+                : { opacity: 0, y: reduceMotion ? 0 : y }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once, margin: '-60px' }}
             transition={{ duration: 0.6, delay: delaySeconds, ease: [0.22, 1, 0.36, 1] }}

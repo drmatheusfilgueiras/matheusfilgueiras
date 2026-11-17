@@ -1,14 +1,19 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { getStructuredData } from '@/lib/structuredData';
 
 // Social + canonical tags only. The page's own <Helmet> must keep a literal
 // <title> and <meta name="description">, because the llms.txt build step reads
 // those two tags straight out of the page file's source.
 const Seo = ({ title, description, image, url, siteName, type = 'website' }) => {
-    const canonical = url || window.location.origin + window.location.pathname;
+    const canonical = url || (typeof window !== 'undefined'
+      ? window.location.origin + window.location.pathname
+      : 'https://matheusfilgueiras.com/');
+    const pathname = new URL(canonical).pathname;
 
     return (
         <Helmet>
+            <script type="application/ld+json">{JSON.stringify(getStructuredData(pathname))}</script>
             <link rel="canonical" href={canonical} />
             <meta property="og:url" content={canonical} />
             <meta property="og:type" content={type} />

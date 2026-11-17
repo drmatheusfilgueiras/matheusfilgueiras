@@ -8,6 +8,7 @@ import LogPage from './pages/LogPage';
 import PprPlannerPage from './pages/PprPlannerPage';
 import PreValidationBookPage from './pages/PreValidationBookPage';
 import UnidosBravuraPage from './pages/UnidosBravuraPage';
+import { AboutPage, ContactPage, PrivacyPage, TermsPage } from './components/PublicInfoPages';
 
 function NotFoundPage() {
     return (
@@ -36,6 +37,10 @@ function App() {
             <ScrollToTop />
             <Routes>
                 <Route path="/" element={<AppleTestPage />} />
+                <Route path="/sobre" element={<AboutPage />} />
+                <Route path="/contato" element={<ContactPage />} />
+                <Route path="/privacidade" element={<PrivacyPage />} />
+                <Route path="/termos" element={<TermsPage />} />
                 <Route path="/teste-apple" element={<AppleTestPage />} />
                 <Route path="/unidos_pela_bravura" element={<UnidosBravuraPage />} />
                 <Route path="/pre_validation_book" element={<PreValidationBookPage />} />

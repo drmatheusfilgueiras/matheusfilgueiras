@@ -1,0 +1,24 @@
+# Matheus Filgueiras
+
+> Site pessoal e profissional de Matheus Filgueiras, cirurgião-dentista e mestrando em Odontologia pela UFF, com pesquisa, projetos de ensino, desenho e tecnologia.
+
+Conteúdos públicos em português. O site é pessoal e profissional; não deve ser identificado como uma clínica odontológica independente. As informações clínicas não substituem avaliação individual.
+
+## Conteúdo principal
+
+- [Página inicial](https://matheusfilgueiras.com/index.md): apresentação, projetos, interesses e atendimento.
+- [Sobre](https://matheusfilgueiras.com/sobre.md): trajetória e formação.
+- [Contato](https://matheusfilgueiras.com/contato.md): clínicas e canais profissionais.
+- [Unidos pela Bravura](https://matheusfilgueiras.com/unidos_pela_bravura.md): projeto de livro infantil sobre medo do atendimento odontológico.
+
+## Transparência
+
+- [Privacidade](https://matheusfilgueiras.com/privacidade.md): informações sobre navegação e mensagens.
+- [Termos de uso](https://matheusfilgueiras.com/termos.md): condições de consulta aos materiais publicados.
+- [Sitemap](https://matheusfilgueiras.com/sitemap.xml): URLs públicas indexáveis.
+
+## Optional
+
+- [LinkedIn](https://www.linkedin.com/in/matheusfilgueiras): perfil profissional.
+- [Lattes](https://lattes.cnpq.br/5800213853757398): currículo acadêmico.
+- [Instagram](https://instagram.com/dr.matheusfilgueiras): perfil profissional.

@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /log
+Disallow: /chat_control
+Disallow: /pre_validation_book
+Disallow: /api/
+
+# Preference declaration; not an access-control or legal restriction.
+Content-Signal: search=yes, ai-train=no
+
 Sitemap: https://matheusfilgueiras.com/sitemap.xml
