@@ -91,3 +91,16 @@ test('Institutional pages keep the primary site visual design and navigation', a
   const llms = await read('dist/llms.txt');
   assert.match(llms, /^# Matheus Filgueiras/m);
 });
+
+test('Security: brace-expansion is patched against recursive and quadratic denial-of-service', async () => {
+  const lock = JSON.parse(await read('package-lock.json'));
+  const packages = Object.entries(lock.packages).filter(([name]) => name.endsWith('/brace-expansion'));
+  assert.ok(packages.length > 0, 'brace-expansion must be present to validate the lock');
+  for (const [name, packageInfo] of packages) {
+    const [major, minor, patch] = packageInfo.version.split('.').map(Number);
+    assert.ok(
+      major > 1 || (major === 1 && (minor > 1 || (minor === 1 && patch >= 21))),
+      name + ' has vulnerable brace-expansion ' + packageInfo.version
+    );
+  }
+});
