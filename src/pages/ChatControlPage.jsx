@@ -2,8 +2,9 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Download, GitBranch, KeyRound, MessageSquare, Plus, RefreshCw, RotateCcw, Save, Send, Trash2, Upload } from 'lucide-react';
 import {
-  CHAT_CONTROL_ACCESS_KEY,
-  CHAT_CONTROL_KEY_STORAGE,
+  getChatControlSession,
+  loginChatControl,
+  logoutChatControl,
   cloneChatFlowConfig,
   defaultChatFlowConfig,
   fetchChatFlowConfig,
@@ -393,10 +394,12 @@ function FlowEditor({ config, updateConfig }) {
 }
 
 export default function ChatControlPage() {
-  const [authorized, setAuthorized] = useState(() => window.sessionStorage.getItem(CHAT_CONTROL_KEY_STORAGE) === CHAT_CONTROL_ACCESS_KEY);
-  const [accessKey, setAccessKey] = useState(() => (window.sessionStorage.getItem(CHAT_CONTROL_KEY_STORAGE) === CHAT_CONTROL_ACCESS_KEY ? CHAT_CONTROL_ACCESS_KEY : ''));
+  const [authorized, setAuthorized] = useState(false);
+  const [authPending, setAuthPending] = useState(true);
+  const [unlockPending, setUnlockPending] = useState(false);
+  const [accessKey, setAccessKey] = useState('');
   const [config, setConfig] = useState(() => loadChatFlowConfig());
-  const [status, setStatus] = useState('Edite o fluxo e salve para testar no chat deste navegador.');
+  const [status, setStatus] = useState('Informe sua chave de acesso ao painel.');
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [conversationStatus, setConversationStatus] = useState('As conversas aparecem aqui depois que alguém iniciar o chat.');
@@ -413,15 +416,51 @@ export default function ChatControlPage() {
     });
   };
 
-  const unlock = () => {
-    if (accessKey !== CHAT_CONTROL_ACCESS_KEY) {
-      setStatus('Chave incorreta.');
-      return;
-    }
+  useEffect(() => {
+    let cancelled = false;
+    getChatControlSession()
+      .then((active) => {
+        if (!cancelled && active) {
+          setAuthorized(true);
+          setStatus('Sessão do painel restaurada.');
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setStatus('Não foi possível verificar a sessão. Tente entrar com sua chave.');
+      })
+      .finally(() => {
+        if (!cancelled) setAuthPending(false);
+      });
+    return () => { cancelled = true; };
+  }, []);
 
-    window.sessionStorage.setItem(CHAT_CONTROL_KEY_STORAGE, accessKey);
-    setAuthorized(true);
-    setStatus('Acesso liberado.');
+  const unlock = async () => {
+    if (!accessKey.trim() || authPending || unlockPending) return;
+    setUnlockPending(true);
+    try {
+      await loginChatControl(accessKey);
+      setAccessKey('');
+      setAuthorized(true);
+      setStatus('Acesso liberado pelo servidor.');
+    } catch (error) {
+      setStatus(error.message || 'Não foi possível autenticar.');
+    } finally {
+      setUnlockPending(false);
+    }
+  };
+
+  const lock = async () => {
+    try {
+      await logoutChatControl();
+      autoSaveReadyRef.current = false;
+      setAuthorized(false);
+      setAccessKey('');
+      setSelectedConversation(null);
+      setConversations([]);
+      setStatus('Sessão encerrada.');
+    } catch (error) {
+      setStatus(error.message || 'Não foi possível sair do painel.');
+    }
   };
 
   const loadRemoteConfig = async () => {
@@ -445,7 +484,7 @@ export default function ChatControlPage() {
   };
 
   const fetchConversations = async () => {
-    if (!accessKey) return;
+    if (!authorized) return;
 
     setConversationLoading(true);
     setConversationStatus('Carregando conversas...');
@@ -454,7 +493,6 @@ export default function ChatControlPage() {
       const response = await fetch('/api/chat-conversations.php', {
         headers: {
           Accept: 'application/json',
-          'X-Chat-Control-Key': accessKey,
         },
       });
       const payload = await response.json();
@@ -479,7 +517,6 @@ export default function ChatControlPage() {
       const response = await fetch(`/api/chat-conversations.php?conversationId=${encodeURIComponent(conversationId)}`, {
         headers: {
           Accept: 'application/json',
-          'X-Chat-Control-Key': accessKey,
         },
       });
       const payload = await response.json();
@@ -509,7 +546,6 @@ export default function ChatControlPage() {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'X-Chat-Control-Key': accessKey,
         },
         body: JSON.stringify({
           action: 'operator_message',
@@ -549,7 +585,7 @@ export default function ChatControlPage() {
     setStatus('Salvando alterações...');
 
     const timeout = window.setTimeout(() => {
-      saveChatFlowConfigRemote(config, accessKey)
+      saveChatFlowConfigRemote(config)
         .then(() => {
           setStatus('Alterações salvas automaticamente.');
         })
@@ -559,11 +595,11 @@ export default function ChatControlPage() {
     }, 700);
 
     return () => window.clearTimeout(timeout);
-  }, [accessKey, authorized, config]);
+  }, [authorized, config]);
 
   const save = () => {
     saveChatFlowConfig(config);
-    saveChatFlowConfigRemote(config, accessKey)
+    saveChatFlowConfigRemote(config)
       .then(() => setStatus('Fluxo salvo no servidor.'))
       .catch((error) => setStatus(error.message || 'Nao foi possivel salvar o fluxo.'));
   };
@@ -615,6 +651,8 @@ export default function ChatControlPage() {
             <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               type="password"
+              autoComplete="current-password"
+              disabled={authPending || unlockPending}
               value={accessKey}
               onChange={(event) => setAccessKey(event.target.value)}
               onKeyDown={(event) => {
@@ -624,8 +662,8 @@ export default function ChatControlPage() {
               className="h-11 w-full rounded-lg border border-black/10 bg-white pl-10 pr-3 text-sm outline-none transition focus:border-[#0066cc] focus:ring-4 focus:ring-[#0066cc]/10"
             />
           </label>
-          <button type="button" onClick={unlock} className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg bg-slate-950 px-4 text-sm font-medium text-white transition hover:bg-slate-800">
-            Entrar
+          <button type="button" disabled={authPending || unlockPending || !accessKey.trim()} onClick={unlock} className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg bg-slate-950 px-4 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60">
+            {authPending ? 'Verificando sessão...' : unlockPending ? 'Autenticando...' : 'Entrar'}
           </button>
           <p className="mt-3 text-sm text-slate-500">{status}</p>
         </section>
@@ -650,6 +688,9 @@ export default function ChatControlPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={lock} className="inline-flex h-10 items-center gap-2 rounded-lg border border-black/10 bg-white px-4 text-sm font-medium transition hover:bg-slate-50">
+              Sair
+            </button>
             <button type="button" onClick={save} className="inline-flex h-10 items-center gap-2 rounded-lg bg-slate-950 px-4 text-sm font-medium text-white transition hover:bg-slate-800">
               <Save className="h-4 w-4" />
               Salvar

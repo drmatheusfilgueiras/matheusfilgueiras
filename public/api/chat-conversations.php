@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/_chat-auth.php';
+
 date_default_timezone_set('UTC');
 
 header('Content-Type: application/json; charset=utf-8');
@@ -11,8 +13,7 @@ header('Referrer-Policy: no-referrer');
 header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()');
 header('Allow: GET, POST, OPTIONS');
 
-$accessKeyHash = getenv('CHAT_CONTROL_KEY_HASH') ?: 'dd69f8786a282536c7fa6ca077d12622b82c3963df23a3f7297040fda68d89b4';
-
+// Privileged operations now use a server-validated HttpOnly session.
 function respond(int $status, array $payload): void
 {
     http_response_code($status);
@@ -50,14 +51,9 @@ function same_origin_request(): bool
     return true;
 }
 
-function is_authorized(string $accessKeyHash): bool
+function is_authorized(): bool
 {
-    $key = $_GET['key'] ?? first_header(['HTTP_X_CHAT_CONTROL_KEY']);
-    if (!is_string($key) || $key === '') {
-        return false;
-    }
-
-    return hash_equals($accessKeyHash, hash('sha256', $key));
+    return chat_admin_is_authorized();
 }
 
 function client_ip(): string
@@ -214,7 +210,7 @@ if ($method === 'POST') {
     $conversationId = safe_id(text_value($payload, 'conversationId', 80));
     $now = (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format(DateTimeInterface::ATOM);
 
-    if ($action === 'operator_message' && !is_authorized($accessKeyHash)) {
+    if ($action === 'operator_message' && !is_authorized()) {
         usleep(250000);
         respond(401, ['ok' => false, 'error' => 'Chave de acesso invalida.']);
     }
@@ -285,7 +281,7 @@ if ($method === 'GET') {
             respond(404, ['ok' => false, 'error' => 'Conversa nao encontrada.']);
         }
 
-        if (!is_authorized($accessKeyHash)) {
+        if (!is_authorized()) {
             $requestVisitorId = text_value($_GET, 'visitorId', 120);
             if ($requestVisitorId === '' || !hash_equals((string) ($conversation['visitorId'] ?? ''), visitor_hash($requestVisitorId))) {
                 respond(403, ['ok' => false, 'error' => 'Conversa nao autorizada para este visitante.']);
@@ -299,7 +295,7 @@ if ($method === 'GET') {
         respond(200, ['ok' => true, 'conversation' => $conversation]);
     }
 
-    if (!is_authorized($accessKeyHash)) {
+    if (!is_authorized()) {
         usleep(250000);
         respond(401, ['ok' => false, 'error' => 'Chave de acesso invalida.']);
     }

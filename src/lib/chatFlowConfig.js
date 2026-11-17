@@ -1,7 +1,6 @@
 export const CHAT_FLOW_STORAGE_KEY = 'matheus_chat_flow_config';
-export const CHAT_CONTROL_KEY_STORAGE = 'matheus_chat_control_key';
-export const CHAT_CONTROL_ACCESS_KEY = 'Iron98.maxed';
 
+// Administrator credentials are verified by the server; no access key is bundled.
 export const defaultChatFlowConfig = {
   initialMessage: 'Olá, tudo bem? Me diga seu nome para começarmos a nossa conversa.',
   quickReplies: ['Quero marcar uma consulta', 'Quebrei um dente', 'Estou com dor', 'Quanto custa?', 'Sedação consciente', 'Preciso remarcar'],
@@ -186,13 +185,13 @@ export async function fetchChatFlowConfig() {
   return payload?.ok && payload.config ? payload.config : null;
 }
 
-export async function saveChatFlowConfigRemote(config, accessKey) {
+export async function saveChatFlowConfigRemote(config) {
   const response = await fetch('/api/chat-flow-config.php', {
     method: 'POST',
+    credentials: 'same-origin',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'X-Chat-Control-Key': accessKey,
     },
     body: JSON.stringify({ config }),
   });
@@ -202,4 +201,43 @@ export async function saveChatFlowConfigRemote(config, accessKey) {
   }
 
   return payload;
+}
+
+
+export async function getChatControlSession() {
+  const response = await fetch('/api/chat-auth.php', {
+    credentials: 'same-origin',
+    headers: { Accept: 'application/json' },
+    cache: 'no-store',
+  });
+  if (!response.ok) throw new Error('Nao foi possivel verificar a sessao do painel.');
+  const payload = await response.json();
+  return Boolean(payload?.ok && payload.authorized);
+}
+
+export async function loginChatControl(key) {
+  const response = await fetch('/api/chat-auth.php', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ key }),
+  });
+  const payload = await response.json();
+  if (!response.ok || !payload?.authorized) {
+    throw new Error(payload?.error || 'Nao foi possivel autenticar.');
+  }
+  return true;
+}
+
+export async function logoutChatControl() {
+  const response = await fetch('/api/chat-auth.php', {
+    method: 'DELETE',
+    credentials: 'same-origin',
+    headers: { Accept: 'application/json' },
+  });
+  if (!response.ok) throw new Error('Nao foi possivel encerrar a sessao.');
+  return true;
 }

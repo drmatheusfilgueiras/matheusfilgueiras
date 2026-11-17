@@ -23,5 +23,14 @@ jobs:
         run: npm run build
       - name: Check public HTML and agent resources
         run: npm run test:agent
-      - name: Check PHP syntax
-        run: php -l public/api/mcp.php
+      - name: Check chat login and contact layout
+        run: node --test tests/chat-auth-security.test.mjs
+      - name: Check all PHP endpoints
+        run: |
+          php -l public/api/mcp.php
+          php -l public/api/_chat-auth.php
+          php -l public/api/chat-auth.php
+          php -l public/api/chat-flow-config.php
+          php -l public/api/chat-conversations.php
+      - name: Test server-side chat authorization
+        run: php tests/chat-auth-security.test.php

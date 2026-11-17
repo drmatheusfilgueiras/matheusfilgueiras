@@ -856,14 +856,16 @@ function AppleTestPage() {
               </div>
             </Reveal>
           </div>
-          <footer className="mx-auto mt-10 flex max-w-6xl flex-wrap gap-x-6 gap-y-3 border-t border-white/20 pt-6 text-sm text-white/85" aria-label="Informações institucionais">
+        </section>
+        <footer className="bg-[#0066cc] px-5 pb-8 text-white sm:px-8" aria-label="Informações institucionais">
+          <div className="mx-auto flex max-w-6xl flex-wrap gap-x-6 gap-y-3 border-t border-white/20 pt-6 text-sm text-white/85">
             <a href="/sobre" className="hover:text-white focus-visible:underline">Sobre</a>
             <a href="/contato" className="hover:text-white focus-visible:underline">Contato</a>
             <a href="/privacidade" className="hover:text-white focus-visible:underline">Privacidade</a>
             <a href="/termos" className="hover:text-white focus-visible:underline">Termos de uso</a>
             <a href="/llms.txt" className="hover:text-white focus-visible:underline">Informações para agentes</a>
-          </footer>
-        </section>
+          </div>
+        </footer>
       </main>
 
       <QuickAssistant />
