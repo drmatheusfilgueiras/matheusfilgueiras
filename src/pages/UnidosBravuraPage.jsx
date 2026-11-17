@@ -6,6 +6,7 @@ import UnidosBravuraFlipbook from '@/components/UnidosBravuraFlipbook';
 export default function UnidosBravuraPage() {
   return (
     <>
+      <h1 className="sr-only">Unidos pela Bravura</h1>
       <Helmet>
         <title>Unidos pela Bravura | Matheus Filgueiras</title>
         <meta
