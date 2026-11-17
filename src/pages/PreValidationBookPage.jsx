@@ -10,6 +10,7 @@ export default function PreValidationBookPage() {
   return (
     <>
       <h1 className="sr-only">Unidos pela Bravura — pré-validação</h1>
+      <p className="sr-only">Versão de pré-validação do livro infantil Unidos pela Bravura, disponibilizada em formato de leitura interativa por páginas. Trata-se de material de avaliação e não da publicação definitiva.</p>
       <Helmet>
         <title>{title} | Matheus Filgueiras</title>
         <meta name="description" content={description} />
