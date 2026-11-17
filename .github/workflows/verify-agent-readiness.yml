@@ -19,6 +19,24 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Diagnose lockfile dev dependency classification
+        run: |
+          cp package-lock.json /tmp/old-lock.json
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund >/dev/null
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const a = JSON.parse(fs.readFileSync('/tmp/old-lock.json', 'utf8'));
+          const b = JSON.parse(fs.readFileSync('package-lock.json', 'utf8'));
+          const changed = [];
+          for (const [name, item] of Object.entries(b.packages)) {
+            const before = a.packages[name];
+            if (!before || before.version !== item.version || Boolean(before.dev) !== Boolean(item.dev) || Boolean(before.devOptional) !== Boolean(item.devOptional)) {
+              changed.push({name, before: before && {version: before.version, dev: !!before.dev, devOptional: !!before.devOptional}, after: {version: item.version, dev: !!item.dev, devOptional: !!item.devOptional}});
+            }
+          }
+          console.log('LOCK_CLASSIFICATION_DIFF=' + JSON.stringify(changed));
+          NODE
+          cp /tmp/old-lock.json package-lock.json
       - name: Audit production dependencies (diagnostic)
         run: npm audit --omit=dev --audit-level=low
         continue-on-error: true
