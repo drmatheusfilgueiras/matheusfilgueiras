@@ -104,3 +104,26 @@ test('Security: brace-expansion is patched against recursive and quadratic denia
     );
   }
 });
+
+test('Security: selector parser and Vite are patched for known advisories', async () => {
+  const lock = JSON.parse(await read('package-lock.json'));
+  const pkgs = lock.packages;
+  const selectors = Object.entries(pkgs).filter(([name]) => name.endsWith('/postcss-selector-parser'));
+  assert.ok(selectors.length > 0, 'postcss-selector-parser missing from lockfile');
+  for (const [name, info] of selectors) {
+    const [major, minor, patch] = info.version.split('.').map(Number);
+    assert.ok(
+      major > 6 || (major === 6 && (minor > 1 || (minor === 1 && patch >= 5))),
+      name + ' uses vulnerable postcss-selector-parser ' + info.version
+    );
+  }
+  for (const [name, info] of Object.entries(pkgs)) {
+    if (name.endsWith('/vite')) {
+      const [major, minor, patch] = info.version.split('.').map(Number);
+      assert.ok(
+        major > 7 || (major === 7 && (minor > 3 || (minor === 3 && patch >= 8))),
+        name + ' needs a Vite version with the launch-editor fixes'
+      );
+    }
+  }
+});
