@@ -9,6 +9,7 @@ const description = 'Leitura interativa em formato flipbook da versao de pre-val
 export default function PreValidationBookPage() {
   return (
     <>
+      <h1 className="sr-only">Unidos pela Bravura — pré-validação</h1>
       <Helmet>
         <title>{title} | Matheus Filgueiras</title>
         <meta name="description" content={description} />
