@@ -14,6 +14,13 @@ ErrorDocument 404 /404.html
   <Files "index.html">
     Header always set Link "</llms.txt>; rel=\"describedby\"; type=\"text/plain\", </index.md>; rel=\"alternate\"; type=\"text/markdown\""
   </Files>
+  # Public Server Card: browser-based agents may inspect this metadata.
+  <Files "server-card.json">
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, If-None-Match"
+    Header always set Cache-Control "public, max-age=300"
+  </Files>
 </IfModule>
 
 <IfModule mod_rewrite.c>

@@ -17,5 +17,26 @@
         "2025-06-18"
       ]
     }
-  ]
+  ],
+  "protocolVersion": "2025-06-18",
+  "serverInfo": {
+    "name": "matheusfilgueiras.com/public-portfolio",
+    "title": "Matheus Filgueiras — Portfolio MCP",
+    "version": "1.0.0"
+  },
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "/api/mcp.php"
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    }
+  },
+  "authentication": {
+    "required": false,
+    "schemes": []
+  },
+  "instructions": "Servidor público somente de leitura. As três ferramentas retornam informações profissionais, projetos e meios de contato. Não envia mensagens, não agenda consultas e não acessa dados de pacientes.",
+  "tools": "dynamic"
 }

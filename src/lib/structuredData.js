@@ -1,6 +1,7 @@
 const origin = 'https://matheusfilgueiras.com';
 export const personId = origin + '/#matheus-filgueiras';
 export const websiteId = origin + '/#website';
+export const professionalActivityId = origin + '/#professional-activity';
 
 export const person = {
   '@type': 'Person',
@@ -20,6 +21,30 @@ export const person = {
   ],
   email: 'mailto:matheusfilgueiras.dr@gmail.com',
   address: { '@type': 'PostalAddress', addressLocality: 'Nova Friburgo', addressRegion: 'RJ', addressCountry: 'BR' }
+};
+
+// Identidade profissional vinculada à pessoa, não uma clínica independente.
+// Os atendimentos ocorrem nas unidades indicadas na página de Contato.
+export const professionalActivity = {
+  '@type': 'Organization',
+  '@id': professionalActivityId,
+  name: 'Matheus Filgueiras — Atuação Profissional',
+  alternateName: 'Matheus Filgueiras',
+  url: origin + '/',
+  description: 'Atuação profissional de Matheus Filgueiras em Odontologia, pesquisa e projetos educativos e criativos. Os atendimentos clínicos são realizados em unidades de Nova Friburgo, RJ.',
+  founder: { '@id': personId },
+  areaServed: {
+    '@type': 'City',
+    name: 'Nova Friburgo',
+    containedInPlace: { '@type': 'AdministrativeArea', name: 'Rio de Janeiro, Brasil' }
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'Contato profissional',
+    url: origin + '/contato',
+    email: 'matheusfilgueiras.dr@gmail.com',
+    availableLanguage: 'Portuguese'
+  }
 };
 
 export const website = {
@@ -52,7 +77,7 @@ export const digitalPlanningMaterial = {
 };
 
 export function getStructuredData(pathname = '/') {
-  const graph = [person, website];
+  const graph = [person, professionalActivity, website];
   if (pathname === '/') {
     graph.push(braveryBook, digitalPlanningMaterial);
   } else if (pathname === '/unidos_pela_bravura') {
