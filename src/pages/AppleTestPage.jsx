@@ -44,7 +44,7 @@ const linguagens = [
   {
     titulo: 'Ciência',
     img: '/assets/photos/linguagem-ciencia.jpg',
-    texto: 'No mestrado, passo parte da rotina no laboratório, estudando materiais usados na Odontologia. A pesquisa me faz observar questões que nem sempre aparecem no consultório.',
+    texto: 'No mestrado, passo parte da rotina no laboratório, estudando materiais odontológicos. A pesquisa me faz observar questões que nem sempre aparecem no consultório.',
   },
   {
     titulo: 'Desenho',
@@ -54,17 +54,17 @@ const linguagens = [
   {
     titulo: 'Escrita',
     img: '/assets/photos/linguagem-escrita.jpg',
-    texto: 'Escrevo textos acadêmicos e materiais educativos, mas também gosto de trabalhar com histórias. Unidos pela Bravura foi uma oportunidade de explorar essas duas formas de escrita.',
+    texto: 'Escrevo textos acadêmicos e materiais educativos, mas também gosto de histórias. Unidos pela Bravura me permitiu explorar essas duas formas de escrita.',
   },
   {
     titulo: 'Design',
     img: '/assets/photos/linguagem-design-laptop-20260819.jpg',
-    texto: 'Gosto de fotografia, de criar identidades visuais e de pensar na apresentação dos materiais que produzo. São atividades em que posso explorar o lado visual das minhas ideias.',
+    texto: 'Gosto de fotografia, de criar identidades visuais e de pensar na apresentação dos meus materiais. São atividades em que exploro o lado visual das ideias.',
   },
   {
     titulo: 'Tecnologia',
     img: '/assets/photos/linguagem-tecnologia.jpg',
-    texto: 'Tenho interesse por impressão 3D, ferramentas digitais e desenvolvimento de interfaces. Muitas ideias começam com alguma coisa que gostaria de resolver, aprender ou testar.',
+    texto: 'Tenho interesse por impressão 3D, ferramentas digitais e interfaces. Muitas ideias começam com algo que gostaria de resolver, aprender ou testar.',
   },
 ];
 
@@ -95,8 +95,8 @@ const projetos = [
     titulo: 'Unidos pela Bravura',
     tags: 'Odontopediatria · Escrita · Ilustração',
     sub: 'Um livro para conversar sobre o medo de ir ao dentista.',
-    texto: 'O projeto começou com uma pesquisa sobre o medo e a ansiedade das crianças no atendimento odontológico. A proposta foi transformar esse conhecimento em uma história que elas pudessem ler e conversar sobre com seus responsáveis.',
-    detalhe: 'No livro, Jairo conhece outras crianças, cada uma com uma experiência diferente no consultório. Participei da escrita, das ilustrações e da diagramação, procurando aproximar o conteúdo científico de situações que fazem parte da infância.',
+    texto: 'O projeto começou com uma pesquisa sobre medo e ansiedade das crianças no atendimento odontológico. A proposta foi transformar esse conhecimento em uma história que elas pudessem ler e discutir com seus responsáveis.',
+    detalhe: 'No livro, Jairo conhece outras crianças com experiências diferentes no consultório. Participei da escrita, das ilustrações e da diagramação, procurando aproximar o conteúdo científico de situações comuns na infância.',
     cta: 'Ler o livro',
     href: '/unidos_pela_bravura',
     img: '/assets/projects/unidos-pela-bravura-wide.jpg',
@@ -105,8 +105,8 @@ const projetos = [
     titulo: 'Pesquisa de mestrado',
     tags: 'UFF · Pesquisa · Impressão 3D',
     sub: 'Estudando os materiais usados na impressão 3D.',
-    texto: 'Minha pesquisa de mestrado investiga a citotoxicidade de resinas utilizadas na impressão 3D de próteses totais. Busco compreender melhor o comportamento biológico desses materiais e a influência das etapas de processamento.',
-    detalhe: 'O estudo envolve ensaios laboratoriais e ainda está em andamento. No link abaixo, compartilho uma revisão da literatura relacionada ao tema, não os resultados finais da minha pesquisa.',
+    texto: 'No mestrado, investigo a citotoxicidade de resinas utilizadas na impressão 3D de próteses totais. Busco compreender o comportamento biológico desses materiais e a influência das etapas de processamento.',
+    detalhe: 'O estudo envolve ensaios laboratoriais e está em andamento. No link abaixo, compartilho uma revisão da literatura sobre o tema, não os resultados finais da pesquisa.',
     cta: 'Ler a revisão da literatura',
     href: 'https://drive.google.com/file/d/1E6mpmWfzIINpfhY_fl_9ORLJiXTamUrb/view?usp=sharing',
     img: '/assets/projects/pesquisa-digital-wide.jpg',
@@ -115,8 +115,8 @@ const projetos = [
     titulo: 'Planejamento Estético Digital',
     tags: 'Odontologia · Desenho · Ensino',
     sub: 'Um interesse que também se tornou material de ensino.',
-    texto: 'O planejamento estético digital reúne duas áreas pelas quais me interesso: a Odontologia e o desenho. Comecei explorando maneiras de organizar referências e apresentar propostas de tratamento de forma visual.',
-    detalhe: 'Mais recentemente, desenvolvi um e-book sobre planejamento estético digital 2D e preparei um workshop com atividades práticas. Procuro explicar o assunto de maneira acessível, sem deixar de lado os critérios e as limitações da aplicação clínica.',
+    texto: 'O planejamento estético digital reúne dois interesses meus: a Odontologia e o desenho. Comecei explorando maneiras de organizar referências e apresentar propostas de tratamento visualmente.',
+    detalhe: 'Desenvolvi um e-book sobre planejamento estético digital 2D e preparei um workshop com atividades práticas. Procuro explicar o assunto de forma acessível, preservando os critérios e as limitações da aplicação clínica.',
     cta: null,
     href: null,
     img: '/assets/intersecao/no-computador.jpg',
@@ -126,14 +126,14 @@ const projetos = [
 const projetosComplementares = [
   {
     titulo: 'SedaFlow',
-    texto: 'Um software que comecei a desenvolver a partir de necessidades da rotina de sedação consciente. A proposta é organizar registros e etapas do atendimento em uma interface pensada para o uso clínico.',
+    texto: 'Um software que comecei a desenvolver a partir das necessidades da sedação consciente. A proposta é organizar registros e etapas do atendimento em uma interface pensada para uso clínico.',
     cta: 'Conhecer o projeto',
     href: 'https://sedaflow.com.br/',
     img: '/assets/projects/sedaflow-wide.jpg',
   },
   {
     titulo: 'Design e comunicação visual',
-    texto: 'Também desenvolvo trabalhos de identidade visual, fotografia, ilustração e apresentação de conteúdos. São atividades que fazem parte dos meus interesses e dos materiais que produzo.',
+    texto: 'Também desenvolvo trabalhos de identidade visual, fotografia, ilustração e apresentação de conteúdos. Essas atividades fazem parte dos meus interesses e de vários materiais que produzo.',
     cta: 'Ver trabalhos',
     href: 'https://www.behance.net/matheuscarvalh32',
     img: '/assets/projects/comunicacao-visual-brand-20260819.jpg',
@@ -154,6 +154,8 @@ const feedbacks = [
     texto: 'O planejamento foi apresentado com calma e segurança, sem pressa.',
   },
 ];
+
+const sobreRotator = ['Pesquisador.', 'Autor.', 'Desenhista.', 'Criador.', 'Comunicador.', 'Curioso.'];
 
 const socialLinks = [
   {
@@ -400,6 +402,42 @@ function ScheduleButton({ children, dark = false, onClick }) {
   );
 }
 
+function SobreAppleRotator() {
+  const [index, setIndex] = useState(0);
+  const word = sobreRotator[index];
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return undefined;
+
+    const interval = window.setInterval(() => {
+      setIndex((current) => (current + 1) % sobreRotator.length);
+    }, 2500);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-[8.5rem]">
+      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/65">Sou dentista e também...</p>
+      <div className="relative mt-5 min-h-[5rem] overflow-hidden" aria-live="off">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={word}
+            initial={{ opacity: 0, y: 18, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -18, filter: 'blur(6px)' }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="text-5xl font-semibold tracking-[-0.055em] sm:text-6xl"
+          >
+            {word}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
 function AppleLanguagesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = linguagens[activeIndex];
@@ -413,7 +451,7 @@ function AppleLanguagesSection() {
             Outros interesses.
           </h2>
           <p className="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.02em] text-[#515154]">
-            Além da clínica e da universidade, dedico parte do meu tempo ao desenho, à fotografia, à escrita e a outros projetos. Alguns desses interesses se aproximam da Odontologia; outros fazem parte da minha rotina simplesmente porque gosto deles.
+            Além da clínica e da universidade, dedico tempo ao desenho, à fotografia, à escrita e a outros projetos. Alguns desses interesses se aproximam da Odontologia; outros permanecem na minha rotina simplesmente porque gosto deles.
           </p>
         </Reveal>
 
@@ -614,14 +652,13 @@ function AppleTestPage() {
             <div className="mt-10 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
               <Reveal className="flex items-center rounded-[24px] bg-white p-7 sm:p-10">
                 <div className="space-y-5 text-[1.08rem] leading-relaxed text-[#515154] sm:text-xl">
-                  <p>Sou formado em Odontologia pela Universidade Federal Fluminense, em Nova Friburgo. Durante a graduação, participei de atividades de pesquisa, extensão e ensino, experiências que me aproximaram de diferentes maneiras de trabalhar com a profissão.</p>
-                  <p>Hoje, divido minha rotina entre os atendimentos clínicos, o mestrado e a elaboração de materiais educativos. Gosto de perceber como os assuntos que estudo e as experiências da prática influenciam os projetos que desenvolvo.</p>
+                  <p>Sou formado em Odontologia pela Universidade Federal Fluminense, em Nova Friburgo. Na graduação, participei de atividades de pesquisa, extensão e ensino, que me aproximaram de diferentes maneiras de exercer a profissão.</p>
+                  <p>Hoje, divido minha rotina entre os atendimentos clínicos, o mestrado e a produção de materiais educativos. Os assuntos que estudo e as experiências da prática influenciam os projetos que desenvolvo.</p>
                 </div>
               </Reveal>
               <Reveal delay={0.08} className="rounded-[24px] bg-[#0066cc] p-7 text-white sm:p-10">
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/65">Fora da clínica</p>
-                <h3 className="mt-5 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">Desenho, fotografia e outras ideias.</h3>
-                <p className="mt-6 text-lg leading-relaxed text-white/85">Tenho interesse por desenho, fotografia, design e tecnologia há bastante tempo. Gosto de encontrar relações entre áreas diferentes, mas nem tudo precisa ter uma aplicação profissional. Algumas atividades continuo fazendo pelo prazer de aprender e criar.</p>
+                <SobreAppleRotator />
+                <p className="mt-4 text-lg leading-relaxed text-white/85">Gosto de desenho, fotografia, design e tecnologia. Percebo conexões entre áreas diferentes, mas nem tudo precisa ter aplicação profissional. Algumas atividades continuo fazendo pelo prazer de aprender e criar.</p>
               </Reveal>
             </div>
           </div>
@@ -696,19 +733,19 @@ function AppleTestPage() {
 
         <AppleLanguagesSection />
 
-        <section data-blue-section="true" className="bg-[#0066cc] px-5 py-20 text-white sm:px-8 lg:py-28">
+        <section className="bg-[#fbfbfd] px-5 py-20 text-[#1d1d1f] sm:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/60">Desenho e Odontologia</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Desenho e Odontologia</p>
               <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
                 O desenho também aparece no meu trabalho.
               </h2>
             </Reveal>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {intersecao.map(([texto, img], index) => (
-                <Reveal key={texto} delay={index * 0.04} className="overflow-hidden rounded-[24px] bg-white/10 ring-1 ring-white/15">
+                <Reveal key={texto} delay={index * 0.04} className="overflow-hidden rounded-[24px] bg-[#f5f5f7] ring-1 ring-black/5">
                   <img src={img} alt={texto} className="aspect-[16/10] w-full object-cover" loading="lazy" />
-                  <p className="min-h-[5.5rem] p-5 text-lg font-medium leading-snug tracking-[-0.02em] text-white/80">{texto}</p>
+                  <p className="min-h-[5.5rem] p-5 text-lg font-medium leading-snug tracking-[-0.02em] text-[#515154]">{texto}</p>
                 </Reveal>
               ))}
             </div>
@@ -723,7 +760,7 @@ function AppleTestPage() {
                 Como trabalho na clínica.
               </h2>
               <p className="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.02em] text-white/68">
-                Cada paciente chega com uma história e uma necessidade diferente. Por isso, procuro ouvir, avaliar e explicar as possibilidades antes de definir um plano de tratamento. Gosto de apresentar as opções com clareza para que as decisões sejam tomadas em conjunto.
+                Cada paciente chega com uma história e uma necessidade diferente. Procuro ouvir, avaliar e explicar as possibilidades antes de definir o tratamento. Apresento as opções com clareza para que as decisões sejam tomadas em conjunto.
               </p>
             </Reveal>
             <div className="mt-12 grid gap-3 md:grid-cols-3">
@@ -759,8 +796,8 @@ function AppleTestPage() {
             <Reveal className="flex items-center rounded-[24px] bg-white p-8 sm:p-12">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6e6e73]">Sedação consciente</p>
-                <h2 className="mt-4 text-5xl font-semibold leading-[1.02] tracking-[-0.06em] sm:text-7xl">
-                  Para quem sente medo do atendimento.
+                <h2 className="mt-4 text-[2.45rem] font-semibold leading-[1.08] tracking-[-0.055em] sm:text-[2.85rem] lg:text-[2.9rem] xl:text-[3rem]">
+                  Para quem sente medo do atendimento.
                 </h2>
                 <p className="mt-7 text-xl leading-relaxed tracking-[-0.02em] text-[#6e6e73]">
                   A sedação consciente com óxido nitroso pode ajudar a reduzir a ansiedade durante determinados procedimentos. A indicação depende da avaliação individual.
@@ -790,7 +827,7 @@ function AppleTestPage() {
                 Vamos conversar?
               </h2>
               <p className="mt-7 max-w-xl text-xl leading-relaxed tracking-[-0.02em] text-white/68">
-                Atendo em Nova Friburgo, na Salud Odontologia e na Naturale Dental Studio. Para agendar uma consulta, escolha uma das unidades abaixo. Você também pode entrar em contato pelos meus canais profissionais.
+                Atendo em Nova Friburgo, na Salud Odontologia e na Naturale Dental Studio. Para agendar, escolha uma das unidades abaixo. Você também pode entrar em contato pelos meus canais profissionais.
               </p>
             </Reveal>
             <Reveal delay={0.08} className="grid gap-3 sm:grid-cols-2">
