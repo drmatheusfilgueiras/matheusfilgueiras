@@ -19,6 +19,10 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Audit production dependencies (no vulnerabilities allowed)
+        run: npm audit --omit=dev --audit-level=low
+      - name: Audit all dependencies (track unpatched picomatch advisory)
+        run: node scripts/security-audit.mjs
       - name: Pre-render site
         run: npm run build
       - name: Check public HTML and agent resources
