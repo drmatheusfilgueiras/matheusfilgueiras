@@ -638,6 +638,12 @@ function AppleTestPage() {
                     Ver projetos
                   </a>
                 </div>
+                <nav aria-label="Páginas institucionais" className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-[#6e6e73] sm:text-[0.82rem]">
+                  <a href="/sobre" className="transition-colors hover:text-[#0066cc] focus-visible:underline">Sobre</a>
+                  <a href="/contato" className="transition-colors hover:text-[#0066cc] focus-visible:underline">Contato</a>
+                  <a href="/privacidade" className="transition-colors hover:text-[#0066cc] focus-visible:underline">Privacidade</a>
+                  <a href="/termos" className="transition-colors hover:text-[#0066cc] focus-visible:underline">Termos de uso</a>
+                </nav>
               </div>
             </Reveal>
             <Reveal delay={0.08}>
